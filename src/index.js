@@ -1,29 +1,26 @@
-/* eslint-disable import/default */
+// Set up your application entry point here...
+ import React from "react" ; 
+ import render from "react-dom" ; 
+ import {AppContainer} from "react-hot-loader" ; 
+ import ReactDom from "react-dom" ; 
+ import App from "./components/App" ; 
 
-import React from 'react';
-import { render } from 'react-dom';
-import { AppContainer } from 'react-hot-loader';
-import configureStore, { history } from './store/configureStore';
-import Root from './components/Root';
-import './styles/styles.scss'; // Yep, that's right. You can import SASS/CSS files too! Webpack will run the associated loader and plug this into the page.
-require('./favicon.ico'); // Tell webpack to load favicon.ico
-const store = configureStore();
+ReactDom.render(
+    <AppContainer>
+        <App />
+    </AppContainer> , 
+    document.getElementById("app")
+) ; 
 
-render(
-  <AppContainer>
-    <Root store={store} history={history} />
-  </AppContainer>,
-  document.getElementById('app')
-);
-
-if (module.hot) {
-  module.hot.accept('./components/Root', () => {
-    const NewRoot = require('./components/Root').default;
-    render(
-      <AppContainer>
-        <NewRoot store={store} history={history} />
-      </AppContainer>,
-      document.getElementById('app')
-    );
-  });
+if (module.hot) 
+{
+    module.hot.accept('./components/App', () => {
+        const NewRoot = require('./components/App').default;
+        render(
+          <AppContainer>
+            <NewRoot />
+          </AppContainer>,
+          document.getElementById('app')
+        );
+      });
 }

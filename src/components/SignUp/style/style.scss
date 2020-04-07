@@ -1,0 +1,45 @@
+@import "../../generalComponentStyle/form.scss" ; 
+@import "../../generalComponentStyle/utils/color.scss" ; 
+@import "../../generalComponentStyle/utils/mixin.scss" ; 
+
+.signup 
+{
+    &-form 
+    {
+        @include form-style (625px , 0px , 10px , 15px) ; 
+
+        textarea 
+        {
+            height: 150px;
+        }
+
+        #picture 
+        {
+            padding: 5px;
+            width: 50%;
+            margin: 0 auto;
+            margin-bottom: 10px;
+        }
+
+        button 
+        {
+            @include button-form ;
+            box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.75);
+            margin-bottom: 15px;
+        }
+
+        p 
+        {
+            margin: 0px;
+            text-align: center;
+            color: $color-error;
+        }
+    }
+}
+
+.signup .form-user-decoration 
+{
+    margin-top: 10px;
+    padding-top: 125px;
+    height: 500px;
+}

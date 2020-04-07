@@ -1,0 +1,17 @@
+@import "../../generalComponentStyle/utils/color.scss" ; 
+
+.post
+{
+    &-card 
+    {
+        &-root 
+        {
+            max-width: 345px;
+        }
+        &-media
+        {
+            padding-top: 56.75%;
+            height: 0px;
+        }
+    }
+}

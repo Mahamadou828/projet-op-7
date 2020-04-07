@@ -1,0 +1,33 @@
+@mixin form-style ($height , $padding-top , $margin-top , $padding-left-rigth) {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    padding: $padding-top $padding-left-rigth;
+    padding-bottom: 0px;
+    background: $white;
+    height: $height;
+    margin-top: $margin-top;
+    margin-right: 100px;
+    border: 1px solid $background-form;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: 0px 0px 5px -1px rgba(0,0,0,0.75);
+
+    .MuiFormControl-root
+        {
+            margin-bottom: 25px;
+        }
+}
+
+@mixin button-form {
+    width: 40%;
+    background-color: $background-form;
+    margin: 0 auto;
+    border: 1px solid $background-form;
+
+    &:hover 
+    {
+        background-color: $white;
+        border-color: $background-form;
+    }
+}

@@ -1,0 +1,166 @@
+@import "../../generalComponentStyle/utils/color.scss" ; 
+
+.mainpage
+{
+    &-nav 
+    {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        height: 50px;
+        background-color: $black;
+        box-shadow: 0px 0px 7px 1px rgba(0,0,0,0.75);
+
+        svg 
+        {
+            font-size: 25px;
+        }
+
+        &-item 
+        {
+            
+            button 
+            {
+                font-size: 10px;
+                font-weight: bold;
+                border: 1px solid $white ;
+                height: 50px;
+                padding: 0px;
+                color: $white ;
+                padding: 0px 5px;
+                transition: all ease 0.3s;
+
+                &:hover 
+                {
+                    background-color: $white;
+                    color: $black;
+                    border-color: $white;
+                }
+            }
+        }
+
+        &-logo 
+        {
+            display: flex;
+            padding-top: 10px;
+            color: $white ;
+
+            i 
+            {
+                font-size: 25px;
+            }
+
+            header
+            {
+                margin: 0 10px;
+                font-weight: bold;
+                font-size: 23px;        
+            }
+        }
+
+        &-search 
+        {
+            label 
+            {
+                color: $white;
+            }
+
+            div 
+            {
+                color: $white;
+
+            }
+
+            fieldset
+            {
+                border-color: $white;
+            }
+
+            p 
+            {
+                color: $white;
+            }
+
+            input 
+            {
+                padding: 10px 14px;
+                width: 300px;
+                color: $white;
+                border-color: $white;
+            }
+        }
+
+        &-createpost  
+        {
+            background-color: $black !important;
+
+            &-form 
+            {
+                display: flex;
+                flex-direction: column;
+                width: 75%;
+                margin: 0 auto;
+                padding: 10px;
+                text-align: center;
+
+                .MuiFormControl-root
+                {
+                    width: 75%;
+                    margin: 20px auto;
+                }
+
+                textarea 
+                {
+                    
+                    height: 250px !important;
+                }
+
+                #picture 
+                {
+                    margin: 20px auto;
+                    text-align: center;
+                    margin-top: 0px;
+                }
+
+                &-submit 
+                {
+                    display: flex;
+                    margin: 0 auto;
+                    button  
+                    {
+                        width: 200px;
+                        border-color: $background-form;
+                        margin-right: 25px;
+                        transition: all ease 0.3s;
+    
+                        &:hover 
+                        {
+                            transform: translateY(-10px);
+                            background-color: $background-form;
+                            border-color: $white;
+                            box-shadow: 0px 0px 4px 0px rgba(0,0,0,0.75);
+                        }
+                    }
+                }
+                
+            }
+
+            &-logo 
+            {
+                display: flex;
+
+                h1 
+                {
+                    margin: 5px;
+                }
+
+                svg 
+                {
+                    font-size: 50px;
+                }
+            }
+        }
+    }
+
+    
+}
