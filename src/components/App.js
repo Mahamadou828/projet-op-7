@@ -7,6 +7,7 @@ import {
 import LogIn from "./LogIn" ; 
 import SignUp from "./SignUp" ; 
 import MainPage from "./MainPage" ; 
+import CreatePost from "./CreatePost" ; 
 
 export default function App() {
     return (
@@ -16,6 +17,7 @@ export default function App() {
             <Route exact path={"/"} component={LogIn}></Route>
             <Route path={"/signup/"} component={SignUp}></Route>
             <Route path={"/mainpage/:id"} component={MainPage}></Route>
+            <Route path={"/createapost"} component={CreatePost}></Route>
           </Switch>
         </div>
       </Router>

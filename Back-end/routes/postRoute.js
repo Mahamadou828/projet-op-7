@@ -15,5 +15,6 @@ router.use((req , res , next) => {
 router.post("/" , auth , multer) ; 
 router.post("/simplepost" , multer , postCtrl.simplePost) ; 
 router.post("/getallpost" , postCtrl.getAllPost) ; 
+router.post("/registerimageforpost" , multer , postCtrl.registerFile) ;
 
 module.exports = router ; 

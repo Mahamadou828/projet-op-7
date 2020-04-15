@@ -26,7 +26,8 @@ exports.simplePost = (req , res , next) => {
     const respondTheClient = function (access , respond) {
         if (access) {
             respond.status(201).json({
-                message: "Your post created" , 
+                message: "Your post has successfull create" , 
+                success: true
             }) ;
         } else {
             respond.status(400).json({
@@ -37,7 +38,7 @@ exports.simplePost = (req , res , next) => {
 
     createPost(data , filename , respondTheClient , res) ; 
 }
-
+ 
 exports.getAllPost = (req , res , next) => {
 
     const getAllPost = function(callback , respond){
@@ -48,7 +49,7 @@ exports.getAllPost = (req , res , next) => {
                 callback(false , respond) ; 
             } else {
                 callback(true , respond , rows) ; 
-            }
+            } 
         }) ; 
     }
 
@@ -68,4 +69,19 @@ exports.getAllPost = (req , res , next) => {
     }
 
     getAllPost(sendPost , res) ; 
+}
+
+exports.registerFile = (req , res , next) => {
+
+    console.log(req.body.oldFiles) ; 
+
+
+    if(typeof (req.body.oldFiles) !== "undefined")
+    {
+
+    } else {
+        res.status(201).json({
+            filename: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` ,
+        })
+    }
 }
