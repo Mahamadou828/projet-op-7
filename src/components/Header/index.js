@@ -4,10 +4,7 @@ import FilterMenu from "./FilterMenu" ;
 import CreatePost from "./CreatePost" ; 
 import AccountSetting from "./AccountSetting" ; 
 import "./style/style.scss" ; 
-import markdown from "markdown-it" ; 
 import PropTypes from "prop-types" ; 
-
-console.log(markdown) ; 
 
 export default function Header(props) {
     return(

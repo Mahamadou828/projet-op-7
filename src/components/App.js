@@ -8,6 +8,8 @@ import LogIn from "./LogIn" ;
 import SignUp from "./SignUp" ; 
 import MainPage from "./MainPage" ; 
 import CreatePost from "./CreatePost" ; 
+import ReadPost from "./ReadPost";
+import comp from "./testCode/1";
 
 export default function App() {
     return (
@@ -18,6 +20,8 @@ export default function App() {
             <Route path={"/signup/"} component={SignUp}></Route>
             <Route path={"/mainpage/:id"} component={MainPage}></Route>
             <Route path={"/createapost"} component={CreatePost}></Route>
+            <Route path={"/readpost/:post/:id_user"} component={ReadPost}></Route>
+            <Route path={"/test"} component={comp} />
           </Switch>
         </div>
       </Router>

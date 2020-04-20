@@ -74,5 +74,4 @@ PanelPost.propTypes = {
     title: PropsType.string.isRequired , 
     description: PropsType.string.isRequired , 
     file: PropsType.string.isRequired , 
-    verify: PropsType.func.isRequired
 }

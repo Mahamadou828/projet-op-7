@@ -1,5 +1,5 @@
 const http = require("http") ,
-    app = require("./app") ; 
+    app = require("./app") ;
 
 const normalizePort = (val) => {
     const port = parseInt(val , 10) ; 
@@ -53,3 +53,9 @@ server.on("listening" , () => {
 }) ; 
 
 server.listen(port) ; 
+
+module.exports = server ; 
+
+const socketLogic = require("./socketLogic") ; 
+
+socketLogic.connectSocket() ; 

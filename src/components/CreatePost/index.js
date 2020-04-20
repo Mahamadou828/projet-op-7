@@ -3,18 +3,17 @@ import Header from "./Header" ;
 import Markdown from "./Markdown" ; 
 import markdown from "markdown-it" ; 
 import PanelPost from "./PanelPost" ; 
-import Snackbar from "./SnackBar" ; 
-import Backdrop from "./BackDrop" ; 
+import Backdrop from "./Backdrop" ; 
+import Snackbar from "./Snackbar" ;  
 import VerifyInput from "../../function/verifyInput" ; 
 import "./style/style.scss" ; 
+import { Redirect } from "react-router-dom";
 
 
 export default class CreatePost extends React.Component {
 
     constructor(props) {
-
         super(props) ; 
-
         this.mark = new markdown({
             html:         true,    
             xhtmlOut:     true,                             
@@ -25,9 +24,10 @@ export default class CreatePost extends React.Component {
         }) ; 
 
         this.parameter = JSON.parse(localStorage.getItem("postData")) ; 
-        this.text = "" ; 
+        this.markdowText = "" ;
+        this.panel = null ; 
 
-        console.log(this.parameter) ;
+        console.log("les parametre" , this.parameter) ;
 
         // localStorage.clear() ;   
     }
@@ -39,8 +39,13 @@ export default class CreatePost extends React.Component {
         showPanel: false
     }
 
-    onChange= () => {
+    onClosePanel = () => {
+        this.setState({
+            showPanel:false
+        })
+    }
 
+    onChange= () => {
         const title = document.querySelector("#title").value ; 
         const description = document.querySelector("#description").value ;
         const file= document.querySelector("#picture").file[0] ; 
@@ -60,7 +65,7 @@ export default class CreatePost extends React.Component {
             const formData = new FormData() ;   
 
             formData.append("images" , file) ; 
-            formData.append("oldFiles" , this.parameter.file) ;
+            formData.append("oldFiles" , this.parameter.filename) ;
 
             const myInit = {
                 method: "POST" , 
@@ -68,7 +73,6 @@ export default class CreatePost extends React.Component {
                 mode: "cors" , 
                 cache: "default" 
             }
-
             fetch(url , myInit)
             .then((respond) => {
                 respond.json()
@@ -86,7 +90,6 @@ export default class CreatePost extends React.Component {
     }
 
     onSavePost = () => {
-
         this.setState({
             submit: true
         })
@@ -95,28 +98,42 @@ export default class CreatePost extends React.Component {
             creator: this.parameter.id_user , 
             title: this.parameter.title , 
             description: this.parameter.description , 
-            file: this.parameter.file , 
-            content: this.text
+            file: this.parameter.filename , 
+            content: this.markdowText
         } ; 
 
         const myInit = {
             method: "POST" , 
-            body: JSON.stringify(obj), 
+            body: JSON.stringify(obj),
+            headers: {
+                "Content-Type":"application/json"
+            } ,  
             mode: "cors" , 
             cache: "default"
         }
 
         const url = "http://localhost:3030/post/savepost" ; 
 
+        this.setState({
+            submit: true
+        })
         fetch(url , myInit)
         .then((respond) => {
             respond.json()
             .then((data) => {
                 if(data.success) 
                 {
+                    this.panel = <Snackbar 
+                                    text="Your post created" 
+                                    close={this.onClosePanel} 
+                                    addButton={true}
+                                    func={this.onRedirect}
+                                    textButton="Redirect to main page"
+                                /> ; 
                     this.setState({
-                        showPanel: true
-                    })
+                        showPanel: true , 
+                        submit: false
+                    }) ; 
                 }
             })
         })
@@ -135,15 +152,9 @@ export default class CreatePost extends React.Component {
 
     onWrite = (event) => {
         const result = this.mark.render(event.target.value) ; 
-
-        console.log(result) ; 
-
         const content = document.querySelector(".markdown-write-result") ;
-
         content.innerHTML = result ; 
-
-        this.text = event.target.value ; 
-
+        this.markdowText = event.target.value ; 
     }
 
     render() {
@@ -160,12 +171,12 @@ export default class CreatePost extends React.Component {
                 className="markdown-panel-config"
                 title={this.parameter.title}
                 description={this.parameter.description}
-                file={this.parameter.filename.filename}
+                file={this.parameter.filename}
                 change={this.onChange}
                 />
-                {this.state.submit ? null : null}
-                {this.state.redirect ? null : null}
-                {this.state.showPanel ? null : null}
+                {this.state.submit ? <Backdrop /> : null}
+                {this.state.redirect ? <Redirect to={`/mainpage/${this.parameter.creator}`} /> : null}
+                {this.state.showPanel ? this.panel: null}
             </section>
         ) ;
     }

@@ -45,6 +45,7 @@ export default class MainPage extends React.Component {
                         <PostComponend 
                             post={element}
                             key={ramdomNumber()}
+                            id_user={this.state.id_user}
                         />
                 )})
                 this.setState({
@@ -159,7 +160,7 @@ export default class MainPage extends React.Component {
                             title: document.querySelector("#title").value ,
                             description: document.querySelector("#description").value , 
                             id_user: this.state.id_user , 
-                            filename: filename
+                            filename: filename.filename
                         }
                         localStorage.setItem("postData" , JSON.stringify(obj)) ; 
                         this.setState({
@@ -185,6 +186,8 @@ export default class MainPage extends React.Component {
     }
 
     render() {
+
+        console.log("je")
 
         return(
             <div className="mainpage">

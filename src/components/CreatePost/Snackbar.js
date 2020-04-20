@@ -1,55 +1,26 @@
-import React from 'react';
+import React from "react" ; 
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import Button from '@material-ui/core/Button';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-import PropsType from "prop-types" ; 
-import { makeStyles } from '@material-ui/core/styles';
+import PropTypes from "prop-types" ; 
 
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    '& > * + *': {
-      marginTop: theme.spacing(2),
-    },
-  },
-}));
-
-export default function SnackBar(props) {
-  const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
-
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
-
-  return (
-    <div className={classes.root}>
-      <Button variant="outlined" onClick={handleClick}>
-        Open success snackbar
+export default function Snackbar(props){
+  
+  return(
+    <div className="snackbar">
+      <p>{props.text}</p>
+      {props.addButton ? <Button className="snackbar-additionnalbutton" onClick={() => props.func()}>{props.textButton}</Button> : null}
+      <Button onClick={() => props.close()}>
+        <HighlightOffIcon />
       </Button>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
-          {props.message}
-        </Alert>
-        {props.element}
-      </Snackbar>
     </div>
-  );
+  ) ; 
+
 }
 
 Snackbar.propTypes = {
-    message: PropsType.string.isRequired , 
-    element: PropsType.array.isRequired
+  text: PropTypes.string.isRequired , 
+  close: PropTypes.func.isRequired , 
+  func: PropTypes.func , 
+  textButton: PropTypes.string , 
+  addButton: PropTypes.bool.isRequired
 }
