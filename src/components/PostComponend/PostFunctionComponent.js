@@ -9,6 +9,32 @@ export default class PostFunctionComponent extends React.Component {
         super(props) ; 
     }
 
+    getAppreciationOfAnPost = () => {
+
+        console.log("je recup") ; 
+
+        const url=`http://localhost:3030/post/getappreciationofanpost/${this.state.id_user}/${this.state.id_post}` ; 
+
+        const myInit = {
+            method: "GET" , 
+            mode: "cors" , 
+            cache: "default"
+        } ; 
+
+        fetch(url , myInit)
+        .then((respond) => {
+            respond.json()
+            .then((data) => {
+                console.log(data) ; 
+                this.setState({
+                    like: data.like === 1 ? true : false , 
+                    dislike: data.dislike === 1 ? true : false 
+                })
+            })
+        })
+
+    }
+
     InitSocket = () => {
         this.socket = socketIoClient("http://localhost:3030/") ; 
 
@@ -38,6 +64,7 @@ export default class PostFunctionComponent extends React.Component {
 
         this.setState({
             like: !this.state.like , 
+            dislike: !this.state.like && this.state.dislike ? false : this.state.dislike
         })
     }
 
@@ -51,6 +78,7 @@ export default class PostFunctionComponent extends React.Component {
 
         this.setState({
             dislike: !this.state.dislike , 
+            like: !this.state.dislike && this.state.like ? false : this.state.like
         })
     }
 

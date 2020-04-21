@@ -10,7 +10,7 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
+import { red , pink , grey , purple} from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -21,6 +21,8 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import PropTypes from "prop-types" ; 
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import ChatBubbleTwoToneIcon from '@material-ui/icons/ChatBubbleTwoTone';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +56,23 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
+const theme = createMuiTheme({
+  palette: {
+    like: {
+      main: pink[500],
+    },
+    dislike: {
+      main: red[900],
+    },
+    default: {
+      main: grey[800] ,
+    } , 
+    badge: {
+      main: purple[500] ,
+    }
+  },
+});
+
 export default function Post(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
@@ -65,11 +84,11 @@ export default function Post(props) {
   return (
     <Card className={classes.root}>
       <CardHeader
-        // avatar={
-        //   <Avatar aria-label="recipe" className={classes.avatar}>
-        //     <img src={props.avatar} alt="..." />
-        //   </Avatar>
-        // }
+        avatar={
+          <Avatar aria-label="recipe" className={classes.avatar}>
+            <img src={props.avatar} alt="..." />
+          </Avatar>
+        }
         title={`${props.name} ${props.surname}`}
       />
       <CardMedia
@@ -88,27 +107,26 @@ export default function Post(props) {
       </CardContent>
       <CardActions disableSpacing>
 
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={() =>{props.onLike()}} >
           <StyledBadge badgeContent={props.like} color="secondary">
-            <FavoriteIcon onClick={() =>{props.onLike()}} />
+              <FavoriteIcon style={props.stateLike ? {color:pink[500]} : {color:grey[800]}} />
           </StyledBadge> 
         </IconButton>
+        
 
-        <IconButton aria-label="add to favorites">
-          <StyledBadge badgeContent={0} color="secondary">
-            <ChatBubbleTwoToneIcon onClick={() => props.onComment()} />
-          </StyledBadge> 
-        </IconButton>
-
-        <IconButton aria-label="share">
-          <StyledBadge badgeContent={props.share} color="secondary">
-            <ShareIcon onClick={() => props.onShare()} />
+        <IconButton aria-label="share" onClick={() => props.onDislike()}>
+          <StyledBadge badgeContent={props.dislike} color="error">
+            <ThumbDownAltIcon style={props.stateDislike ? {color:red[900]} : {color:grey[800]}} />
           </StyledBadge>
         </IconButton>
 
-        <IconButton aria-label="share">
-          <StyledBadge badgeContent={props.dislike} color="secondary">
-            <ThumbDownAltIcon onClick={() => props.onDislike()} />
+        <IconButton aria-label="add to favorites" onClick={() => props.onComment()} >
+            <ChatBubbleTwoToneIcon />
+        </IconButton>
+
+        <IconButton aria-label="share" onClick={() => props.onShare()} >
+          <StyledBadge badgeContent={props.share} color="secondary">
+            <ShareIcon />
           </StyledBadge>
         </IconButton>
 
@@ -147,6 +165,8 @@ Post.propTypes = {
   title: PropTypes.string.isRequired , 
   like: PropTypes.number.isRequired , 
   dislike: PropTypes.number.isRequired , 
+  stateLike: PropTypes.bool.isRequired , 
+  stateDislike: PropTypes.bool.isRequired ,
   share: PropTypes.number.isRequired , 
   onLike: PropTypes.func.isRequired , 
   onDislike: PropTypes.func.isRequired , 

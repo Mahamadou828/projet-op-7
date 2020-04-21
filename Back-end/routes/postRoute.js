@@ -18,5 +18,6 @@ router.post("/getallpost" , postCtrl.getAllPost) ;
 router.post("/registerimageforpost" , multer , postCtrl.registerFile) ;
 router.post("/savepost" , postCtrl.savePost) ; 
 router.get("/getonepost/:id" , postCtrl.getOnePost) ;
+router.get("/getappreciationofanpost/:id_user/:id_post" , postCtrl.getAppreciationOfAnPost) ; 
 
 module.exports = router ; 

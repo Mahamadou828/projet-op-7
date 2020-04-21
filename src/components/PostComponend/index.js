@@ -25,6 +25,7 @@ export default class PostComponend extends PostFunctionComponent {
 
     componentDidMount() {
         this.InitSocket() ; 
+        this.getAppreciationOfAnPost() ; 
     }
 
     onComment = () => {
@@ -38,7 +39,6 @@ export default class PostComponend extends PostFunctionComponent {
     }
 
     render() {
-
         return(
             <section className="post">
                 <Post 
@@ -52,6 +52,8 @@ export default class PostComponend extends PostFunctionComponent {
                     like={this.state.numLike}
                     dislike={this.state.numDislike}
                     share={this.state.numShare}
+                    stateLike={this.state.like}
+                    stateDislike={this.state.dislike}
                     onComment={this.onComment}
                     onLike={this.onLike}
                     onDislike={this.onDislike}

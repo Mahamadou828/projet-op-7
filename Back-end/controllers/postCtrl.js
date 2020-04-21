@@ -87,14 +87,14 @@ exports.savePost = (req , res , next) => {
             if(error) {
                 callback(false , respond)
             } else {
-                console.log(respond) ;
+                
                 callback(true , respond) ; 
             }
         }) ; 
     }
 
     const respondTheClient = function (access , respond) {
-        console.log(respond) ;
+        
         if(access) {
             respond.status(200).json({
                 success:true
@@ -112,31 +112,54 @@ exports.savePost = (req , res , next) => {
 
 exports.getOnePost = (req , res , next) => {
 
-    console.log(req.param.id) ;
+    const id_post = req.params.id ; 
 
-    // const data = req.body ; 
+    const getPost = function (data , callback , respond) {
+        conn.query("SELECT post.* , user.name AS creatorName , user.surname as creatorSurname , user.photo as creatorAvatar FROM post INNER JOIN user ON post.creator = user.id_user WHERE post.id =? " , [data] , (error , rows) => {
+            if(error) {
+                callback(false , respond) ; 
+            } else {
+                callback(true , respond , rows[0]) ; 
+            } 
+        }) 
+    }
 
-    // const getPost = function (data , callback , respond) {
+    const sendResponse = function (access , respond , data=null) {
+        if (access) {
+            respond.status(200).json({data:data , success:true}) ; 
+        } else {
+            respond.status(400).json({data:null , success:false})
+        }
+    }
 
-    //     console.log(data) ;
+    getPost(id_post , sendResponse , res) ; 
+}
 
-    //     conn.query("SELECT post.* , user.name AS creatorName , user.surname as creatorSurname , user.photo as creatorAvatar FROM post INNER JOIN user ON post.creator = user.id_user WHERE post.id =? " , [data.id_post] , (error , rows) => {
-    //         if(error) {
-    //             callback(false , respond) ; 
-    //         } else {
-    //             console.log(rows)
-    //             callback(true , respond , rows[0]) ; 
-    //         }
-    //     })
-    // }
+exports.getAppreciationOfAnPost = (req , res , next) => {
+    const {id_post , id_user} = req.params ;
 
-    // const sendResponse = function (access , respond , data=null) {
-    //     if (access) {
-    //         respond.status(200).json({data:data , success:true}) ; 
-    //     } else {
-    //         respond.status(400).json({data:null , success:false})
-    //     }
-    // }
+    const getFunction = function(id_user , id_post , callback , respond) {
+        conn.query("SELECT _like , dislike FROM user_post_relation WHERE id_user=? AND id_article=?" , [id_user , id_post] , (error , rows) =>{
+            if(error) {
+                callback(false , respond) ; 
+            } else {
+                callback(true , respond , rows) ; 
+            }
+        })
+    }
 
-    // getPost(data , sendResponse , res) ; 
+    const sendResponse = function(access , respond , data=null) {
+        if(access && data.length >= 1) {
+            respond.status(200).json({ 
+                like: data[0]._like , 
+                dislike: data[0].dislike
+            }) ; 
+        } else {
+            respond.status(400).json({ 
+                error:"An occurent error"
+            })
+        }
+    }
+
+    getFunction(id_user , id_post , sendResponse , res) ;
 }
