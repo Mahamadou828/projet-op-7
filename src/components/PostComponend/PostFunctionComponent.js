@@ -1,5 +1,6 @@
 import React from "react" ; 
 import socketIoClient from "socket.io-client" ; 
+import { GET_APPRECIATION, BASE_ROUTE } from "../../RequestRoute";
 
 
 export default class PostFunctionComponent extends React.Component {
@@ -10,10 +11,7 @@ export default class PostFunctionComponent extends React.Component {
     }
 
     getAppreciationOfAnPost = () => {
-
-        console.log("je recup") ; 
-
-        const url=`http://localhost:3030/post/getappreciationofanpost/${this.state.id_user}/${this.state.id_post}` ; 
+        const url=`${GET_APPRECIATION}${this.state.id_user}/${this.state.id_post}` ; 
 
         const myInit = {
             method: "GET" , 
@@ -25,7 +23,6 @@ export default class PostFunctionComponent extends React.Component {
         .then((respond) => {
             respond.json()
             .then((data) => {
-                console.log(data) ; 
                 this.setState({
                     like: data.like === 1 ? true : false , 
                     dislike: data.dislike === 1 ? true : false 
@@ -36,15 +33,13 @@ export default class PostFunctionComponent extends React.Component {
     }
 
     InitSocket = () => {
-        this.socket = socketIoClient("http://localhost:3030/") ; 
+        this.socket = socketIoClient(BASE_ROUTE) ; 
 
         this.socket.on("updateAppreciation" , (dataJson) => {
             const data = JSON.parse(dataJson) ; 
 
             if(data.id_post === this.state.id_post)
             {
-
-                console.log(data) ;
                 this.setState({
                     numLike: data.like , 
                     numDislike: data.dislike , 

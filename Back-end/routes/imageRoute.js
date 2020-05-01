@@ -2,6 +2,9 @@ const express = require("express") ;
 const router = express.Router() ; 
 const imageCtrl = require("../controllers/imageCtrl") ;
 
+const multer = require("../middleware/multer.config") ; 
+const auth = require("../middleware/auth") ; 
+
 router.use((req , res , next) => {
     res.setHeader("Access-Control-Allow-Origin", "*") ; 
     res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization") ; 
@@ -10,5 +13,7 @@ router.use((req , res , next) => {
 }) ;
 
 router.get("/images/:nameFile" , imageCtrl.sendImage)
+router.post("/images/registerimageforpost" , multer , imageCtrl.registerImage) ;
+router.post("/images/updateimagepost" , multer , imageCtrl.updateImageAndSendPath)
 
 module.exports = router ; 

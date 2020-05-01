@@ -3,13 +3,12 @@ import PropsType from "prop-types" ;
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
-import ChatBubbleTwoToneIcon from '@material-ui/icons/ChatBubbleTwoTone';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import Badge from '@material-ui/core/Badge';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { withStyles } from '@material-ui/core/styles';
-import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { pink, red, grey } from '@material-ui/core/colors';
 
 const StyledBadge = withStyles((theme) => ({
     badge: {
@@ -19,6 +18,7 @@ const StyledBadge = withStyles((theme) => ({
       padding: '0 4px',
     },
   }))(Badge);
+
 
 export default function NavBar (props) {
 
@@ -30,17 +30,12 @@ export default function NavBar (props) {
         >
             <Button onClick={() => props.onLike()} >
                 <StyledBadge badgeContent={props.numLike} color="secondary">
-                    <FavoriteIcon />
+                    <FavoriteIcon style={props.stateLike ? {color:pink[500]} : {color:grey[800]}} />
                 </StyledBadge> 
             </Button>
             <Button onClick={() => props.onDislike()}>
                 <StyledBadge badgeContent={props.numDislike} color="secondary">
-                    <ThumbDownAltIcon />
-                </StyledBadge> 
-            </Button>
-            <Button>
-                <StyledBadge badgeContent={0} color="secondary">
-                    <ChatBubbleTwoToneIcon />
+                    <ThumbDownAltIcon style={props.stateDislike ? {color:red[900]} : {color:grey[800]}} />
                 </StyledBadge> 
             </Button>
             <Button onClick={() => props.onShare()}>
@@ -63,4 +58,6 @@ NavBar.propTypes = {
     onShare: PropsType.func.isRequired , 
     onLike: PropsType.func.isRequired , 
     onDislike: PropsType.func.isRequired , 
+    stateLike: PropsType.bool.isRequired , 
+    stateDislike: PropsType.bool.isRequired
 }

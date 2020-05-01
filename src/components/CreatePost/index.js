@@ -8,7 +8,7 @@ import Snackbar from "./Snackbar" ;
 import VerifyInput from "../../function/verifyInput" ; 
 import "./style/style.scss" ; 
 import { Redirect } from "react-router-dom";
-
+import { UPDATE_IMAGE, SAVE_POST } from "../../RequestRoute";
 
 export default class CreatePost extends React.Component {
 
@@ -22,17 +22,17 @@ export default class CreatePost extends React.Component {
             linkify:      true,        
             typographer:  true,
         }) ; 
-
-        this.parameter = JSON.parse(localStorage.getItem("postData")) ; 
         this.markdowText = "" ;
         this.panel = null ; 
-
-        console.log("les parametre" , this.parameter) ;
 
         // localStorage.clear() ;   
     }
 
     state = {
+        id_user: JSON.parse(localStorage.getItem("postData")).id_user ,
+        title: JSON.parse(localStorage.getItem("postData")).title , 
+        description: JSON.parse(localStorage.getItem("postData")).description , 
+        filename: JSON.parse(localStorage.getItem("postData")).filename , 
         submit: false , 
         verification: false , 
         redirect: false , 
@@ -48,24 +48,25 @@ export default class CreatePost extends React.Component {
     onChange= () => {
         const title = document.querySelector("#title").value ; 
         const description = document.querySelector("#description").value ;
-        const file= document.querySelector("#picture").file[0] ; 
+        const file= document.querySelector("#picture").files[0] ; 
 
         const verify = (VerifyInput(title , 4).result && VerifyInput(description , 4).result && VerifyInput(file , 3).result) ; 
 
         if(verify) 
         {
-            this.parameter.title = title ; 
-            this.parameter.description = description ; 
-            this.parameter.change = true ;
+            this.setState({
+                title: title , 
+                description: description , 
+            })
         }
 
         if(typeof(file) !== "undefined")
         {
-            const url = "http://localhost:3030/post/registerimageforpost" ;
+            const url = UPDATE_IMAGE ;
             const formData = new FormData() ;   
 
             formData.append("images" , file) ; 
-            formData.append("oldFiles" , this.parameter.filename) ;
+            formData.append("oldFiles" , this.state.filename) ;
 
             const myInit = {
                 method: "POST" , 
@@ -77,7 +78,12 @@ export default class CreatePost extends React.Component {
             .then((respond) => {
                 respond.json()
                 .then((data) => {
-
+                    console.log(data) ; 
+                    if(!data.success) {
+                        this.setState({
+                            filename: data.filename
+                        })
+                    }
                 })
                 .catch((error) => {
 
@@ -95,10 +101,10 @@ export default class CreatePost extends React.Component {
         })
 
         const obj = {
-            creator: this.parameter.id_user , 
-            title: this.parameter.title , 
-            description: this.parameter.description , 
-            file: this.parameter.filename , 
+            creator: this.state.id_user , 
+            title: this.state.title , 
+            description: this.state.description , 
+            file: this.state.filename , 
             content: this.markdowText
         } ; 
 
@@ -112,7 +118,7 @@ export default class CreatePost extends React.Component {
             cache: "default"
         }
 
-        const url = "http://localhost:3030/post/savepost" ; 
+        const url = SAVE_POST ; 
 
         this.setState({
             submit: true
@@ -146,10 +152,6 @@ export default class CreatePost extends React.Component {
         })
     }
 
-    onReset = () => {
-
-    }
-
     onWrite = (event) => {
         const result = this.mark.render(event.target.value) ; 
         const content = document.querySelector(".markdown-write-result") ;
@@ -162,20 +164,19 @@ export default class CreatePost extends React.Component {
             <section className="markdown">
                 <Header 
                 save={this.onSavePost}
-                reset={this.onReset}
                 /> 
                 <Markdown 
                 write={this.onWrite}
                 />
                 <PanelPost
                 className="markdown-panel-config"
-                title={this.parameter.title}
-                description={this.parameter.description}
-                file={this.parameter.filename}
+                title={this.state.title}
+                description={this.state.description}
+                file={this.state.filename}
                 change={this.onChange}
                 />
                 {this.state.submit ? <Backdrop /> : null}
-                {this.state.redirect ? <Redirect to={`/mainpage/${this.parameter.creator}`} /> : null}
+                {this.state.redirect ? <Redirect to={`/mainpage/${this.state.id_user}`} /> : null}
                 {this.state.showPanel ? this.panel: null}
             </section>
         ) ;

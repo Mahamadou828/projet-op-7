@@ -7,6 +7,7 @@ import ramdomNumber from "../../function/ramdomNumber" ;
 import AlertDialogSlide from "./AlertDialogSlide" ;
 import {Redirect} from "react-router-dom" ;  
 import PropsType from "prop-types" ; 
+import { GET_ALL_POST, CREATE_SIMPLE_POST, REGISTER_IMAGE , GET_INFORMATION_OF_AN_USER } from "../../RequestRoute";
 
 export default class MainPage extends React.Component {
 
@@ -29,7 +30,7 @@ export default class MainPage extends React.Component {
 
     onRefreshPost = () => {
         
-        const url = "http://localhost:3030/post/getallpost" ; 
+        const url = GET_ALL_POST ; 
 
         const myInit = {
             method: "POST" , 
@@ -98,7 +99,7 @@ export default class MainPage extends React.Component {
             }) ; 
 
             if (typePost) {
-                url = "http://localhost:3030/post/simplepost" ; 
+                url = CREATE_SIMPLE_POST ; 
                 const formData = new FormData() ;
 
                 const obj = {
@@ -145,14 +146,14 @@ export default class MainPage extends React.Component {
 
                 formData.append("images" , file) ; 
 
-                const myInit = {
+                const myInit = { 
                     method: "POST" , 
                     body: formData, 
                     mode: "cors" , 
                     cache: "default"
                 }
 
-                fetch("http://localhost:3030/post/registerimageforpost" , myInit)
+                fetch(REGISTER_IMAGE , myInit)
                 .then((respond) => {
                     respond.json()
                     .then((filename) => {
@@ -185,10 +186,31 @@ export default class MainPage extends React.Component {
         this.onRefreshPost() ; 
     }
 
+    static getInformationUser(id_user) {
+        return new Promise((resolve , reject) => {
+            const myInit = {
+                method: "GET" , 
+                mode: "cors" , 
+                cache: "default"
+            }
+    
+            fetch(`${GET_INFORMATION_OF_AN_USER}/${id_user}` , myInit)
+            .then((respond) => {
+                respond.json()
+                .then((data) => {
+                    resolve(data)
+                })
+                .catch((error) => {
+                    reject(error)
+                })
+            })
+            .catch((error) => {
+                reject(error)
+            })
+        })
+    }
+
     render() {
-
-        console.log("je")
-
         return(
             <div className="mainpage">
                 <Header 

@@ -1,6 +1,6 @@
 const conn = require("../connectionToDatabase") ; 
 
-exports.simplePost = (req , res , next) => {
+exports.createSimplePost = (req , res , next) => {
 
     const data = JSON.parse(req.body.post) ; 
     const filename = `${req.protocol}://${req.get("host")}/images/${req.file.filename}` ; 
@@ -65,17 +65,6 @@ exports.getAllPost = (req , res , next) => {
     }
 
     getAllPost(sendPost , res) ; 
-}
-
-exports.registerFile = (req , res , next) => { 
-    if(typeof (req.body.oldFiles) !== "undefined")
-    {
-
-    } else {
-        res.status(201).json({ 
-            filename: `${req.protocol}://${req.get("host")}/images/${req.file.filename}` ,
-        })
-    }
 }
 
 exports.savePost = (req , res , next) => {
@@ -162,4 +151,54 @@ exports.getAppreciationOfAnPost = (req , res , next) => {
     }
 
     getFunction(id_user , id_post , sendResponse , res) ;
+}
+
+exports.getComment = (req , res , next) => {
+    const {id_post} = req.params ; 
+
+    getComment = function( id_post , callback , respond) {
+        conn.query("SELECT comment.comment , comment.date , user.name , user.surname , user.photo FROM comment INNER JOIN user ON comment.id_user = user.id_user WHERE comment.id_post = ? ORDER BY comment.id DESC" , [id_post] , (error , rows) => {
+            if(error) {
+                callback(false , respond) ; 
+            } else {
+                callback(true , respond , rows) ; 
+            }
+        }) 
+    }
+
+    sendResponse = function(access , respond , data=null) {
+        if (!access) {
+            respond.status(400).json({error:"An Occurent Error" , access:false})
+        } else {
+            respond.status(200).json({access:true , data:data}) ; 
+        }
+    }
+
+    getComment( id_post , sendResponse , res)
+}
+
+exports.sendComment = (req , res , next) => {
+
+    const {comment , id_post , id_user} = req.body ;
+
+    insertComment = function(comment , id_user , id_post , callback , respond) {
+        conn.query("INSERT INTO comment (id_user , id_post , comment , date) VALUES (? , ? , ? , CURRENT_DATE)" , [id_user , id_post , comment] , (error) => {
+            if(error) {
+                callback(false , respond) ; 
+            } else {
+                callback(true , respond) ;
+            }
+        })
+    }
+
+    const sendResponse = function(access , respond) {
+        if(access)
+        {
+            respond.status(200).json({success: true})
+        } else {
+            respond.status(400).json({error:"An Occurent Error" , access:false}) ;
+        } 
+    }
+
+    insertComment(comment , id_user , id_post , sendResponse , res) ;  
 }

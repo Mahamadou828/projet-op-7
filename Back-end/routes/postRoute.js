@@ -13,11 +13,12 @@ router.use((req , res , next) => {
 }) ;
 
 router.post("/" , auth , multer) ; 
-router.post("/simplepost" , multer , postCtrl.simplePost) ; 
+router.post("/simplepost" , multer , postCtrl.createSimplePost) ; 
 router.post("/getallpost" , postCtrl.getAllPost) ; 
-router.post("/registerimageforpost" , multer , postCtrl.registerFile) ;
 router.post("/savepost" , postCtrl.savePost) ; 
+router.post("/sendcomment" , postCtrl.sendComment) ;
 router.get("/getonepost/:id" , postCtrl.getOnePost) ;
 router.get("/getappreciationofanpost/:id_user/:id_post" , postCtrl.getAppreciationOfAnPost) ; 
+router.get("/getcomment/:id_post" , postCtrl.getComment) ;
 
 module.exports = router ; 

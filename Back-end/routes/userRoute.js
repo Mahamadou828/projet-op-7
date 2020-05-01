@@ -12,7 +12,8 @@ router.use((req , res , next) => {
 }) ; 
 
 router.post("/signup" , multer , userCtrl.signUp) ; 
-
 router.post("/login" , userCtrl.logIn) ; 
+router.get("/getinformationuser/:id_user" , userCtrl.getInformationOfAnUser)
+
 
 module.exports = router ; 

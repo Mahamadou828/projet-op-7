@@ -6,6 +6,9 @@ import "./style/style.scss" ;
 import {Link} from "react-router-dom" ; 
 import VerifyInput from "../../function/verifyInput" ; 
 import {Redirect} from "react-router-dom" ; 
+import { LOGIN } from "../../RequestRoute";
+
+
 
 export default class LogIn extends React.Component {
 
@@ -20,7 +23,7 @@ export default class LogIn extends React.Component {
     onConnect = () => {
 
         if (this.state.verification) {
-            const url = "http://localhost:3030/user/login" ; 
+            const url = LOGIN ; 
 
             const data = {
                 email: document.querySelector("#email").value , 

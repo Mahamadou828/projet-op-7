@@ -131,3 +131,32 @@ exports.logIn = (req , res , next) => {
 
     verifyEmail(data , verifyPassword , getAccess , res) ; 
 }
+
+exports.getInformationOfAnUser = (req , res , next) => {
+    const {id_user} = req.params ; 
+
+    const getInformation = function(id_user , respond , callback) {
+        conn.query("SELECT name , surname , photo FROM user WHERE id_user=?" , [id_user] , (error , row) => {
+            if(error) {
+                callback(false , respond)
+            } else {
+                callback(true , respond , row[0]) 
+            }
+        })
+    }
+
+    const sendRespond = function(access , respond , data) {
+        if(access) {
+            respond.status(200).json({
+                success: true , 
+                data: data
+            })
+        } else {
+            respond.status(400).json({
+                message: "An occurent error" , 
+                access: false
+            })
+        }
+    }
+    getInformation(id_user , res , sendRespond) ;
+}

@@ -2,10 +2,11 @@ import React from "react" ;
 import TextField from "@material-ui/core/TextField" ; 
 import Button from "@material-ui/core/Button" ; 
 import {Link} from "react-router-dom" ; 
-import "./style/style.scss" ; 
 import LinearProgress from "@material-ui/core/LinearProgress" ; 
 import VerifyInput from "../../function/verifyInput" ; 
 import {Redirect} from "react-router-dom" ; 
+import "./style/style.scss" ; 
+import { SIGN_UP } from "../../RequestRoute";
 
 export default class SignUp extends React.Component {
 
@@ -23,7 +24,7 @@ export default class SignUp extends React.Component {
             
         if(this.state.verification && (typeof(file) !== "undefined"))
         {
-            const url = "http://localhost:3030/user/signup" ; 
+            const url = SIGN_UP ; 
 
             const formData = new FormData() ; 
 

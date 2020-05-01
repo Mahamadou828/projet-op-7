@@ -10,19 +10,19 @@ import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { red , pink , grey , purple} from '@material-ui/core/colors';
+import { red , pink , grey} from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Button } from '@material-ui/core';
+import { Button, Divider } from '@material-ui/core';
 import Badge from '@material-ui/core/Badge';
 import { withStyles } from '@material-ui/core/styles';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import PropTypes from "prop-types" ; 
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
 import ChatBubbleTwoToneIcon from '@material-ui/icons/ChatBubbleTwoTone';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
+import Comment from "./Comment" ;
+import { MyContext } from '.';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,113 +56,101 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const theme = createMuiTheme({
-  palette: {
-    like: {
-      main: pink[500],
-    },
-    dislike: {
-      main: red[900],
-    },
-    default: {
-      main: grey[800] ,
-    } , 
-    badge: {
-      main: purple[500] ,
-    }
-  },
-});
-
 export default function Post(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [showComment , setShowComment] = React.useState(false) ; 
+
+  const value = React.useContext(MyContext) ;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            <img src={props.avatar} alt="..." />
-          </Avatar>
-        }
-        title={`${props.name} ${props.surname}`}
-      />
-      <CardMedia
-        className={classes.media}
-        image={props.image}
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="h3">
-          {props.title}
-        </Typography>
-      </CardContent>
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {`${props.description.slice(0 , 75)}${props.description.length > 75 ? "..." : null}`}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-
-        <IconButton aria-label="add to favorites" onClick={() =>{props.onLike()}} >
-          <StyledBadge badgeContent={props.like} color="secondary">
-              <FavoriteIcon style={props.stateLike ? {color:pink[500]} : {color:grey[800]}} />
-          </StyledBadge> 
-        </IconButton>
-        
-
-        <IconButton aria-label="share" onClick={() => props.onDislike()}>
-          <StyledBadge badgeContent={props.dislike} color="error">
-            <ThumbDownAltIcon style={props.stateDislike ? {color:red[900]} : {color:grey[800]}} />
-          </StyledBadge>
-        </IconButton>
-
-        <IconButton aria-label="add to favorites" onClick={() => props.onComment()} >
-            <ChatBubbleTwoToneIcon />
-        </IconButton>
-
-        <IconButton aria-label="share" onClick={() => props.onShare()} >
-          <StyledBadge badgeContent={props.share} color="secondary">
-            <ShareIcon />
-          </StyledBadge>
-        </IconButton>
-
-        {typeof (props.content) === "string" ? <Button><VisibilityIcon onClick={() => props.onRead()} /></Button> : null}
-
-        {props.description.length > 75 ? 
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton> : null }
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
+      <Card className={classes.root}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              <img src={value.post.avatarCreator} alt="..." />
+            </Avatar>
+          }
+          title={`${value.post.name} ${value.post.surname}`}
+        />
+        <CardMedia
+          className={classes.media}
+          image={value.post.image}
+        />
         <CardContent>
-          <Typography paragraph>
-            {props.description}
+          <Typography variant="body2" color="textSecondary" component="h3">
+            {value.post.title}
           </Typography>
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {`${value.post.description.slice(0 , 75)}${value.post.description.length > 75 ? "..." : null}`}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+
+          <IconButton aria-label="add to favorites" onClick={() =>{props.onLike()}} >
+            <StyledBadge badgeContent={props.like} color="secondary">
+                <FavoriteIcon style={props.stateLike ? {color:pink[500]} : {color:grey[800]}} />
+            </StyledBadge> 
+          </IconButton>
+          
+
+          <IconButton aria-label="share" onClick={() => props.onDislike()}>
+            <StyledBadge badgeContent={props.dislike} color="error">
+              <ThumbDownAltIcon style={props.stateDislike ? {color:red[900]} : {color:grey[800]}} />
+            </StyledBadge>
+          </IconButton>
+
+          <IconButton aria-label="add to favorites" onClick={() => {setShowComment(!showComment)}} >
+              <ChatBubbleTwoToneIcon />
+          </IconButton>
+
+          <IconButton aria-label="share" onClick={() => props.onShare()} >
+            <StyledBadge badgeContent={props.share} color="secondary">
+              <ShareIcon />
+            </StyledBadge>
+          </IconButton>
+
+          {typeof (value.post.content) === "string" ? <Button><VisibilityIcon onClick={() => props.onRead()} /></Button> : null}
+
+          {value.post.description.length > 75 ? 
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton> : null }
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>
+              {value.post.description}
+            </Typography>
+          </CardContent>
+        </Collapse>
+
+        <Divider />
+
+        {showComment ? 
+        <Comment 
+        id_post={value.post.id} 
+        id_user={value.id_user} 
+        /> 
+        : null}
+      </Card>
   );
 }
-
+ 
 Post.propTypes = {
-  avatar: PropTypes.string.isRequired , 
-  name: PropTypes.string.isRequired , 
-  surname: PropTypes.string.isRequired ,
-  image: PropTypes.string.isRequired ,
-  content: PropTypes.string ,
-  description: PropTypes.string.isRequired ,
-  title: PropTypes.string.isRequired , 
   like: PropTypes.number.isRequired , 
   dislike: PropTypes.number.isRequired , 
   stateLike: PropTypes.bool.isRequired , 
@@ -171,6 +159,5 @@ Post.propTypes = {
   onLike: PropTypes.func.isRequired , 
   onDislike: PropTypes.func.isRequired , 
   onShare: PropTypes.func.isRequired , 
-  onComment: PropTypes.func.isRequired , 
   onRead: PropTypes.func.isRequired
 }

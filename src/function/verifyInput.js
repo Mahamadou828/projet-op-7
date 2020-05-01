@@ -37,7 +37,7 @@ export default function VerifyInput(value , code) {
             const authorize = ["jpg" , "png" , "jpeg"] ; 
             const extension = value.name.split(".")[1] ; 
 
-            if((authorize.indexOf(extension) != -1) && value.size <= 1000000)
+            if((authorize.indexOf(extension) != -1) && value.size <= 5000000)
             {
                 return {
                     result: true , 
@@ -52,15 +52,15 @@ export default function VerifyInput(value , code) {
             break ; 
 
             case 4: 
-                regex =  new RegExp (/^[a-zA-Z '"*().,]+$/) ; 
+                regex =  new RegExp (/[<>]+$/) ; 
 
-                if (regex.test(value)) {
+                if (!regex.test(value)) {
                     error = " " ; 
                 } else {
                     error = "No valid description, please use simple caracter "
                 }
                 return {
-                    result: regex.test(value),
+                    result: !regex.test(value),
                     error: error
                 } ;
 

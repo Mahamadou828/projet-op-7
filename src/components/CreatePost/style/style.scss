@@ -124,3 +124,25 @@
         }
     }
 }
+
+.snackbar 
+{
+    width: 400px;
+    display: flex ;
+    background: $snackbar-background;
+    position: fixed;
+    bottom: 2px;
+    left: 35%;
+    border-radius: 15px;
+
+    p
+    {
+        margin: 0px 10px;
+        margin-top: 10px;
+    }
+
+    &-additionnalbutton 
+    {
+        font-size: 15px;
+    }
+}

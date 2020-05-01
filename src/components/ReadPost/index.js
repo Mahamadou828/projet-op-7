@@ -1,12 +1,13 @@
 import React from 'react';
 import PropsType from "prop-types" ; 
 import {Redirect} from "react-router-dom" ; 
-import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import "./style/style.scss" ; 
 import PostFunctionComponent from '../PostComponend/PostFunctionComponent';
 import markdown from "markdown-it" ; 
 import NavBar from './NavBar';
+import { GET_ONE_POST } from '../../RequestRoute';
+import Comment from '../PostComponend/Comment';
 
 export default class ReadPost extends PostFunctionComponent {
     constructor(props) {
@@ -36,11 +37,8 @@ export default class ReadPost extends PostFunctionComponent {
 
     componentDidMount() {
         this.InitSocket() ; 
-
-        console.log(this.state.id_post) ; 
-        
-        const url = `http://localhost:3030/post/getonepost/${this.state.id_post}` ; 
-
+        this.getAppreciationOfAnPost() ;
+        const url = `${GET_ONE_POST}${this.state.id_post}` ; 
         const myInit = {
             method: "GET" , 
             mode: "cors" , 
@@ -61,9 +59,6 @@ export default class ReadPost extends PostFunctionComponent {
                         image: data.data.image ,
                         description: data.data.description ,
                         content: data.data.content ,
-                        creatorName: data.data.creatorName ,
-                        creatorSurname: data.data.creatorSurname ,
-                        creatorAvatar: data.data.creatorAvatar ,
                     }
 
                 })
@@ -91,7 +86,7 @@ export default class ReadPost extends PostFunctionComponent {
             } , 3000) ; 
 
             return (
-                <section className="read">
+                <section className="read-background">
 
                     <nav className="read-nav">
                         <NavBar 
@@ -102,25 +97,29 @@ export default class ReadPost extends PostFunctionComponent {
                             onRedirect={this.onRedirect}
                             onLike={this.onLike}
                             onDislike={this.onDislike}
+                            stateLike={this.state.like}
+                            stateDislike={this.state.dislike}
                         />
                     </nav>
 
-                    <article className="read-description">
-                        <header><h2>{title}</h2></header>
-                        <img src={image} alt="..." /> 
-                        <p>{description}</p>
-                    </article>
-                    <Divider />
-                    <article className="read-content">
-                        
-                    </article>
+                    <section className="read">
+                        <article className="read-description">
+                            <header><h2>{title}</h2></header>
+                            <img src={image} alt="..." /> 
+                            <p>{description}</p>
+                        </article>
+                        <Divider />
+                        <article className="read-content">
+                            
+                        </article>
 
-                    <footer className="read-footer">
-                        <h3>
-                            {`${creatorName} ${creatorSurname}`} 
-                        </h3>
-                        <Avatar src={creatorAvatar} />
-                    </footer>
+                        <Divider />
+                    </section>
+
+                    <Comment 
+                        id_user={this.state.id_user}
+                        id_post={parseInt(this.state.id_post)}
+                    />
 
                     {this.state.redirect ? <Redirect to={`/mainpage/${this.state.id_user}`} /> : null}
                     

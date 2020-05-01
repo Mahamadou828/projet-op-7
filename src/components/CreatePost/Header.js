@@ -14,15 +14,11 @@ export default function Header(props) {
                 <Button variant="outlined" color="primary" onClick={() => props.save()}>
                     Save
                 </Button>
-                <Button variant="outlined" color="primary" onClick={() => props.reset()}>
-                    Reset
-                </Button>
             </article>
         </section>
     ) ; 
 }
 
 Header.propTypes = {
-    save: PropsType.func.isRequired , 
-    reset: PropsType.func.isRequired
+    save: PropsType.func.isRequired 
 }
