@@ -16,10 +16,10 @@ export default function FilterMenu() {
   };
 
   return (
-    <div className="mainpage-nav-item">
+    <div className="mainpage-icon">
       <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <FilterListIcon className="mainpage-icon"/>
-        <p className="mainpage-nav-detail">Filter Search</p>
+        <FilterListIcon/>
+        Filter Search
       </Button>
       <Menu
         id="simple-menu"

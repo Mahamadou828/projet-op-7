@@ -8,6 +8,7 @@ import markdown from "markdown-it" ;
 import NavBar from './NavBar';
 import { GET_ONE_POST } from '../../RequestRoute';
 import Comment from '../PostComponend/Comment';
+import GeneralContext from '../../GeneralContext';
 
 export default class ReadPost extends PostFunctionComponent {
     constructor(props) {
@@ -24,7 +25,6 @@ export default class ReadPost extends PostFunctionComponent {
     }
 
     state = {
-        id_user: this.props.match.params.id_user , 
         id_post: this.props.match.params.post , 
         post: null , 
         like: false ,
@@ -36,6 +36,11 @@ export default class ReadPost extends PostFunctionComponent {
     }
 
     componentDidMount() {
+        this.setState({
+            id_user: this.context.id_user , 
+            redirect: typeof(this.context.id_user) === "string" ? false : true , 
+            path: typeof(this.context.id_user) === "string" ? " " : "/"
+        })
         this.InitSocket() ; 
         this.getAppreciationOfAnPost() ;
         const url = `${GET_ONE_POST}${this.state.id_post}` ; 
@@ -60,7 +65,6 @@ export default class ReadPost extends PostFunctionComponent {
                         description: data.data.description ,
                         content: data.data.content ,
                     }
-
                 })
             })
         })
@@ -69,7 +73,8 @@ export default class ReadPost extends PostFunctionComponent {
     onRedirect = () => {
         clearTimeout(this.timer) ; 
         this.setState({
-            redirect: true
+            redirect: true , 
+            path: "/mainpage"
         })
     }
 
@@ -78,7 +83,7 @@ export default class ReadPost extends PostFunctionComponent {
 
         if (this.state.post !== null)
         {
-            const {title , image , description , creatorSurname , creatorName , creatorAvatar} = this.state.post ; 
+            const {title , image , description} = this.state.post ; 
             const {numLike , numDislike , numShare} = this.state ;
 
             this.timer = setTimeout(() => {
@@ -121,7 +126,7 @@ export default class ReadPost extends PostFunctionComponent {
                         id_post={parseInt(this.state.id_post)}
                     />
 
-                    {this.state.redirect ? <Redirect to={`/mainpage/${this.state.id_user}`} /> : null}
+                    {this.state.redirect ? <Redirect to={this.state.path} /> : null}
                     
                 </section>
             )
@@ -130,6 +135,8 @@ export default class ReadPost extends PostFunctionComponent {
         }
     }
 }
+
+ReadPost.contextType = GeneralContext ;
 
 ReadPost.propTypes = {
     match: PropsType.object.isRequired

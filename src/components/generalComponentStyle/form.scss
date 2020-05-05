@@ -1,65 +1,150 @@
 @import "./utils/color.scss" ;
+@import "./utils/mixin.scss" ;
 
 body 
 {
-    margin: 0px;
-    overflow-x: hidden;
+    margin: 0px ;   
 }
 
-.form
+.body-form 
 {
-    &-user 
-    {
-        width: 100%;
-        height: 100vh;
-        display: flex;
+    width: 100%;
+    height: 120vh;
+    background: url("../../image/bg-01.jpg");
 
-        &-img 
-        {
-            position: absolute;
-            left: 0px;
-            top: 0px;
-            width: 1400px;
-            height: 100vh;
-            z-index: -1;
+    &::before 
+    {
+        content: " ";
+        position: absolute;
+        width: 100%;
+        height: 120vh;
+        background: $primary-color;
+        opacity: 0.9;
+        z-index: 0;
+    }
+}
+
+.form 
+{
+    width: 560px ;
+    text-align: center;
+    background-color: $white;
+    opacity: 1;
+    z-index: 2;
+    margin-top: 15px;
+    position: absolute;
+    z-index: 2;
+    top: 10%;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+
+    @include mobile-only {
+        width: 100%;
+        top: 350px;
+        border-radius: 0px;
+    }
+
+    &-header
+    {
+        background: url("../../image/bg-02.jpg");
+        font-family: $secondary-font;
+        padding: 15px 15px 0px 15px;
+        color: $white;
+        position: relative;
+        height: 110px;    
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;   
+
+        @include mobile-only {
+            border-top-right-radius: 0px;
+            border-top-left-radius: 0px;
         }
 
-        &-decoration 
+        &::before
         {
-            text-align: center;
-            background: $background-form;
-            padding: 150px 20px;
-            padding-bottom: 0px;
-            width: 30%;
-            margin-left: 100px;
-            height: 400px;
-            margin-top: 50px;
-            border: 1px solid $white;
+            content: " ";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: $black;
+            opacity: 0.3;
+            top: 0px;
+            left: 0px;
+            z-index: 0;
+            border-top-right-radius: 10px;
             border-top-left-radius: 10px;
-            border-bottom-left-radius: 10px;
-            i 
-            {
-                font-size: 75px;
-            }
 
-            &-info 
+            @include mobile-only {
+                border-top-right-radius: 0px;
+                border-top-left-radius: 0px;
+            }
+        }
+        h1 
+        {
+            position: relative;
+            z-index: 2;
+            margin: 0px;
+            font-size: 30px;
+        }
+
+        &-link 
+        {
+            position: relative;
+            z-index: 2;
+
+            p 
             {
-                p 
-                {
-                    color: $black;
-                    font-weight: bold;
-                }
+                margin-bottom: 10px;
 
                 a 
                 {
                     text-decoration: none;
-                    color: $black;
-                    font-size: 15px;
-                    padding: 5px;
-                    border: 1px solid $border-color;
-                    border-radius: 10px;
+                    color: $white;
+                    font-weight: bold;
+                    transition: all ease-in 0.2s;
+
+                    &:hover 
+                    {
+                        transform: translateY(10px) !important;
+                        color: $secondary-color;
+                    }
                 }
+            }
+
+        }
+    }
+
+    &-corps 
+    {
+        display: flex;
+        flex-direction: column;
+        padding: 0px 25px;
+
+        button 
+        {
+            width: 100px;
+            color: $white;
+            font-weight: bold;
+            background-color: $primary-color;
+            margin-top: 15px;
+            margin: 25px auto 0px auto;
+            transition: all ease-in 0.3s;
+            border: 1px solid $primary-color;
+
+            &:hover
+            {
+                transform: translateY(-10px);
+                border-color: $primary-color;
+                color: $primary-color;
+                background-color: $white;
             }
         }
     }
+}
+
+.logo 
+{
+    font-size: 25px;
 }

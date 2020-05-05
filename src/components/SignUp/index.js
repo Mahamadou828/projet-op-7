@@ -5,8 +5,12 @@ import {Link} from "react-router-dom" ;
 import LinearProgress from "@material-ui/core/LinearProgress" ; 
 import VerifyInput from "../../function/verifyInput" ; 
 import {Redirect} from "react-router-dom" ; 
-import "./style/style.scss" ; 
 import { SIGN_UP } from "../../RequestRoute";
+import GeneralContext from "../../GeneralContext";
+
+
+import "../generalComponentStyle/form.scss" ; 
+import LoadingBall from "../Loader/LoadingBall";
 
 export default class SignUp extends React.Component {
 
@@ -55,6 +59,8 @@ export default class SignUp extends React.Component {
                 respond.json()
                 .then((data) => {
                     if (data.createUser) {
+                        this.context.setIdUser(data.id_user) ; 
+                        window.sessionStorage.setItem("id_user" , data.id_user) ;
                         this.setState ({
                             id: data.id_user , 
                             redirect: true
@@ -96,73 +102,72 @@ export default class SignUp extends React.Component {
     render() {
 
         return(
-            <div className="signup form-user">
+            <div className="body-form">
+                <div className="form">
+                    <section className="form-header">
+                        <h1>GROUP<i className="logo fas fa-globe"></i>MANIA</h1>
+                        <article className="form-header-link">
+                            <p>Have a accout <Link to="/">Log here</Link></p>
+                        </article>
+                    </section>
 
-                <img src="../image/background-form.jpg" alt="..." className="form-user-img"/>
+                    <form className="form-corps">
+                        <TextField
+                            label="Enter your name"
+                            required
+                            id="name"
+                            name="name"
+                            onChange={() => this.onVerifyInput(1 , "name")} 
+                        /> 
+                        <TextField 
+                            label="Enter your surname"
+                            required 
+                            id="surname"
+                            name="surname"
+                            onChange={() => this.onVerifyInput(1 , "surname")}
+                        />
+                        <TextField 
+                            label="Enter your email"
+                            required
+                            id="email"
+                            name="email"
+                            onChange={() => this.onVerifyInput(2 , "email")}
+                        />
+                        <TextField 
+                            label="Enter your password"
+                            required
+                            id="password"
+                            name="password"
+                        />
+                        <TextField 
+                            label="Enter a short description of you"
+                            id="description"
+                            name="description"
+                            multiline
+                            rows="10"
+                            col="10"
+                            onChange={() => this.onVerifyInput(4 , "description")}
+                        />
+                        <input 
+                            type="file" 
+                            name="images"
+                            placeholder="Choose One photo" 
+                            id="picture" 
+                            accept="image/png, image/jpeg" 
+                            onChange={() => this.onVerifyInput(3 , "picture")} 
+                            required
+                        />
 
-                <section className="form-user-decoration">
-                    <i className="fas fa-globe"></i>
-                    <h1>GROUPEMANIA</h1>
-                    <article className="form-user-decoration-info">
-                        <p>Have a accout log here</p>
-                        <Link to="/">LogIn</Link>
-                    </article>
-                </section>
-
-                <form className="signup-form">
-                    <TextField
-                        label="Enter your name"
-                        required
-                        id="name"
-                        name="name"
-                        onChange={() => this.onVerifyInput(1 , "name")} 
-                    /> 
-                    <TextField 
-                        label="Enter your surname"
-                        required 
-                        id="surname"
-                        name="surname"
-                        onChange={() => this.onVerifyInput(1 , "surname")}
-                    />
-                    <TextField 
-                        label="Enter your email"
-                        required
-                        id="email"
-                        name="email"
-                        onChange={() => this.onVerifyInput(2 , "email")}
-                    />
-                    <TextField 
-                        label="Enter your password"
-                        required
-                        id="password"
-                        name="password"
-                    />
-                    <TextField 
-                        label="Enter a short description of you"
-                        id="description"
-                        name="description"
-                        multiline
-                        rows="10"
-                        col="10"
-                        onChange={() => this.onVerifyInput(4 , "description")}
-                    />
-                    <input 
-                        type="file" 
-                        name="images"
-                        placeholder="Choose One photo" 
-                        id="picture" 
-                        accept="image/png, image/jpeg" 
-                        onChange={() => this.onVerifyInput(3 , "picture")} 
-                        required
-                    />
-
-                    <Button onClick={() => this.onSubmitForm()}>Submit</Button>
-                    {this.state.submit ? <div><LinearProgress color="secondary" /> <LinearProgress color="secondary" /></div> : null}
-                    <p>{this.state.error}</p>
-                </form>
-                {this.state.redirect ? <Redirect to={`/mainpage/${this.state.id}`} /> : null}
+                        <Button onClick={() => this.onSubmitForm()}>Submit</Button>
+                        {this.state.submit ? <LoadingBall /> : null}
+                        <p>{this.state.error}</p>
+                    </form>
+                    {this.state.redirect ? <Redirect to={`/mainpage`} /> : null}
+                </div>
             </div>
         ) ; 
 
     }
 }
+
+SignUp.contextType = GeneralContext ; 

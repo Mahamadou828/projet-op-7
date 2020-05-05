@@ -1,14 +1,13 @@
 import React from "react" ; 
 import TextField from  "@material-ui/core/TextField" ; 
 import Button from "@material-ui/core/Button" ;
-import CircularProgress from '@material-ui/core/CircularProgress';
-import "./style/style.scss" ; 
 import {Link} from "react-router-dom" ; 
 import VerifyInput from "../../function/verifyInput" ; 
 import {Redirect} from "react-router-dom" ; 
 import { LOGIN } from "../../RequestRoute";
-
-
+import GeneralContext from "../../GeneralContext";
+import "../generalComponentStyle/form.scss" ; 
+import LoadingBall from "../Loader/LoadingBall";
 
 export default class LogIn extends React.Component {
 
@@ -50,6 +49,8 @@ export default class LogIn extends React.Component {
                 .then((data) => {
                     if (data.access) 
                     {
+                        this.context.setIdUser(data.id_user) ; 
+                        window.sessionStorage.setItem("id_user" , data.id_user) ;
                         this.setState({
                             redirect: true , 
                             id: data.id_user
@@ -76,29 +77,31 @@ export default class LogIn extends React.Component {
 
     render() {
         return (
-            <div className="login form-user">
+            <div className="body-form">
+                <div className="form">
+                    <section className="form-header">
+                        <h1>GROUP<i className="logo fas fa-globe"></i>MANIA</h1>
+                        <article className="form-header-link">
+                            <p>No account, you can create one <Link to="/signup">Here</Link></p>
+                        </article>
+                    </section>
+                    <form className="form-corps">
+                        <TextField id="email" label="Enter your email" onChange = {this.onVerifyInput}/>
+                        <TextField id="password" label="Enter your password" />
+                        <Button variant="contained" onClick={() => {this.onConnect()}}>
+                            Connect</Button>
+                        <p>{this.state.error}</p>
+                        {this.state.submit ? <LoadingBall />: null}
+                    </form>
 
-                <img src="../image/background-form.jpg" alt="..." className="form-user-img"/>   
-
-                <section className="form-user-decoration">
-                    <i className="fas fa-globe"></i>
-                    <h1>GROUPEMANIA</h1>
-                    <article className="form-user-decoration-info">
-                        <p>No account, you can create one with this link</p>
-                        <Link to="/signup">Create account</Link>
-                    </article>
-                </section>
-                <form className="login-form">
-                    <TextField id="email" label="Enter your email" onChange = {this.onVerifyInput}/>
-                    <TextField id="password" label="Enter your password" />
-                    <Button variant="contained" onClick={() => {this.onConnect()}}>
-                        {this.state.submit ? <CircularProgress color="secondary" />: null}
-                        Connect</Button>
-                    <p>{this.state.error}</p>
-                </form>
-
-                {this.state.redirect ? <Redirect to={`/mainpage/${this.state.id}`} /> : null}
+                    {this.state.redirect ? 
+                    <Redirect to={`/mainpage`} /> 
+                    : null}
+                </div>
             </div>
+            
         ) ; 
     } 
 }
+
+LogIn.contextType = GeneralContext ; 

@@ -2,18 +2,18 @@
 @import "../../generalComponentStyle/utils/keyframes.scss" ; 
 
 .centered{
-	width:400px;
-	height:400px;
+	width:200px;
+	height:200px;
 	position:absolute;
 	top:50%;
 	left:50%;
 	transform:translate(-50%,-50%);
-	background:$black;
+	background-color: $black;
 	filter: blur(10px) contrast(20);
 }
 .blob-1,.blob-2{
-	width:70px;
-	height:70px;
+	width:35px;
+	height:35px;
 	position:absolute;
 	background:$white;
 	border-radius:50%;

@@ -1,78 +1,165 @@
-import React from "react" ; 
-import TextField from '@material-ui/core/TextField';
-import FilterMenu from "./FilterMenu" ; 
+import React , {PureComponent} from "react" ; 
 import CreatePost from "./CreatePost" ; 
-import AccountSetting from "./AccountSetting" ; 
-import PropTypes from "prop-types" ; 
-import MenuIcon from '@material-ui/icons/Menu';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import SearchIcon from '@material-ui/icons/Search';
 import "./style/style.scss" ; 
-import { SwipeableDrawer } from "@material-ui/core";
+import { Link, Redirect } from "react-router-dom";
+import AlertDialog from "./DialogSlide";
+import ramdomNumber from "../../function/ramdomNumber";
+import {CREATE_SIMPLE_POST, REGISTER_IMAGE} from "../../RequestRoute";
+import VerifyInput from "../../function/verifyInput";
+import SimpleBackdrop from "./Backdrop" ;
+import GeneralContext from "../../GeneralContext";
+import App from "../App";
   
-  export default function Header(props) {
+export default class Header extends PureComponent {
+  constructor(props) {
+    super(props) ; 
+    this.alert = [] ; 
+}
 
-    const [state, setState] = React.useState({
-      top: false,
-      left: false,
-      bottom: false,
-      right: false,
-    });
-  
-    const toggleDrawer = (anchor, open) => (event) => {
-      if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-        return;
-      }
-  
-      setState({ ...state, [anchor]: open });
-    };
-  
-    return (
-        <nav className="mainpage-nav">
-            <React.Fragment>
-                <Button className="mainpage-nav-buttonToggle" onClick={toggleDrawer("left", true)}><MenuIcon /></Button>
-                <SwipeableDrawer
-                anchor="left"
-                open={state["left"]}
-                onClose={toggleDrawer("left", false)}
-                onOpen={toggleDrawer("left", true)}
-                >
-                    <TextField
-                    className="mainpage-nav-search"
-                    id="outlined-full-width"
-                    label="Search"
-                    style={{ margin: 0 }}
-                    placeholder="An post"
-                    helperText="Enter the title of a post"
-                    margin="normal"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    variant="outlined"
-                    />
-                    <Button className="mainpage-icon">
-                        <SearchIcon />
-                        Search
-                    </Button>
-                    <Divider />
-                    <FilterMenu />
-                    <CreatePost
-                    createAnNewPost={props.createAnNewPost}
-                    verifyInput={props.verifyInput}
-                    />
-                    <AccountSetting />
-                </SwipeableDrawer>
-            </React.Fragment>
-            <section className="mainpage-nav-logo">
-                <i className="fas fa-globe"></i>
-                <header>Groupomania</header>
-            </section>
-        </nav>
-    );
+  state = {
+    verificationForPostInput: false ,
+    loadComplete: false , 
+    showAlert: false , 
+    submit: false , 
+    error: "" , 
+    code: 0 , 
+}
+
+onVerifyInput = (code , inputId) => {
+  let value = null ;
+  if(code === 3) 
+  {
+      value = document.querySelector(`#${inputId}`).files[0] ; 
+  } else {
+      value = document.querySelector(`#${inputId}`).value ;
   }
 
-Header.propTypes = {
-    verifyInput: PropTypes.func.isRequired , 
-    createAnNewPost: PropTypes.func.isRequired
+  this.setState({
+      verificationForPostInput: VerifyInput(value , code).result , 
+      errorForPostInput: VerifyInput(value , code).error
+  }) ; 
 }
+
+onCreateAnNewPost = () => {
+    if (this.state.verificationForPostInput)
+    {
+        const reset = () => {
+            this.setState({
+                showAlert: false
+            })
+        }
+
+        let url = null ; 
+
+        const typePost = document.querySelector("#createAnSimplePost").checked ; 
+
+        this.setState({
+            submit: true
+        }) ; 
+
+        if (typePost) {
+            url = CREATE_SIMPLE_POST ; 
+            const formData = new FormData() ;
+
+            const obj = {
+                title: document.querySelector("#title").value ,
+                description: document.querySelector("#description").value , 
+                id_user: App.verifyConnect(this.context).id_user
+            }
+
+            formData.append("post" , JSON.stringify(obj)) ; 
+            formData.append("images" , document.querySelector("#picture").files[0]) ; 
+
+            const myInit = {
+                method: "POST" , 
+                body: formData, 
+                mode: "cors" , 
+                cache: "default"
+            }
+            fetch(url , myInit)
+            .then((respond) => {
+                respond.json()
+                .then((data) => {
+                    if(data.success) {
+                        this.alert.push(
+                            <AlertDialog key={ramdomNumber()} resetState={reset} />
+                        ) ; 
+                        this.setState({
+                            submit: false , 
+                            showAlert: true
+                        }) ; 
+                    }
+                })
+            })
+        } else {
+            const formData = new FormData() ; 
+            
+            const file = document.querySelector("#picture").files[0]
+
+            formData.append("images" , file) ; 
+
+            const myInit = { 
+                method: "POST" , 
+                body: formData, 
+                mode: "cors" , 
+                cache: "default"
+            }
+
+            fetch(REGISTER_IMAGE , myInit)
+            .then((respond) => {
+                respond.json()
+                .then((filename) => {
+                    const obj = {
+                        title: document.querySelector("#title").value ,
+                        description: document.querySelector("#description").value , 
+                        id_user: this.state.id_user , 
+                        filename: filename.filename
+                    }
+                    localStorage.setItem("postData" , JSON.stringify(obj)) ; 
+                    this.setState({
+                        redirect: true , 
+                        path: "/createpost"
+                    }) ;
+                })
+                .catch((error) => {})
+            })
+            .catch((error) => {})
+
+        }
+    }
+}
+
+  render () {
+    return (
+      <nav className="navbar">
+        <section>
+          <Button>
+            <Link to="/mainpage">HomePage</Link>
+          </Button>
+          <Button>
+            <Link to="/message">Message</Link>
+          </Button>
+        </section>
+        <h1>GROUP<i className="logo fas fa-globe"></i>MANIA</h1>
+        <section>
+          <CreatePost
+          createAnNewPost={this.onCreateAnNewPost}
+          verifyInput={this.onVerifyInput}
+          />
+          <Button>
+            <Link to="/account">Account</Link>
+          </Button>
+        </section>
+
+        {this.state.submit ? <SimpleBackdrop /> : null}
+        {this.state.showAlert ? this.alert : null}
+        {this.state.redirect ? <Redirect to={this.state.path} /> : null}
+          
+      </nav>
+    );
+  }
+  
+}
+
+Header.contextType = GeneralContext ; 

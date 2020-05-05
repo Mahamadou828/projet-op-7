@@ -6,7 +6,7 @@ exports.createSimplePost = (req , res , next) => {
     const filename = `${req.protocol}://${req.get("host")}/images/${req.file.filename}` ; 
 
     const createPost = function (data , file , callback , respond) {
-        const post = {
+        const post = { 
             creator: data.id_user , 
             title: data.title , 
             description: data.description , 
@@ -15,6 +15,7 @@ exports.createSimplePost = (req , res , next) => {
         conn.query("INSERT INTO post (creator , title , description , image) VALUES (? , ? , ? , ?)" , [post.creator , post.title , post.description , post.image] , (error) => {
 
             if (error) {
+                console.log(error)
                 callback(false , respond) ; 
             } else {
                 callback(true , respond) ; 
@@ -30,7 +31,7 @@ exports.createSimplePost = (req , res , next) => {
             }) ;
         } else {
             respond.status(400).json({
-                message: "Error" , 
+                error: 400 , 
             }) ;
         }
     }
@@ -201,4 +202,52 @@ exports.sendComment = (req , res , next) => {
     }
 
     insertComment(comment , id_user , id_post , sendResponse , res) ;  
+}
+
+exports.getBestPost = (req , res , next) => {
+
+    const getPost = function(callback , respond) {
+        conn.query("SELECT user.name , user.photo , post.title , post.id , post._like , post.description FROM post INNER JOIN user ON post.creator = user.id_user ORDER BY post._like DESC LIMIT 5" , (error , rows) => {
+            if (error) {
+                callback(false , respond)
+            } else {
+                callback(true , respond , rows)
+            }
+        })
+    }
+
+    const sendResponse = function(access , respond , data = null) {
+        if(access) {
+            respond.status(200).json({success: true , post: data})
+        } else {
+            respond.status(500).json({success: true , post: data})
+        }
+    }
+
+    getPost(sendResponse , res) ; 
+}
+
+exports.getMostPopularUserPost = (req , res , next) => {
+
+    const {id_user} = req.params ; 
+
+    const getPost = function(id , callback , respond) {
+        conn.query("SELECT user.name , user.photo , post.title , post.id , post._like , post.description FROM post INNER JOIN user ON post.creator = user.id_user WHERE post.creator=? ORDER BY post._like DESC LIMIT 5" , [id] , (error , rows) => {
+            if (error) {
+                callback(false , respond)
+            } else {
+                callback(true , respond , rows)
+            }
+        })
+    }
+ 
+    const sendResponse = function(access , respond , data = null) {
+        if(access) {
+            respond.status(200).json({success: true , post: data})
+        } else {
+            respond.status(500).json({success: true , post: data})
+        }
+    }
+
+    getPost(id_user , sendResponse , res) ; 
 }

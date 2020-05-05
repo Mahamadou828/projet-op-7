@@ -100,7 +100,6 @@ exports.logIn = (req , res , next) => {
                         if (!result) {
                             callback (false , respond , "No valid email or password") ; 
                         } else {
-                            console.log("la") ; 
                             callback (true , respond , "" , rows[0].id_user) ; 
                         }
                     })
@@ -136,7 +135,7 @@ exports.getInformationOfAnUser = (req , res , next) => {
     const {id_user} = req.params ; 
 
     const getInformation = function(id_user , respond , callback) {
-        conn.query("SELECT name , surname , photo FROM user WHERE id_user=?" , [id_user] , (error , row) => {
+        conn.query("SELECT name , surname , photo , description FROM user WHERE id_user=?" , [id_user] , (error , row) => {
             if(error) {
                 callback(false , respond)
             } else {

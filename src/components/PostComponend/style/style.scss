@@ -1,19 +1,14 @@
 @import "../../generalComponentStyle/utils/color.scss" ; 
-
-.post
+.post 
 {
-    &-card 
+    margin-top: 25px;
+    margin: 25px 25px 0px 100px;
+
+    .MuiPaper-root 
     {
-        &-root 
-        {
-            max-width: 345px;
-        }
-        &-media
-        {
-            padding-top: 56.75%;
-            height: 0px;
-        }
-    }
+        margin: 0 auto;
+        max-width: 570px !important;
+    }    
 }
 
 .comment 

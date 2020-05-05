@@ -9,7 +9,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import BorderColorIcon from '@material-ui/icons/BorderColor';
 import LanguageIcon from '@material-ui/icons/Language';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -43,34 +42,33 @@ export default function CreatePost(props) {
   };
 
   return (
-    <div className="mainpage-nav-item">
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        <BorderColorIcon />
-        <p className="mainpage-nav-detail">Create a post</p>
+    <div className="createpost">
+      <Button onClick={handleClickOpen}>
+        Create a post
       </Button>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-        <AppBar className={`${classes.appBar} mainpage-nav-createpost`}>
+        <AppBar className={`${classes.appBar} createpost-corps`}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              <article className="mainpage-nav-createpost-logo">
-                <LanguageIcon className="mainpage-icon" />
-                <h1>Groupomania</h1>
+              <article className=" createpost-logo">
+                <h1>Group<LanguageIcon  />mania</h1>
               </article>
             </Typography>
           </Toolbar>
         </AppBar>
         <List>
-          <form className="mainpage-nav-createpost-form">
-            <TextField required id="title" label="Required" defaultValue="Title of the post" onChange={() => props.verifyInput(4 , "title")} />
+          <form className=" createpost-form">
+            <TextField className="input" required id="title" label="Required" defaultValue="Title of the post" onChange={() => props.verifyInput(4 , "title")} />
             <TextField
               id="description"
               label="Enter the description of your post this description will appear to the user"
               multiline
               rowsMax="5"
               onChange={() => props.verifyInput(4 , "description")}
+              className="input"
             />
             <input 
               type="file" 
@@ -80,8 +78,9 @@ export default function CreatePost(props) {
               accept="image/png, image/jpeg" 
               required
               onChange={() => props.verifyInput(3 , "picture")}
+              className="input"
             />
-            <section className="mainpage-nav-createpost-form-submit">
+            <section className="createpost-form-submit">
               <Button 
               variant="outlined"
               onClick ={() => props.createAnNewPost()}

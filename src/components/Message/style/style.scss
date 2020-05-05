@@ -1,0 +1,63 @@
+@import "../../generalComponentStyle/utils/color.scss" ; 
+
+body
+{
+    background: $background-body;
+}
+
+.message
+{
+    &-corps
+    {
+        width: 95%;
+        display: flex;
+        justify-content: space-between;
+        margin: 25px auto; 
+    }
+}
+
+.emptycontact
+{
+    width: 250px;
+    background: $white;
+    text-align: center;
+    font-weight: 700;
+    line-height: 1;
+    font-family: $main-font;
+
+    button 
+    {
+        display: block;
+        margin: 0 auto;
+    }
+}
+
+.contactlist 
+{
+    margin: 0px auto !important;
+    max-height: 80vh;
+    height: 80vh;
+    max-width: 570px !important;
+    overflow-y: scroll;
+    padding: 0px 20px !important;
+}
+
+.searchcontact
+{
+    font-weight: 700;
+    font-family: $main-font;
+    line-height: 1;
+    margin-bottom: 20px;
+    input 
+    {
+        width: 275px !important;
+    }
+
+    button 
+    {
+        max-width: 50px !important;
+        min-height: 30px;
+        padding: 0px;
+        margin-top: 20px;
+    }
+}

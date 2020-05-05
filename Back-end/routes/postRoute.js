@@ -20,5 +20,7 @@ router.post("/sendcomment" , postCtrl.sendComment) ;
 router.get("/getonepost/:id" , postCtrl.getOnePost) ;
 router.get("/getappreciationofanpost/:id_user/:id_post" , postCtrl.getAppreciationOfAnPost) ; 
 router.get("/getcomment/:id_post" , postCtrl.getComment) ;
+router.get("/getbestpost" , postCtrl.getBestPost) ; 
+router.get("/getmostpopularuserpost/:id_user" , postCtrl.getMostPopularUserPost)
 
 module.exports = router ; 

@@ -1,3 +1,7 @@
+$bounce_height: 30px;
+$width: 15px;
+$height: 15px;
+
 @keyframes spin {
 0% {
     transform: rotate(0deg);
@@ -110,3 +114,26 @@
 	50%{left:50%;}
 	100%{left:80%;}
 }
+
+@keyframes load {
+    0% { left: 0; height: 30px; width: 15px }
+    50% { height: 8px; width: 40px }
+    100% { left: 235px; height: 30px; width: 15px}
+}
+
+@keyframes bounce {
+    0% {
+      top: $bounce_height;
+      height: 5px;
+      border-radius: 60px 60px 20px 20px;
+      transform: scaleX(2);
+    }
+    35% {
+      height: $height;
+      border-radius: 50%;
+      transform: scaleX(1);
+    }
+    100% {
+      top: 0;
+    }
+  }

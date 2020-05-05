@@ -16,10 +16,10 @@ export default function AccountSetting() {
   };
 
   return (
-    <div className="mainpage-nav-item">
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        <SettingsIcon className="mainpage-icon"/>
-        <p className="mainpage-nav-detail">Account setting</p>
+    <div className="mainpage-icon">
+      <Button  aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+        <SettingsIcon/>
+        Account setting
       </Button>
       <Menu
         id="simple-menu"
