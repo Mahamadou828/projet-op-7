@@ -72,7 +72,6 @@ export default class SignUp extends React.Component {
                         })
                     }
 
-                    console.log(data) ;
                 })  
                 .catch((error) => {console.log(error)}) ; 
             })

@@ -5,13 +5,13 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import PropTypes from "prop-types" ;
+import PropTypes from 'prop-types';
 
 export default function AlertDialog(props) {
   const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
-    props.resetState()
+    props.resetState();
     setOpen(false);
   };
 
@@ -23,10 +23,13 @@ export default function AlertDialog(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          {"Use Google's location service?"}
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Your post has been successful create please refresh post if you want actuall your page
+            Your post has been successful create please refresh post if you want
+            actuall your page
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -40,5 +43,5 @@ export default function AlertDialog(props) {
 }
 
 AlertDialog.propTypes = {
-  resetState: PropTypes.func.isRequired
-}
+  resetState: PropTypes.func.isRequired,
+};

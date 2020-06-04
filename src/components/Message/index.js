@@ -2,9 +2,10 @@ import React , {PureComponent} from "react" ;
 import Button from '@material-ui/core/Button';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import "./style/style.scss" ; 
-import { GET_ALL_CONTACT, GET_ALL_USER_CONTACT } from "../../RequestRoute";
+import { GET_ALL_CONTACT, GET_ALL_USER_CONTACT, BASE_ROUTE } from "../../RequestRoute";
 import Header from "../Header";
 import GeneralContext from "../../GeneralContext";
+import socketIoClient from "socket.io-client" ; 
 import App from "../App";
 import ContactList from "./ContactList";
 import UserInfo from "../MainPage/UserInfo";
@@ -17,21 +18,39 @@ export default class MessageComponent extends PureComponent {
     constructor(props) {
         super(props) ; 
         this.contactList = [] ; 
+        this.socket = socketIoClient(BASE_ROUTE) ; 
+        this.lettre = "je" ; 
     }
 
     state = {
         loadingComplete: false , 
         selectedContact: false , 
-        id_contact: null
+        contact: null
+    }
+
+    static sendMessage(message , socketConnect , id_contact , id_user) {
+        const obj = {
+            message: message , 
+            contact: id_contact , 
+            sender: id_user
+        }
+        socketConnect.emit("sendMessage" , JSON.stringify(obj)) ; 
     }
 
     onContactOneUser = (id_contact) => {
-        console.log(id_contact)
         this.setState({
             selectedContact: true ,
-            id_contact: id_contact
+            contact: id_contact
         })
     }
+
+    onContactList = () => {
+        this.setState({
+            selectedContact: false , 
+        })
+    }
+
+
 
     getAllUser = () => {
         this.setState({
@@ -49,7 +68,7 @@ export default class MessageComponent extends PureComponent {
             respond.json()
             .then((data) => {
                 if(data.success) {
-                    console.log("tout les user" , data)
+                    console.log(data)
                     this.contactList = data.user ; 
                     this.setState({
                         loadingComplete: true
@@ -74,7 +93,6 @@ export default class MessageComponent extends PureComponent {
             respondJSON.json()
             .then((data) => {
                 if(data.success) {
-                    console.log("le component did mount" , data) ; 
                     this.contactList = data.contact ; 
                     this.setState({
                         loadingComplete: true 
@@ -111,16 +129,24 @@ export default class MessageComponent extends PureComponent {
                     contactUser={this.onContactOneUser}
                     />
                     :
+                    null
+                    }
+
+                    {this.contactList.length === 0 ? 
                     <article className="emptycontact">
                         <h1>You contact noone</h1>
                         <SentimentVeryDissatisfiedIcon />
                         <Button onClick={() => this.getAllUser()}>See All User</Button>
                     </article>
+                    :
+                    null
                     }
 
                     {this.state.selectedContact ? 
                     <WriteToAnUser 
-                    id_contact={this.state.id_contact}
+                    contact={this.state.contact}
+                    id_user={this.state.id_user}
+                    contactList={this.onContactList}
                     />
                     : 
                     null}

@@ -1,19 +1,50 @@
 @import "../../generalComponentStyle/utils/color.scss" ; 
+@import "../../generalComponentStyle/utils/mixin.scss" ;
+
 .post 
 {
-    margin-top: 25px;
-    margin: 25px 25px 0px 100px;
+    max-width: 570px !important;
+    margin: 25px auto 0px auto;
 
     .MuiPaper-root 
     {
         margin: 0 auto;
         max-width: 570px !important;
+        @include mobile-only 
+        {
+            background-color: $font-primary-color;
+            color: $font-secondary-color;
+
+            div 
+            {
+                p , h3 
+                {
+                    color: $font-secondary-color;
+                }
+                
+            }
+        }
     }    
+
+    @include min-dekstop 
+    {
+        margin-right: 25px;
+        margin-left: auto;
+    }
+
+    @include tablette 
+    {
+        margin: 25px auto 0px auto ;
+    }
 }
 
 .comment 
 {
     padding: 10px;
+    @include mobile-only 
+    {
+        background-color: $font-primary-color !important;
+    }
 
     &-input 
     {

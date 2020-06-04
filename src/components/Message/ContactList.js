@@ -23,16 +23,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ContactList({contacts , contactUser}) {
     const classes = useStyles();
-
-    console.log(contacts) ; 
-
     return(
-        <div>
+        <div className="container">
             <List className={`${classes.root} contactlist`}>
                 <SearchContact />
                 {contacts.map((contact) => (
                 <div key={contact.id_user}>
-                <ListItem onClick={() => contactUser(contact.id_user)} button alignItems="flex-start">
+                <ListItem onClick={() => contactUser(contact)} button alignItems="flex-start">
                     <ListItemAvatar>
                         <Avatar alt={contact.name} src={contact.photo} />
                     </ListItemAvatar>

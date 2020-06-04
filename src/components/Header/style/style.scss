@@ -1,4 +1,5 @@
 @import "../../generalComponentStyle/utils/color.scss" ;
+@import "../../generalComponentStyle/utils/mixin.scss" ;
 
 .navbar 
 {
@@ -9,6 +10,33 @@
     box-shadow: $box-shadown-dimension;
     height: 58px;
     font-family: $main-font;
+
+    @include mobile-only
+    {
+        position: fixed;
+        bottom: 0px;
+        left: 0px;
+        background-color: $mobile-background;
+        padding: 0px;
+        width: 100%;
+        z-index: 2;
+    }
+
+    p 
+    {
+        margin: 0px;
+        @include tablet-medium {
+            display: none;
+        }
+    }
+
+    &-logo 
+    {
+        display: none !important;
+        @include tablet-medium {
+            display: block !important;
+        }
+    }
 
     a 
     {
@@ -35,6 +63,9 @@
         {
             color: $primary-color;
         }
+        @include tablet-medium {
+            display: none;
+        }
     }
 
     button 
@@ -56,6 +87,10 @@
 {
     margin-top: 15px ;
 
+    @include tablet-medium {
+        margin-top: 10px;
+    }
+
     &-corps 
     {
         background: $primary-color !important;
@@ -64,6 +99,12 @@
         font-weight: 700;
         font-family: $secondary-font;
         line-height: 1;
+
+        @include mobile-only 
+        {
+            background: $mobile-background !important;
+            color: $font-secondary-color !important;
+        }
 
         h1 
         {
@@ -84,6 +125,17 @@
         margin: 0 auto;
         text-align: center;
 
+        @include mobile-only 
+        {
+            margin: 0px;
+            width: 100%;
+
+            textarea 
+            {
+                height: 50px;
+            }
+        }
+
         .input 
         {
             margin: 25px 0px;
@@ -94,5 +146,49 @@
             margin-right: 20px;
         }
         
+    }
+}
+
+.mobile-logo 
+{
+    display: none;
+    @include tablet-medium {
+        display: block !important;
+        color: $primary-color;
+        font-size: 30px;
+        margin-top: 15px;
+    }
+
+    @include mobile-only
+    {
+        display: none !important;
+    }
+}
+
+.simplenav
+{
+    display: none ;
+
+    @include mobile-only 
+    {
+        display: block;
+        text-align: center;
+        font-weight: 700;
+        font-size: 20px;
+        font-family: $main-font;
+        line-height: 1;
+        background: $font-primary-color;
+        color: $font-secondary-color;
+        padding: 5px 0px;
+        
+        h1 
+        {
+            margin: 0px;
+        }
+
+        i 
+        {
+            color: $primary-color;
+        }
     }
 }

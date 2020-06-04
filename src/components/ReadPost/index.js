@@ -54,7 +54,6 @@ export default class ReadPost extends PostFunctionComponent {
         .then((dataJSON) => {
             dataJSON.json()
             .then((data) => {
-                console.log(data) ; 
                 this.setState({
                     numDislike: data.data.dislike , 
                     numLike: data.data._like , 

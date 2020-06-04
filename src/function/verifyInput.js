@@ -1,73 +1,49 @@
-export default function VerifyInput(value , code) {
+export function VerifyEmail(values) {
+  if (!values) {
+    return 'Email Required';
+  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values)) {
+    return 'Invalid Email';
+  } else {
+    return '';
+  }
+}
 
-    let regex ; 
-    let error ; 
+export function VerifyPasswordStrenght(values) {
+  if (!values) {
+    return 'Password Required';
+  } else if (
+    !/^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})/.test(
+      values
+    )
+  ) {
+    return "Password isn't strong enought";
+  } else {
+    return '';
+  }
+}
 
-    switch(code) 
-    {
-        case 1:
-            regex = new RegExp (/^[a-zA-Z]+$/) ;
+export function VerifyText(values, errorText) {
+  if (!values) {
+    return errorText;
+  } else if (!/[a-zA-Z]/.test(values)) {
+    return errorText;
+  } else {
+    return '';
+  }
+}
 
-            if (regex.test(value)) {
-                error = " " ; 
-            } else {
-                error = "No valid name or surname"
-            }
-            return {
-                result: regex.test(value) , 
-                error: error
-            } ;
-            break ;
-
-        case 2: 
-            regex = new RegExp (/^[a-z0-9\-_\.]+@[a-z0-9]+\.[a-z]{2,5}$/) ; 
-
-            if (regex.test(value)) {
-                error = " " ; 
-            } else {
-                error = "No valid Email"
-            }
-            return {
-                result: regex.test(value),
-                error: error
-            } ;
-            break ;
-        
-        case 3: 
-            const authorize = ["jpg" , "png" , "jpeg"] ; 
-            const extension = value.name.split(".")[1] ; 
-
-            if((authorize.indexOf(extension) != -1) && value.size <= 5000000)
-            {
-                return {
-                    result: true , 
-                    error: " "
-                } ; 
-            } else {
-                return {
-                    result: false , 
-                    error: "No valid file"
-                } ;
-            }
-            break ; 
-
-            case 4: 
-                regex =  new RegExp (/[<>]+$/) ; 
-
-                if (!regex.test(value)) {
-                    error = " " ; 
-                } else {
-                    error = "No valid description, please use simple caracter "
-                }
-                return {
-                    result: !regex.test(value),
-                    error: error
-                } ;
-
-                break ;
-            
-        
-        default: 
-            return (false) ;
+export function VerifyFile(fileToVerify, verificationCriteria) {
+  if (fileToVerify && typeof fileToVerify.name === 'string') {
+    const extensionFile = fileToVerify.name.split('.')[1];
+    if (
+      verificationCriteria.extensionList.indexOf(extensionFile) != 1 &&
+      fileToVerify.size <= verificationCriteria.size
+    ) {
+      return '';
+    } else {
+      return 'Upload a correct file';
     }
+  } else {
+    return 'File Required';
+  }
 }

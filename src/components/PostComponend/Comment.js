@@ -36,7 +36,6 @@ export default function Comment(props) {
                     const request = MainPage.getInformationUser(props.id_user) ; 
                     request
                     .then((data) => {
-                        console.log(data) ; 
                         if(data.success) {
                             setUserData({
                                 name: data.data.name , 

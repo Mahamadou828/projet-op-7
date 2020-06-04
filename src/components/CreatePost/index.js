@@ -78,7 +78,6 @@ export default class CreatePost extends React.Component {
             .then((respond) => {
                 respond.json()
                 .then((data) => {
-                    console.log(data) ; 
                     if(!data.success) {
                         this.setState({
                             filename: data.filename

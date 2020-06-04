@@ -12,6 +12,7 @@ import Slide from '@material-ui/core/Slide';
 import LanguageIcon from '@material-ui/icons/Language';
 import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
+import CreateIcon from '@material-ui/icons/Create';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import PropTypes from "prop-types" ; 
 
@@ -44,7 +45,8 @@ export default function CreatePost(props) {
   return (
     <div className="createpost">
       <Button onClick={handleClickOpen}>
-        Create a post
+        <p>Create a post</p>
+        <CreateIcon className="navbar-logo" /> 
       </Button>
       <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
         <AppBar className={`${classes.appBar} createpost-corps`}>

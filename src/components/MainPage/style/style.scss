@@ -1,9 +1,10 @@
 @import "../../generalComponentStyle/utils/color.scss" ;
+@import "../../generalComponentStyle/utils/mixin.scss" ;
+
 .homepage 
 {
     position: relative;
     z-index: 2;
-    background: $background-body;
 }
 
 .panel 
@@ -17,10 +18,15 @@
         position: absolute;
         top: 60px;
         left: 50px;
+        @include tablette 
+        {
+            display: none !important;
+        }
     } 
     
     &-left 
     {
+        display: none !important;
         padding: 40px 0px;
         display: flex;
         flex-direction: column;
@@ -28,6 +34,10 @@
         position: absolute;
         top: 60px;
         right: 0px;
+        @include dekstop 
+        {
+            display: block !important;
+        }
     }
 }
 
@@ -56,6 +66,10 @@
     max-height: 300px;
     overflow-y: scroll;
     overflow-x: hidden;
+
+    @include tablette {
+        display: none;
+    }
 
     h1 
     {
@@ -97,6 +111,28 @@
     display: flex;
     padding-top: 0px;
     border-radius: 5px;
+
+    @include min-dekstop 
+    {
+        margin-right: 150px;
+        margin-left: auto;
+    }
+
+    @include tablette 
+    {
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    @include mobile-only 
+    {
+        background-color: $font-primary-color;
+        label 
+        {
+            color: $font-secondary-color;
+        }
+        
+    }
 
     button 
     {

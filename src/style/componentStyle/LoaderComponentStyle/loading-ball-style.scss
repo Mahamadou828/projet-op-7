@@ -1,0 +1,31 @@
+$width: 15px;
+$height: 15px;
+
+.wrap {
+  margin-bottom: 10px;
+}
+
+.text {
+  color: $primary-color;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.bounceball {
+  position: relative;
+  display: inline-block;
+  height: 37px;
+  width: $width;
+  &:before {
+    position: absolute;
+    content: "";
+    display: block;
+    top: 0;
+    width: $width;
+    height: $height;
+    border-radius: 50%;
+    background-color: $primary-color;
+    transform-origin: 50%;
+    animation: bounce 500ms alternate infinite ease;
+  }
+}

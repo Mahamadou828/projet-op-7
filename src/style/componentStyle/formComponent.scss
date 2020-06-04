@@ -1,0 +1,172 @@
+@import "./utils/color.scss";
+@import "./utils/mixin.scss";
+
+body {
+  margin: 0px;
+}
+
+.body-form {
+  width: 100%;
+  height: 120vh;
+  background: url("../image/bg-01.jpg");
+
+  &::before {
+    content: " ";
+    position: absolute;
+    width: 100%;
+    height: 120vh;
+    background: $primary-color;
+    opacity: 0.9;
+    z-index: 0;
+  }
+}
+
+.form {
+  width: 560px;
+  text-align: center;
+  background-color: $white;
+  opacity: 1;
+  z-index: 2;
+  margin-top: 30px;
+  position: absolute;
+  z-index: 2;
+  top: 10%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+
+  @include mobile-only {
+    width: 100%;
+    top: 350px;
+    border-radius: 0px;
+  }
+
+  &-header {
+    background: url("../image/bg-02.jpg");
+    font-family: $secondary-font;
+    padding: 15px 15px 0px 15px;
+    color: $white;
+    position: relative;
+    height: 110px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+
+    @include mobile-only {
+      border-top-right-radius: 0px;
+      border-top-left-radius: 0px;
+    }
+
+    &::before {
+      content: " ";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: $black;
+      opacity: 0.3;
+      top: 0px;
+      left: 0px;
+      z-index: 0;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+
+      @include mobile-only {
+        border-top-right-radius: 0px;
+        border-top-left-radius: 0px;
+      }
+    }
+    h1 {
+      position: relative;
+      z-index: 2;
+      margin: 0px;
+      font-size: 30px;
+    }
+
+    &-link {
+      position: relative;
+      z-index: 2;
+
+      p {
+        margin-bottom: 10px;
+
+        a {
+          text-decoration: none;
+          color: $white;
+          font-weight: bold;
+          transition: all ease-in 0.2s;
+
+          &:hover {
+            transform: translateY(10px) !important;
+            color: $secondary-color;
+          }
+        }
+      }
+    }
+  }
+
+  &-corps {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 25px;
+
+    button {
+      width: 100px;
+      color: $white;
+      font-weight: bold;
+      background-color: $primary-color;
+      margin-top: 15px;
+      margin: 25px auto 0px auto;
+      transition: all ease-in 0.3s;
+      border: 1px solid $primary-color;
+
+      &:hover {
+        transform: translateY(-10px);
+        border-color: $primary-color;
+        color: $primary-color;
+        background-color: $white;
+      }
+    }
+  }
+}
+
+.logo {
+  font-size: 25px;
+}
+
+.label {
+  font-family: $main-font;
+}
+
+.file {
+  margin: 20px 0px;
+  &-label {
+    color: $white;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    padding: 5px;
+    background-color: $primary-color;
+    display: inline-block;
+    font-family: $main-font;
+    border: 1px solid $primary-color;
+    border-radius: 5px;
+    align-content: center;
+    transition: all ease-in 0.3s;
+
+    &:hover {
+      background-color: $white;
+      color: $primary-color;
+      border-color: $primary-color;
+    }
+  }
+
+  &-input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+}
