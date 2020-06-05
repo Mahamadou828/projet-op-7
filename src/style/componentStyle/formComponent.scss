@@ -36,6 +36,14 @@ body {
   transform: translate(-50%, -50%);
   border-radius: 10px;
 
+  &-login {
+    margin-top: 20px;
+  }
+
+  &-signup {
+    margin-top: 50px;
+  }
+
   @include mobile-only {
     width: 100%;
     top: 350px;
@@ -90,7 +98,7 @@ body {
         margin-bottom: 10px;
 
         a {
-          text-decoration: none;
+          text-decoration: overline;
           color: $white;
           font-weight: bold;
           transition: all ease-in 0.2s;
@@ -107,24 +115,27 @@ body {
   &-corps {
     display: flex;
     flex-direction: column;
-    padding: 0px 25px;
+    padding: 0px 15px;
 
-    button {
+    &-button {
       width: 100px;
-      color: $white;
-      font-weight: bold;
-      background-color: $primary-color;
-      margin-top: 15px;
-      margin: 25px auto 0px auto;
-      transition: all ease-in 0.3s;
-      border: 1px solid $primary-color;
+      color: $white !important;
+      font-weight: bold !important;
+      background-color: $primary-color !important;
+      margin: 25px auto 10px auto !important;
+      transition: all ease-in 0.3s !important;
+      border: 1px solid $primary-color !important;
 
       &:hover {
         transform: translateY(-10px);
-        border-color: $primary-color;
-        color: $primary-color;
-        background-color: $white;
+        border-color: $primary-color !important;
+        color: $primary-color !important;
+        background-color: $white !important;
       }
+    }
+
+    &-input {
+      min-width: 90% !important;
     }
   }
 }
@@ -138,7 +149,8 @@ body {
 }
 
 .file {
-  margin: 20px 0px;
+  width: 175px;
+  margin: 20px auto;
   &-label {
     color: $white;
     font-weight: bold;
@@ -168,5 +180,23 @@ body {
     overflow: hidden;
     position: absolute;
     z-index: -1;
+  }
+}
+
+.toggle {
+  &-connect {
+    font-size: 25px !important;
+    margin: 0px 10px 15px 10px !important;
+    border: 1px solid $border-color !important;
+    box-shadow: $box-shadown-dimension;
+  }
+
+  &-info {
+    max-width: 20px !important;
+    min-width: 20px !important;
+    padding: 0px !important;
+    margin-top: 25px !important;
+    margin-left: 5px !important;
+    color: $color-error !important;
   }
 }

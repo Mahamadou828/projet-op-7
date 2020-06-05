@@ -1,7 +1,7 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Checkbox, Button, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { SignUpAction } from '../actions/formAction';
@@ -11,7 +11,7 @@ import {
   VerifyText,
   VerifyFile,
 } from '../function/verifyInput';
-import FieldFileInput from '../components/FieldFileInput';
+import FieldInput from '../components/FieldInput';
 
 const FieldsType = {
   email: 'email',
@@ -24,37 +24,30 @@ const FieldsType = {
 };
 
 class SignUp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.name = '';
+    this.surname = '';
+    this.avatar = '';
+    this.email = '';
+    this.password = '';
+  }
+
   handleSubmit = (information) => {
     console.log(information);
   };
 
-  renderFormFields = (props) => {
-    switch (props.idfield) {
-      case 1:
-        return (
-          <TextField {...props.input} label={props.label} type={props.type} />
-        );
-      case 2:
-        return <Checkbox {...props.input} color={props.color} />;
-      case 3:
-        return (
-          <TextField
-            {...props.input}
-            rows="5"
-            col="10"
-            multiline
-            label={props.label}
-          />
-        );
-      default:
-        return <TextField {...props.input} />;
-    }
-  };
-
   render() {
+    if (typeof this.props.formInfo === 'object') {
+      this.name = this.props.formInfo.syncErrors.name;
+      this.surname = this.props.formInfo.syncErrors.surname;
+      this.avatar = this.props.formInfo.syncErrors.avatar;
+      this.email = this.props.formInfo.syncErrors.email;
+      this.password = this.props.formInfo.syncErrors.password;
+    }
     return (
       <div className="body-form">
-        <div className="form">
+        <div className="form form-signup">
           <section className="form-header">
             <h1>
               GROUP<i className="logo fas fa-globe"></i>MANIA
@@ -73,55 +66,69 @@ class SignUp extends React.Component {
             <Field
               id={FieldsType.name}
               name={FieldsType.name}
-              component={this.renderFormFields}
+              component={FieldInput}
               props={{
                 label: 'Enter your name',
                 idfield: 1,
                 type: 'text',
+                class: 'row',
+                error: this.name,
               }}
               type="text"
             />
+
             <Field
               id={FieldsType.surname}
               name={FieldsType.surname}
-              component={this.renderFormFields}
+              component={FieldInput}
               props={{
                 label: 'Enter your surname',
                 idfield: 1,
                 type: 'text',
+                class: 'row',
+                error: this.surname,
               }}
               type="text"
             />
+
             <Field
-              component={this.renderFormFields}
+              component={FieldInput}
               id={FieldsType.email}
               name={FieldsType.email}
               props={{
                 label: 'Enter your email',
                 idfield: 1,
                 type: 'email',
+                class: 'row',
+                error: this.email,
               }}
               type="text"
             />
+
             <Field
-              component={this.renderFormFields}
+              component={FieldInput}
               props={{
                 label: 'Enter your password',
                 idfield: 1,
                 type: 'password',
+                class: 'row',
+                error: this.password,
               }}
               id={FieldsType.password}
               name={FieldsType.password}
             />
+
             <Field
-              component={this.renderFormFields}
+              component={FieldInput}
               props={{
                 label: 'Enter a short description of you',
                 idfield: 3,
+                class: 'row',
               }}
               id={FieldsType.description}
               name={FieldsType.description}
             />
+
             <Field
               name={FieldsType.avatar}
               props={{
@@ -129,24 +136,29 @@ class SignUp extends React.Component {
                 required: true,
                 idInput: FieldsType.avatar,
                 acceptList: ['jpg', 'gif', 'bmp', 'png'],
+                class: 'file',
+                idfield: 4,
+                error: this.avatar,
               }}
               type="file"
-              component={FieldFileInput}
+              component={FieldInput}
             />
-            <div className="row">
-              <Field
-                component={this.renderFormFields}
-                props={{
-                  color: 'primary',
-                  idfield: 2,
-                }}
-                id={FieldsType.remenber}
-                name={FieldsType.remenber}
-                defaultChecked="false"
-              />
-              <label className="label">Remenber Me on this Machine</label>
-            </div>
-            <Button type="submit">Submit</Button>
+
+            <Field
+              component={FieldInput}
+              props={{
+                color: 'primary',
+                idfield: 2,
+                label: 'Remenber me on this machine',
+                class: 'row',
+              }}
+              id={FieldsType.remenber}
+              name={FieldsType.remenber}
+              defaultChecked="false"
+            />
+            <Button className="form-corps-button" type="submit">
+              Submit
+            </Button>
           </form>
         </div>
       </div>
@@ -199,5 +211,3 @@ SignUp.propTypes = {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);
-
-//Sequelize graphql express-graphql

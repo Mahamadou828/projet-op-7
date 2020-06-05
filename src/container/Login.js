@@ -4,8 +4,9 @@ import { VerifyEmail } from '../function/verifyInput';
 import { LogInAction } from '../actions/formAction';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Checkbox, Button, TextField } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import FieldInput from '../components/FieldInput';
 
 const FieldsType = {
   email: 'email',
@@ -18,23 +19,20 @@ class LogIn extends React.Component {
     console.log(information);
   };
 
-  renderFormFields = (props) => {
-    switch (props.idfield) {
-      case 1:
-        return (
-          <TextField {...props.input} label={props.label} type={props.type} />
-        );
-      case 2:
-        return <Checkbox {...props.input} color={props.color} />;
-      default:
-        return <TextField {...props.input} />;
-    }
-  };
+  constructor(props) {
+    super(props);
+    this.email = '';
+    this.password = '';
+  }
 
   render() {
+    if (typeof this.props.formInfo === 'object') {
+      this.email = this.props.formInfo.syncErrors.email;
+      this.password = this.props.formInfo.syncErrors.password;
+    }
     return (
       <div className="body-form">
-        <div className="form">
+        <div className="form form-login">
           <section className="form-header">
             <h1>
               GROUP<i className="logo fas fa-globe"></i>MANIA
@@ -50,41 +48,66 @@ class LogIn extends React.Component {
             onSubmit={this.props.handleSubmit(this.handleSubmit)}
           >
             <Field
-              component={this.renderFormFields}
+              component={FieldInput}
               id={FieldsType.email}
               name={FieldsType.email}
               props={{
                 label: 'Enter your email',
                 idfield: 1,
                 type: 'email',
+                class: 'row',
+                error: this.email,
               }}
               type="text"
             />
             <Field
-              component={this.renderFormFields}
+              component={FieldInput}
               props={{
                 label: 'Enter your password',
                 idfield: 1,
                 type: 'password',
+                class: 'row',
+                error: this.password,
               }}
               id={FieldsType.password}
               name={FieldsType.password}
             />
-            <div className="row">
-              <Field
-                component={this.renderFormFields}
-                props={{ color: 'primary', idfield: 2 }}
-                id={FieldsType.remenber}
-                name={FieldsType.remenber}
-                defaultChecked="false"
-              />
-              <label className="label">Remenber Me on this Machine</label>
-            </div>
+            <Field
+              component={FieldInput}
+              props={{
+                color: 'primary',
+                idfield: 2,
+                label: 'Remenber me on this machine',
+                class: 'row',
+              }}
+              id={FieldsType.remenber}
+              name={FieldsType.remenber}
+              defaultChecked="false"
+            />
 
-            <Button variant="contained" type="submit">
+            <Button
+              className="form-corps-button"
+              variant="contained"
+              type="submit"
+            >
               Connect
             </Button>
           </form>
+          <p className="text">Or Connect with: </p>
+          <div className="row">
+            <Button className="toggle-connect">
+              <i className="fab fa-google"></i>
+            </Button>
+            <Button className="toggle-connect">
+              <i className="fab fa-slack"></i>
+            </Button>
+            <Button className="toggle-connect">
+              <i className="fab fa-facebook-f"></i>
+            </Button>
+            <Button className="toggle-connect">
+              <i className="fab fa-github"></i>
+            </Button>
+          </div>
         </div>
       </div>
     );
