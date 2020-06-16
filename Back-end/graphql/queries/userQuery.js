@@ -42,7 +42,7 @@ const MutationCreateUser = {
       .save()
       .then((newUser) => {
         return {
-          jwt: jwt.sign({ sub: user.id }, jsonSecret),
+          jwt: jwt.sign({ sub: `${user.id}|${user.password}` }, jsonSecret),
           userInfo: newUser,
           access: true,
           error: '',
@@ -70,56 +70,76 @@ const QueryConnectUser = {
     },
   },
   resolve(parentValue, { email, password }) {
-    return User.findOne({ where: { email: email } })
-      .then((user) => {
-        bcrypt
-          .compare(password, user.password)
-          .then((result) => {
-            if (result) {
-              return {
-                jwt: jwt.sign({ sub: user.id }, jsonSecret, {
-                  algorithm: 'RS512',
-                }),
-                userInfo: user,
-                access: true,
-                error: '',
-              };
-            } else {
-              return {
+    const defaultUser = {
+      email,
+      password,
+      name: '',
+      surname: '',
+      photo: '',
+      description: '',
+    };
+    return new Promise((resolve, reject) => {
+      User.findOne({ where: { email: email } })
+        .then((user) => {
+          bcrypt
+            .compare(password, user.password)
+            .then((result) => {
+              console.log(result);
+              if (result) {
+                resolve({
+                  jwt: jwt.sign(
+                    { sub: `${user.id}|${user.password}` },
+                    jsonSecret
+                  ),
+                  userInfo: user,
+                  access: true,
+                  error: '',
+                });
+              } else {
+                resolve({
+                  jwt: '',
+                  userInfo: {
+                    email: email,
+                    password: password,
+                    name: '',
+                    surname: '',
+                    photo: '',
+                    description: '',
+                  },
+                  access: false,
+                  error: 'Wrong password',
+                });
+              }
+            })
+            .catch(() => {
+              resolve({
                 jwt: '',
-                userInfo: { email: email, password: password },
+                userInfo: defaultUser,
                 access: false,
                 error: 'Wrong password',
-              };
-            }
-          })
-          .catch(() => {
-            return {
-              jwt: '',
-              userInfo: { email: email, password: password },
-              access: false,
-              error: 'Wrong password',
-            };
+              });
+            });
+        })
+        .catch(() => {
+          resolve({
+            jwt: '',
+            userInfo: defaultUser,
+            access: false,
+            error: "That email doesn't exist",
           });
-      })
-      .catch(() => {
-        return {
-          jwt: '',
-          userInfo: { email: email, password: password },
-          access: false,
-          error: "That email doesn't exist",
-        };
-      });
+        });
+    });
   },
 };
 
 const MutationDeleteUser = {
   type: GraphQLString,
   args: {
-    id: GraphQLNonNull(GraphQLID),
+    id: { type: GraphQLNonNull(GraphQLID) },
+    password: { type: GraphQLNonNull(GraphQLString) },
   },
-  resolve(parentValue, { id }) {
-    return User.destroy({ where: { id } });
+  resolve(parentValue, { id, password }) {
+    return User.destroy({ where: { id, password } });
   },
 };
 

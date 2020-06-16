@@ -52,9 +52,15 @@ User.init(
   { sequelize: Connection, modelName: 'User' }
 );
 
-User.beforeCreate((user, options) => {
-  return bcrypt.hash(user.password, 10, (err, hash) => {
-    user.password = hash;
+User.beforeSave((user, options) => {
+  return new Promise((resolve, reject) => {
+    bcrypt.hash(user.password, 10, (err, hash) => {
+      if (err) {
+        reject(err);
+      }
+      user.password = hash;
+      resolve(true);
+    });
   });
 });
 

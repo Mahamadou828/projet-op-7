@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const { GraphQLObjectType } = graphql;
+const { GraphQLObjectType, GraphQLBoolean } = graphql;
 const { QueryConnectUser } = require('./queries/userQuery');
 
 const RootQuery = new GraphQLObjectType({
@@ -7,6 +7,12 @@ const RootQuery = new GraphQLObjectType({
   description: 'Root for all query',
   fields: () => ({
     ConnectUser: QueryConnectUser,
+    getName: {
+      type: GraphQLBoolean,
+      resolve(parentValue) {
+        return true;
+      },
+    },
   }),
 });
 

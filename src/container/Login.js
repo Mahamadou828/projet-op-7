@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { VerifyEmail } from '../function/verifyInput';
-import { LogInAction } from '../actions/formAction';
+import { VerifyEmail, VerifyPasswordStrenght } from '../function/verifyInput';
+import LogInAction from '../actions/LoginAction';
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import FieldInput from '../components/FieldInput';
+import Loader from '../components/Loader';
+import LoaderAction from '../actions/LoaderAction';
 
 const FieldsType = {
   email: 'email',
@@ -17,6 +19,8 @@ const FieldsType = {
 class LogIn extends React.Component {
   handleSubmit = (information) => {
     console.log(information);
+    this.props.LoaderAction(3, true);
+    this.props.LogInAction(information);
   };
 
   constructor(props) {
@@ -92,6 +96,7 @@ class LogIn extends React.Component {
             >
               Connect
             </Button>
+            <Loader />
           </form>
           <p className="text">Or Connect with: </p>
           <div className="row">
@@ -116,6 +121,7 @@ class LogIn extends React.Component {
 
 const mapDispatchToProps = {
   LogInAction,
+  LoaderAction,
 };
 
 function mapStateToProps(state) {
@@ -129,10 +135,10 @@ const validate = (values) => {
     email: '',
     password: '',
   };
+
   errors.email = VerifyEmail(values.email);
-  if (!values.password) {
-    errors.password = 'Require password';
-  }
+  errors.password = VerifyPasswordStrenght(values.password);
+
   return errors;
 };
 

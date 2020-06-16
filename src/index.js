@@ -1,4 +1,3 @@
-// Set up your application entry point here...
 import React from 'react';
 import { AppContainer } from 'react-hot-loader';
 import ReactDom from 'react-dom';
@@ -7,8 +6,18 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { createUploadLink } from 'apollo-upload-client';
+import ApolloClient from 'apollo-boost';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+
+export const BASE_ROUTE = 'http://localhost:3030';
+
+export const client = new ApolloClient({
+  link: createUploadLink(),
+  uri: `${BASE_ROUTE}/graphql`,
+});
 
 const store = createStoreWithMiddleware(
   reducers,
@@ -17,9 +26,11 @@ const store = createStoreWithMiddleware(
 
 ReactDom.render(
   <Provider store={store}>
-    <AppContainer>
-      <App />
-    </AppContainer>
+    <ApolloProvider client={client}>
+      <AppContainer>
+        <App />
+      </AppContainer>
+    </ApolloProvider>
   </Provider>,
   document.getElementById('app')
 );

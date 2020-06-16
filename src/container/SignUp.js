@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { SignUpAction } from '../actions/formAction';
+import SignUpAction from '../actions/SignUpAction';
+import LoaderAction from '../actions/LoaderAction';
 import {
   VerifyPasswordStrenght,
   VerifyEmail,
@@ -12,6 +13,7 @@ import {
   VerifyFile,
 } from '../function/verifyInput';
 import FieldInput from '../components/FieldInput';
+import Loader from '../components/Loader';
 
 const FieldsType = {
   email: 'email',
@@ -34,7 +36,11 @@ class SignUp extends React.Component {
   }
 
   handleSubmit = (information) => {
-    console.log(information);
+    this.props.LoaderAction(3, true);
+    if (typeof information.description === 'undefined') {
+      information.description = '';
+    }
+    this.props.SignUpAction(information);
   };
 
   render() {
@@ -135,7 +141,7 @@ class SignUp extends React.Component {
                 label: 'Upload your avatar',
                 required: true,
                 idInput: FieldsType.avatar,
-                acceptList: ['jpg', 'gif', 'bmp', 'png'],
+                acceptList: ['jpg', 'bmp', 'png', 'jpeg'],
                 class: 'file',
                 idfield: 4,
                 error: this.avatar,
@@ -159,6 +165,7 @@ class SignUp extends React.Component {
             <Button className="form-corps-button" type="submit">
               Submit
             </Button>
+            <Loader />
           </form>
         </div>
       </div>
@@ -168,6 +175,7 @@ class SignUp extends React.Component {
 
 const mapDispatchToProps = {
   SignUpAction,
+  LoaderAction,
 };
 
 function mapStateToProps(state) {
@@ -208,6 +216,7 @@ const SignUpForm = reduxForm({
 SignUp.propTypes = {
   formInfo: PropTypes.object,
   handleSubmit: PropTypes.func,
+  SignUpAction: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);
