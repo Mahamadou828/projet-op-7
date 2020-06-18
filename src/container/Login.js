@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { VerifyEmail, VerifyPasswordStrenght } from '../function/verifyInput';
 import LogInAction from '../actions/LoginAction';
 import { Field, reduxForm } from 'redux-form';
@@ -18,7 +18,6 @@ const FieldsType = {
 
 class LogIn extends React.Component {
   handleSubmit = (information) => {
-    console.log(information);
     this.props.LoaderAction(3, true);
     this.props.LogInAction(information);
   };
@@ -114,6 +113,7 @@ class LogIn extends React.Component {
             </Button>
           </div>
         </div>
+        {this.props.access ? <Redirect to="/home" /> : null}
       </div>
     );
   }
@@ -127,6 +127,7 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
   return {
     formInfo: state.form.LogIn,
+    access: state.Access.access,
   };
 }
 

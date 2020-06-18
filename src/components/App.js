@@ -18,8 +18,8 @@ class App extends React.Component {
         <Error />
         <div>
           <Switch>
-            <Route exact path={'/'} component={RequireAuth(LogIn)}></Route>
-            <Route path={'/signup/'} component={RequireAuth(SignUp)}></Route>
+            <Route exact path={'/'} component={LogIn}></Route>
+            <Route path={'/signup/'} component={SignUp}></Route>
             {/* <Route path={'/mainpage'} component={MainPage}></Route>
                 <Route path={'/createapost'} component={CreatePost}></Route>
                 <Route path={'/readpost/:post'} component={ReadPost}></Route>

@@ -7,22 +7,36 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
 import { ApolloProvider } from '@apollo/react-hooks';
-import { createUploadLink } from 'apollo-upload-client';
 import ApolloClient from 'apollo-boost';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 export const BASE_ROUTE = 'http://localhost:3030';
-
-export const client = new ApolloClient({
-  link: createUploadLink(),
-  uri: `${BASE_ROUTE}/graphql`,
-});
+const SECRET_KEY = 'x66S6Vn5BXcUU64iv3xDw';
 
 const store = createStoreWithMiddleware(
   reducers,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
+
+export const client = new ApolloClient({
+  uri: `${BASE_ROUTE}/graphql`,
+  request: (operation) => {
+    const date = new Date();
+    const {
+      access,
+      accessData: { jwt },
+    } = store.getState().Access;
+    operation.setContext({
+      headers: {
+        authorization: access
+          ? jwt
+          : `${SECRET_KEY}?${date.getDate()}?AUTH_ACCESS`,
+        accessWasSend: access,
+      },
+    });
+  },
+});
 
 ReactDom.render(
   <Provider store={store}>

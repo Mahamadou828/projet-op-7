@@ -1,7 +1,6 @@
 import { client } from '../index';
-import SaveToLocalStorage from '../function/SaveToLocalStorage';
 import ConnectUser from '../graphql/ConnectUser';
-import { ERROR } from '../constant';
+import { ERROR, SET_ACCESS } from '../constant';
 
 export default function LogInAction(userInfo) {
   return function (dispatch) {
@@ -12,7 +11,6 @@ export default function LogInAction(userInfo) {
         query: ConnectUser,
       })
       .then((data) => {
-        console.log(data);
         const { access, error, jwt, userInfo } = data.data.ConnectUser;
         if (access) {
           dispatch({

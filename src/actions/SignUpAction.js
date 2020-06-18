@@ -2,7 +2,6 @@ import { SET_ACCESS, ERROR } from '../constant';
 import { client } from '../index';
 import CREATE_USER from '../graphql/CreateUser';
 import UploadFile from '../function/uploadFile';
-import SaveToLocalStorage from '../function/SaveToLocalStorage';
 
 export default function SignUpAction(userInfo) {
   const {
@@ -25,7 +24,6 @@ export default function SignUpAction(userInfo) {
           })
           .then((data) => {
             const { jwt, error, access, userInfo } = data.data.CreateUser;
-            console.log(jwt, error, access, userInfo);
             if (access) {
               dispatch({
                 type: SET_ACCESS,

@@ -1,6 +1,6 @@
 const graphql = require('graphql');
 const { GraphQLObjectType, GraphQLString, GraphQLBoolean } = graphql;
-const User = require('./userType');
+const UserGraphQl = require('./userType');
 
 const Connect = new GraphQLObjectType({
   name: 'Connect',
@@ -10,7 +10,7 @@ const Connect = new GraphQLObjectType({
       type: GraphQLString,
     },
     userInfo: {
-      type: User,
+      type: UserGraphQl,
     },
     access: {
       type: GraphQLBoolean,

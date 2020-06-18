@@ -1,4 +1,5 @@
 const graphql = require('graphql');
+const { User, Post } = require('../../databases/databaseInit');
 const {
   GraphQLObjectType,
   GraphQLID,
@@ -6,8 +7,10 @@ const {
   GraphQLList,
   GraphQLNonNull,
 } = graphql;
+const PostGraphQl = require('./postType');
+const { defaultPost, defaultUser } = require('../defaultObjetSchema/index');
 
-const User = new GraphQLObjectType({
+const UserGraphQl = new GraphQLObjectType({
   name: 'User',
   description: 'User models',
   fields: () => ({
@@ -32,13 +35,36 @@ const User = new GraphQLObjectType({
     description: {
       type: GraphQLString,
     },
-    // posts: {
-    //   type: new GraphQLList(Post),
-    //   resolve(User) {
-    //     return User.getPostUser();
-    //   },
-    // },
+    posts: {
+      type: new GraphQLList(PostGraphQl),
+      resolve(parentValue, { id }) {
+        return new Promise((resolve, reject) => {
+          if (id) {
+            User.findAll({
+              where: { id },
+              include: [
+                {
+                  model: Post,
+                },
+              ],
+            })
+              .then((posts) => {
+                resolve(posts);
+              })
+              .catch(() => {
+                reject(defaultPost);
+              });
+          } else {
+            console.log('la');
+            resolve({
+              ...defaultPost,
+              users: defaultUser,
+            });
+          }
+        });
+      },
+    },
   }),
 });
 
-module.exports = User;
+module.exports = UserGraphQl;

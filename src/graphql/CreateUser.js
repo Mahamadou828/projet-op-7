@@ -9,7 +9,7 @@ export default gql`
     $photo: String!
     $description: String
   ) {
-    CreateUser(
+    MutationCreateUser(
       email: $email
       password: $password
       name: $name

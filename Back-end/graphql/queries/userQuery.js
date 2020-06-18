@@ -1,9 +1,9 @@
-const { User } = require('../../databases/databaseInit');
+const { User, Post } = require('../../databases/databaseInit');
 const graphql = require('graphql');
 const { GraphQLNonNull, GraphQLString, GraphQLID } = graphql;
 const connectType = require('../schema/connectType');
 const jwt = require('jsonwebtoken');
-const jsonSecret = require('../../auth/secretKey');
+const { jsonSecret } = require('../../auth/secretKey');
 const bcrypt = require('bcrypt');
 
 const MutationCreateUser = {
@@ -30,19 +30,19 @@ const MutationCreateUser = {
   },
   resolve(parentValue, { email, password, name, surname, photo, description }) {
     const user = new User({
-      email: email,
-      password: password,
-      name: name,
-      surname: surname,
-      photo: photo,
-      description: description,
+      email,
+      password,
+      name,
+      surname,
+      photo,
+      description,
     });
 
     return user
       .save()
       .then((newUser) => {
         return {
-          jwt: jwt.sign({ sub: `${user.id}|${user.password}` }, jsonSecret),
+          jwt: jwt.sign({ sub: `${user.id}|${user.email}` }, jsonSecret),
           userInfo: newUser,
           access: true,
           error: '',
@@ -88,7 +88,7 @@ const QueryConnectUser = {
               if (result) {
                 resolve({
                   jwt: jwt.sign(
-                    { sub: `${user.id}|${user.password}` },
+                    { sub: `${user.id}|${user.email}` },
                     jsonSecret
                   ),
                   userInfo: user,
@@ -139,7 +139,42 @@ const MutationDeleteUser = {
     password: { type: GraphQLNonNull(GraphQLString) },
   },
   resolve(parentValue, { id, password }) {
-    return User.destroy({ where: { id, password } });
+    return new Promise((resolve, reject) => {
+      User.findOne({ where: { id } })
+        .then((user) => {
+          if (!user) {
+            resolve("This user doesn't exist");
+          } else {
+            bcrypt
+              .compare(password, user.password)
+              .then((result) => {
+                if (result) {
+                  User.destroy({ where: { id } })
+                    .then(() => {
+                      Post.destroy({ where: { UserId: id } })
+                        .then(() => {
+                          resolve('User Deleted');
+                        })
+                        .catch((error) => {
+                          reject(error);
+                        });
+                    })
+                    .catch((error) => {
+                      reject(error);
+                    });
+                } else {
+                  resolve('wrong password');
+                }
+              })
+              .catch((error) => {
+                reject(error);
+              });
+          }
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   },
 };
 

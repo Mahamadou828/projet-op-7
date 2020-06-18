@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import SignUpAction from '../actions/SignUpAction';
 import LoaderAction from '../actions/LoaderAction';
 import {
@@ -51,6 +51,7 @@ class SignUp extends React.Component {
       this.email = this.props.formInfo.syncErrors.email;
       this.password = this.props.formInfo.syncErrors.password;
     }
+
     return (
       <div className="body-form">
         <div className="form form-signup">
@@ -168,6 +169,7 @@ class SignUp extends React.Component {
             <Loader />
           </form>
         </div>
+        {this.props.access ? <Redirect to="/home" /> : null}
       </div>
     );
   }
@@ -181,6 +183,7 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
   return {
     formInfo: state.form.SignUp,
+    access: state.Access.access,
   };
 }
 
@@ -217,6 +220,7 @@ SignUp.propTypes = {
   formInfo: PropTypes.object,
   handleSubmit: PropTypes.func,
   SignUpAction: PropTypes.func,
+  access: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

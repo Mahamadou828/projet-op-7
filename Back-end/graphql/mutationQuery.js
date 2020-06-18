@@ -1,14 +1,24 @@
-const { MutationCreateUser } = require('./queries/userQuery');
+const {
+  MutationCreateUser,
+  MutationDeleteUser,
+} = require('./queries/userQuery');
 const graphql = require('graphql');
 const { GraphQLObjectType } = graphql;
-const { MutationUploadImage } = require('./queries/imageQuery');
+const {
+  MutationCreatePost,
+  MutationDeletePost,
+  MutationUpdatePost,
+} = require('./queries/postQuery');
 
 const MutationQuery = new GraphQLObjectType({
   name: 'MutationQuery',
   description: 'Content all mutate query request',
   fields: () => ({
-    CreateUser: MutationCreateUser,
-    SaveFile: MutationUploadImage,
+    MutationCreateUser,
+    MutationDeleteUser,
+    MutationCreatePost,
+    MutationDeletePost,
+    MutationUpdatePost,
   }),
 });
 
