@@ -1,6 +1,6 @@
 import { client } from '../index';
 import ConnectUser from '../graphql/ConnectUser';
-import { ERROR, SET_ACCESS } from '../constant';
+import { ERROR, SET_ACCESS, A_SUBMISSION_IS_IN_PROGRESS } from '../constant';
 
 export default function LogInAction(userInfo) {
   return function (dispatch) {
@@ -16,6 +16,15 @@ export default function LogInAction(userInfo) {
           dispatch({
             type: SET_ACCESS,
             payload: { access, error, accessData: { userInfo, jwt } },
+          });
+          dispatch({
+            type: A_SUBMISSION_IS_IN_PROGRESS,
+            payload: {
+              number: 0,
+              statusLoad: false,
+              popUp: false,
+              message: '',
+            },
           });
         } else {
           dispatch({ type: ERROR, payload: { error: true, text: error } });

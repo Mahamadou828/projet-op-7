@@ -8,7 +8,7 @@ Post.init(
   {
     title: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     description: {
       type: Sequelize.STRING,
@@ -16,7 +16,7 @@ Post.init(
     },
     image: {
       type: Sequelize.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     content: {
       type: Sequelize.STRING,

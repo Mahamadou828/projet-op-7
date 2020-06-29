@@ -1,0 +1,87 @@
+$colors: #a3328c, #ca295b, #dd2445, #fd231f, #fd6631, #fcae44;
+$colors--3: #8360c3, #7274b9, #6087af, #4e9aa4, #40ac9c, #2ebf91;
+
+$winered: #c31432;
+
+$circularLoaderSize: 90px;
+
+@mixin WidthAndHeight($w, $h) {
+  width: $w;
+  height: $h;
+}
+.preloaders {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  position: absolute;
+  z-index: 3;
+  top: 0px;
+  left: 0px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.loader-wrapper {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  opacity: 0.7;
+  min-width: 300px;
+  min-height: 300px;
+  display: block;
+  z-index: 30000;
+  border: 2px solid $white;
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    margin-left: 10%;
+    transform: translate3d(-50%, -50%, 0);
+  }
+  &--1 {
+    background: $black;
+    .loader {
+      @include WidthAndHeight($circularLoaderSize, $circularLoaderSize);
+      .circle-line {
+        position: absolute;
+        border-radius: 100%;
+        animation: rotate180 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+        border: 5px solid transparent;
+
+        @for $i from 1 through 6 {
+          &:nth-child(#{$i}) {
+            left: 10% * ($i - 1);
+            top: 10% * ($i - 1);
+            width: 100% - 20% * ($i - 1);
+            height: 100% - 20% * ($i - 1);
+            border-top-color: nth($colors, $i);
+            border-left-color: nth($colors, $i);
+            border-right-color: nth($colors, $i);
+            animation-delay: 0.3s * ($i - 1);
+          }
+        }
+      }
+    }
+  }
+  &--12 {
+    background: #eee;
+    .loader {
+      .dot {
+        width: 20px;
+        height: 20px;
+        background: #eee;
+        display: inline-block;
+        border-radius: 50%;
+        animation: scale 2s infinite;
+
+        @for $i from 1 through length($colors) {
+          &:nth-child(#{length($colors)}n + #{$i}) {
+            background: nth($colors, $i);
+            animation-delay: 0.1s * $i;
+          }
+        }
+      }
+    }
+  }
+}

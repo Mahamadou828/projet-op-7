@@ -29,6 +29,15 @@ export default function SignUpAction(userInfo) {
                 type: SET_ACCESS,
                 payload: { access, error, accessData: { userInfo, jwt } },
               });
+              dispatch({
+                type: A_SUBMISSION_IS_IN_PROGRESS,
+                payload: {
+                  number: 0,
+                  statusLoad: false,
+                  popUp: false,
+                  message: '',
+                },
+              });
             } else {
               dispatch({
                 type: ERROR,

@@ -6,14 +6,6 @@ function Loader(props) {
   const { submissionIsInProgress, loaderNumber } = props;
   if (submissionIsInProgress) {
     switch (loaderNumber) {
-      case 1:
-        return (
-          <div className="centered">
-            <div className="blob-1"></div>
-            <div className="blob-2"></div>
-          </div>
-        );
-        break;
       case 2:
         return (
           <div className="container">
@@ -34,6 +26,21 @@ function Loader(props) {
           </div>
         );
         break;
+      case 4:
+        return (
+          <div className="preloaders">
+            <div className="loader-wrapper loader-wrapper--1">
+              <div className="loader loader--1">
+                <div className="circle-line"></div>
+                <div className="circle-line"></div>
+                <div className="circle-line"></div>
+                <div className="circle-line"></div>
+                <div className="circle-line"></div>
+                <div className="circle-line"></div>
+              </div>
+            </div>
+          </div>
+        );
     }
   } else {
     return null;

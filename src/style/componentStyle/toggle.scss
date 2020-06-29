@@ -1,0 +1,16 @@
+.toggle {
+  max-width: 250px;
+  margin: 0 auto;
+  padding: 6px 16px;
+  color: $white;
+  font-size: 0.875rem;
+  font-family: $main-font;
+  line-height: 1.43;
+  letter-spacing: 0.01071rem;
+  border-radius: 4px;
+
+  p {
+    margin: 0px 5px;
+    margin-top: 2px;
+  }
+}

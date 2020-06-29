@@ -7,6 +7,7 @@ export default gql`
       access
       error
       userInfo {
+        id
         name
         surname
         photo

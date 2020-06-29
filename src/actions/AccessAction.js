@@ -5,9 +5,7 @@ export default function AccessAction({ access, jwt, error, userInfo }) {
     type: SET_ACCESS,
     payload: {
       access,
-
       error,
-
       accessData: {
         userInfo,
         jwt,

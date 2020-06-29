@@ -1,0 +1,22 @@
+.simplenav {
+  font-family: $main-font;
+  text-align: center;
+  background: $white;
+  box-shadow: $box-shadown-dimension;
+  border-bottom: $border-color;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1;
+  padding: 5px;
+  @include mobile-only {
+    background: $font-primary-color;
+    color: $font-secondary-color;
+  }
+  h1 {
+    margin: 0px;
+  }
+
+  i {
+    color: $primary-color;
+  }
+}

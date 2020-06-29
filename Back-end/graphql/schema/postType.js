@@ -1,6 +1,5 @@
 const graphql = require('graphql');
 const { User, Post } = require('../../databases/databaseInit');
-const UserGraphQl = require('./userType');
 
 const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt } = graphql;
 
@@ -31,21 +30,17 @@ const PostGraphQl = new GraphQLObjectType({
     },
     users: {
       type: require('./userType'),
-      resolve(parentValue, { id }) {
+      resolve(parentValue) {
+        const id = parentValue.dataValues.UserId;
         return new Promise((resolve, reject) => {
-          Post.findAll({
+          User.findOne({
             where: { id },
-            include: [
-              {
-                model: User,
-              },
-            ],
           })
             .then((user) => {
               resolve(user);
             })
             .catch(() => {
-              reject(id);
+              reject(UserId);
             });
         });
       },

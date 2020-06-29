@@ -7,13 +7,13 @@ const MutationCreatePost = {
   type: PostGraphQl,
   args: {
     title: {
-      type: GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
     description: {
       type: GraphQLNonNull(GraphQLString),
     },
     image: {
-      type: GraphQLNonNull(GraphQLString),
+      type: GraphQLString,
     },
     content: {
       type: GraphQLString,
@@ -111,6 +111,7 @@ const QueryGetOnePost = {
     id: { type: GraphQLID },
   },
   resolve(parentValue, { id }) {
+    console.log(id);
     return Post.findOne({ where: { id } })
       .then((post) => {
         return post;

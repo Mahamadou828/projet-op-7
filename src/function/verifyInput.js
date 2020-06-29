@@ -47,3 +47,15 @@ export function VerifyFile(fileToVerify, verificationCriteria) {
     return 'File Required';
   }
 }
+
+export function VerifyParagraph(paragraphToVerify) {
+  if (
+    /(\s|\.)?(a-zA-Z)+((\s|,)(a-zA-Z)+)?(\!\@\#\$\%\^\&*())+/.test(
+      paragraphToVerify
+    )
+  ) {
+    return '';
+  } else {
+    return "Paragraph is incorrect meaby there's some not authorize caracter";
+  }
+}

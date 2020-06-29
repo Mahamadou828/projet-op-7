@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField';
 import Checkbox from '@material-ui/core/Checkbox';
 import CreateIcon from '@material-ui/icons/Create';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import PropTypes from "prop-types" ; 
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -46,46 +46,67 @@ export default function CreatePost(props) {
     <div className="createpost">
       <Button onClick={handleClickOpen}>
         <p>Create a post</p>
-        <CreateIcon className="navbar-logo" /> 
+        <CreateIcon className="navbar-logo" />
       </Button>
-      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
+      <Dialog
+        fullScreen
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Transition}
+      >
         <AppBar className={`${classes.appBar} createpost-corps`}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
+            >
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
               <article className=" createpost-logo">
-                <h1>Group<LanguageIcon  />mania</h1>
+                <h1>
+                  Group
+                  <LanguageIcon />
+                  mania
+                </h1>
               </article>
             </Typography>
           </Toolbar>
         </AppBar>
         <List>
           <form className=" createpost-form">
-            <TextField className="input" required id="title" label="Required" defaultValue="Title of the post" onChange={() => props.verifyInput(4 , "title")} />
+            <TextField
+              className="input"
+              required
+              id="title"
+              label="Required"
+              defaultValue="Title of the post"
+              onChange={() => props.verifyInput(4, 'title')}
+            />
             <TextField
               id="description"
               label="Enter the description of your post this description will appear to the user"
               multiline
               rowsMax="5"
-              onChange={() => props.verifyInput(4 , "description")}
+              onChange={() => props.verifyInput(4, 'description')}
               className="input"
             />
-            <input 
-              type="file" 
+            <input
+              type="file"
               name="images"
-              placeholder="Choose One image" 
-              id="picture" 
-              accept="image/png, image/jpeg" 
+              placeholder="Choose One image"
+              id="picture"
+              accept="image/png, image/jpeg"
               required
-              onChange={() => props.verifyInput(3 , "picture")}
+              onChange={() => props.verifyInput(3, 'picture')}
               className="input"
             />
             <section className="createpost-form-submit">
-              <Button 
-              variant="outlined"
-              onClick ={() => props.createAnNewPost()}
+              <Button
+                variant="outlined"
+                onClick={() => props.createAnNewPost()}
               >
                 Create post
               </Button>
@@ -108,6 +129,6 @@ export default function CreatePost(props) {
 }
 
 CreatePost.propTypes = {
-  verifyInput: PropTypes.func.isRequired , 
-  createAnNewPost: PropTypes.func.isRequired
-}
+  verifyInput: PropTypes.func.isRequired,
+  createAnNewPost: PropTypes.func.isRequired,
+};
