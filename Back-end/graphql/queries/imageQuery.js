@@ -13,8 +13,6 @@ const MutationUploadImage = {
     file: { type: GraphQLNonNull(GraphQLUpload) },
   },
   resolve(parentValue, { file }) {
-    console.log('hje suis present');
-    console.log(file);
     const { filename, mimetype } = file;
 
     if (MIME_TYPE.includes(mimetype)) {
@@ -24,7 +22,6 @@ const MutationUploadImage = {
         } else {
           return true;
         }
-        console.log('The file has been saved');
       });
       if (status) {
         return filename;

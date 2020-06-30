@@ -1,32 +1,22 @@
 const graphql = require('graphql');
-const { User, Post, Comment } = require('../../databases/databaseInit');
-
+const { Post, User, Comment } = require('../../databases/databaseInit');
 const {
   GraphQLObjectType,
   GraphQLID,
+  GraphQLNonNull,
   GraphQLString,
   GraphQLInt,
-  GraphQLList,
 } = graphql;
 
-const PostGraphQl = new GraphQLObjectType({
-  name: 'Post',
-  description: 'Post models',
+const CommentGraphQl = new GraphQLObjectType({
+  name: 'comment',
+  description: 'Comment Model',
   fields: () => ({
     id: {
       type: GraphQLID,
     },
-    title: {
-      type: GraphQLString,
-    },
-    description: {
-      type: GraphQLString,
-    },
-    image: {
-      type: GraphQLString,
-    },
     content: {
-      type: GraphQLString,
+      type: GraphQLNonNull(GraphQLString),
     },
     numLike: {
       type: GraphQLInt,
@@ -34,33 +24,29 @@ const PostGraphQl = new GraphQLObjectType({
     numDislike: {
       type: GraphQLInt,
     },
-    users: {
+    user: {
       type: require('./userType'),
       resolve(parentValue) {
         const id = parentValue.dataValues.UserId;
         return new Promise((resolve, reject) => {
-          User.findOne({
-            where: { id },
-          })
+          User.findOne({ where: { id } })
             .then((user) => {
               resolve(user);
             })
-            .catch(() => {
-              reject(UserId);
+            .catch((error) => {
+              reject(error);
             });
         });
       },
     },
-    comments: {
-      type: new GraphQLList(require('./CommentType')),
+    post: {
+      type: require('./postType'),
       resolve(parentValue) {
-        const PostId = parentValue.dataValues.id;
+        const id = parentValue.dataValues.PostId;
         return new Promise((resolve, reject) => {
-          Comment.findAll({
-            where: { PostId },
-          })
-            .then((comments) => {
-              resolve(comments);
+          Post.findOne({ where: { id } })
+            .then((post) => {
+              resolve(post);
             })
             .catch((error) => {
               reject(error);
@@ -71,4 +57,4 @@ const PostGraphQl = new GraphQLObjectType({
   }),
 });
 
-module.exports = PostGraphQl;
+module.exports = CommentGraphQl;

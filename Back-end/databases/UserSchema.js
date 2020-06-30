@@ -16,7 +16,6 @@ User.init(
             if (error) {
               return next(error);
             } else if (user) {
-              console.log('ERRRRRRORR');
               return next('Email is already exist');
             } else {
               next();

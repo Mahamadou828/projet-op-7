@@ -4,11 +4,11 @@ const initialState = {
   posts: [],
 };
 
-export default function PostReducer(state = initialState, payload) {
-  switch (payload.type) {
+export default function PostReducer(state = initialState, action) {
+  switch (action.type) {
     case SET_ALL_POST:
       return {
-        posts: payload.posts,
+        posts: action.payload,
       };
       break;
     default:

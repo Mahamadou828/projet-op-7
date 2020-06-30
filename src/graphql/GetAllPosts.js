@@ -13,6 +13,7 @@ export default gql`
       users {
         name
         surname
+        photo
       }
     }
   }

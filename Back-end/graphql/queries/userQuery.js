@@ -84,7 +84,6 @@ const QueryConnectUser = {
           bcrypt
             .compare(password, user.password)
             .then((result) => {
-              console.log(result);
               if (result) {
                 resolve({
                   jwt: jwt.sign(

@@ -111,7 +111,6 @@ const QueryGetOnePost = {
     id: { type: GraphQLID },
   },
   resolve(parentValue, { id }) {
-    console.log(id);
     return Post.findOne({ where: { id } })
       .then((post) => {
         return post;

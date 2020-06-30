@@ -3,6 +3,9 @@ import { client } from '../index';
 import CREATE_USER from '../graphql/CreateUser';
 import UploadFile from '../function/uploadFile';
 
+/**
+ * @param {Object} userInfo
+ */
 export default function SignUpAction(userInfo) {
   const {
     name,

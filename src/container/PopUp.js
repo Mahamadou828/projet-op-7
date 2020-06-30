@@ -59,6 +59,7 @@ const mapDispatchToProps = {
 PopUp.propTypes = {
   display: PropTypes.bool,
   LoaderAction: PropTypes.func,
+  message: PropTypes.string,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PopUp);

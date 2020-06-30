@@ -1,5 +1,6 @@
 import React from 'react';
 import ErrorIcon from '@material-ui/icons/Error';
+import PropsTypes from 'prop-types';
 
 export default function ToggleError({ message }) {
   return (
@@ -9,3 +10,7 @@ export default function ToggleError({ message }) {
     </section>
   );
 }
+
+ToggleError.propTypes = {
+  message: PropsTypes.string,
+};

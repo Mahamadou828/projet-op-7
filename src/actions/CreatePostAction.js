@@ -3,6 +3,9 @@ import { ERROR, A_SUBMISSION_IS_IN_PROGRESS } from '../constant';
 import CreatePostQuery from '../graphql/CreatePost';
 import UploadFile from '../function/uploadFile';
 
+/**
+ * @param {Object} dataPost
+ */
 export default function CreatePostAction(dataPost) {
   return async function (dispatch) {
     if (dataPost.file !== undefined) {
@@ -35,7 +38,6 @@ export default function CreatePostAction(dataPost) {
         }
       })
       .catch((error) => {
-        console.log(error);
         dispatch({
           type: ERROR,
           payload: {

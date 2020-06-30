@@ -10,6 +10,10 @@ const {
   MutationUpdatePost,
 } = require('./queries/postQuery');
 
+const {
+  MutationUpdateAppreciation,
+} = require('./queries/PostAppreciationQuery');
+
 const MutationQuery = new GraphQLObjectType({
   name: 'MutationQuery',
   description: 'Content all mutate query request',
@@ -19,6 +23,7 @@ const MutationQuery = new GraphQLObjectType({
     MutationCreatePost,
     MutationDeletePost,
     MutationUpdatePost,
+    MutationUpdateAppreciation,
   }),
 });
 

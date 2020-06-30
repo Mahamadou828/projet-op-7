@@ -20,8 +20,14 @@ const defaultConnect = {
   error: 'Error we can create your account',
 };
 
+const defaultAppreciationPost = {
+  like: false,
+  dislike: false,
+};
+
 module.exports = {
   defaultConnect,
   defaultPost,
   defaultUser,
+  defaultAppreciationPost,
 };

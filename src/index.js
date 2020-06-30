@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import reducers from './reducers';
 import { ApolloProvider } from '@apollo/react-hooks';
 import ApolloClient from 'apollo-boost';
+import socketIoClient from 'socket.io-client';
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
@@ -37,6 +38,8 @@ export const client = new ApolloClient({
     });
   },
 });
+
+// export const socketConnection = socketIoClient(BASE_ROUTE);
 
 ReactDom.render(
   <Provider store={store}>

@@ -55,7 +55,6 @@ const UserGraphQl = new GraphQLObjectType({
                 reject(defaultPost);
               });
           } else {
-            console.log('la');
             resolve({
               ...defaultPost,
               users: defaultUser,

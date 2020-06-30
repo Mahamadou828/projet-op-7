@@ -9,6 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import ErrorAction from '../actions/ErrorAction';
 import LoaderAction from '../actions/LoaderAction';
+import PropsTypes from 'prop-types';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -60,6 +61,13 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   ErrorAction,
   LoaderAction,
+};
+
+Error.propTypes = {
+  error: PropsTypes.bool,
+  text: PropsTypes.string,
+  ErrorAction: PropsTypes.func,
+  LoaderAction: PropsTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Error);

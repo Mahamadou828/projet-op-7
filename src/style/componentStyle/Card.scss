@@ -1,0 +1,12 @@
+.card {
+  max-width: 340px;
+  margin: 10px 0px;
+  &-avatar {
+    background-color: red;
+  }
+
+  &-media {
+    height: 0;
+    padding-top: 56.25%;
+  }
+}
