@@ -200,3 +200,22 @@ body {
     color: $color-error !important;
   }
 }
+
+.dark-input {
+  @include tablette {
+    color: $font-secondary-color;
+    .MuiOutlinedInput-notchedOutline,
+    .MuiInput-underline:before {
+      border-color: $font-secondary-color;
+    }
+
+    textarea,
+    label,
+    input,
+    legend,
+    .MuiInputBase-root,
+    span {
+      color: $font-secondary-color !important;
+    }
+  }
+}

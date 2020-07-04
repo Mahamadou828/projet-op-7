@@ -2,6 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import AccessAction from '../actions/AccessAction';
+import PropTypes from 'prop-types';
 
 export default function (Component) {
   class RequireAuth extends React.Component {
@@ -18,13 +19,15 @@ export default function (Component) {
 
   const mapStateToProps = (state) => ({
     access: state.Access.access,
-    userInfo: state.Access.accessData.userInfo,
-    jwt: state.Access.accessData.userInfo,
-    loader: state.Loading.statusLoad,
   });
 
   const mapDispatchToProps = {
     AccessAction,
+  };
+
+  RequireAuth.propstypes = {
+    access: PropTypes.bool,
+    history: PropTypes.object,
   };
 
   return withRouter(connect(mapStateToProps, mapDispatchToProps)(RequireAuth));

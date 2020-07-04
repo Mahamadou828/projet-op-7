@@ -1,7 +1,35 @@
+body {
+  @include tablette {
+    background-color: $mobile-background;
+  }
+  padding-bottom: 50px;
+  padding-right: 0px !important;
+  overflow-x: hidden;
+}
+
 .center {
   margin: 0 auto;
 }
 
-.text-center {
-  text-align: center;
+.text {
+  &-center {
+    text-align: center;
+  }
+}
+.ephemeral {
+  &-tablette {
+    @include tablette {
+      display: none;
+    }
+  }
+  &-mobile {
+    @include mobile-only {
+      display: none;
+    }
+  }
+}
+
+.button-dark {
+  @include mobile-only {
+  }
 }

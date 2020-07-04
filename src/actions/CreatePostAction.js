@@ -10,7 +10,8 @@ export default function CreatePostAction(dataPost) {
   return async function (dispatch) {
     if (dataPost.file !== undefined) {
       const file = dataPost.file;
-      dataPost.image = await UploadFile(file);
+      const respond = await UploadFile(file);
+      dataPost.image = respond.filename;
     }
 
     client
@@ -37,7 +38,7 @@ export default function CreatePostAction(dataPost) {
           });
         }
       })
-      .catch((error) => {
+      .catch(() => {
         dispatch({
           type: ERROR,
           payload: {

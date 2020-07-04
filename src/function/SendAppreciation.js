@@ -2,7 +2,7 @@ import { SetAppreciation } from '../graphql/PostAppreciationQuery';
 import { client } from '..';
 
 export default function SendAppreciation(param) {
-  return new Promise((reject, resolve) => {
+  return new Promise((resolve, reject) => {
     client
       .mutate({
         variables: { ...param },
@@ -14,7 +14,6 @@ export default function SendAppreciation(param) {
             MutationUpdateAppreciation: { id },
           },
         }) => {
-          console.log(id);
           if (id !== undefined) {
             resolve(true);
           } else {

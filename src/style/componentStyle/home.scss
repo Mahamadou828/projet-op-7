@@ -7,8 +7,9 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 1;
-  padding: 5px;
-  @include mobile-only {
+  padding: 5px 0px;
+  min-width: 100%;
+  @include tablette {
     background: $font-primary-color;
     color: $font-secondary-color;
   }

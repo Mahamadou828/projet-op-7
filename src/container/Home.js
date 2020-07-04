@@ -6,7 +6,7 @@ import Post from './Post';
 import Loader from '../components/Loader';
 import PopUp from './PopUp';
 import TextField from '@material-ui/core/TextField';
-import FilterMenu from '../components/FilterMenu';
+import Filter from '../components/Filter';
 import GetAllPost from '../actions/GetAllPost';
 import PropsTypes from 'prop-types';
 
@@ -16,6 +16,11 @@ class Home extends React.Component {
   }
 
   render() {
+    const filters = [
+      { name: 'Post you like', func: '' },
+      { name: 'Refresh Screen', func: '' },
+      { name: 'Most Popular', func: '' },
+    ];
     return (
       <div className="container">
         <section className="block-md container-flex">
@@ -23,7 +28,7 @@ class Home extends React.Component {
           <Loader />
         </section>
         <section className="block-sm">
-          <div className="container-flex">
+          <div className="container-flex container-center">
             <section className="container-row">
               <TextField
                 label="Post explorer"
@@ -31,8 +36,9 @@ class Home extends React.Component {
                 variant="outlined"
                 size="small"
                 placeholder="Search"
+                className="dark-input"
               />
-              <FilterMenu />
+              <Filter filters={filters}>Filter</Filter>
             </section>
             <section className="container-flex"></section>
           </div>

@@ -21,7 +21,7 @@ PostAppreciation.init(
   { sequelize: Connection, modelName: 'PostRealation' }
 );
 
-PostAppreciation.beforeSave((post, option) => {
+PostAppreciation.afterSave((post, option) => {
   return new Promise((resolve, reject) => {
     if (updateLikeAndDislikeNumber(post)) {
       resolve(true);
@@ -31,7 +31,7 @@ PostAppreciation.beforeSave((post, option) => {
   });
 });
 
-PostAppreciation.beforeBulkUpdate((post, option) => {
+PostAppreciation.afterBulkUpdate((post, option) => {
   return new Promise((resolve, reject) => {
     if (updateLikeAndDislikeNumber(post)) {
       resolve(true);
@@ -56,12 +56,6 @@ async function updateLikeAndDislikeNumber(post) {
   numDislike = await PostAppreciation.count({
     where: { PostId, dislike: true },
   });
-
-  if (like) {
-    numLike += 1;
-  } else if (dislike) {
-    numDislike += 1;
-  }
 
   const result = await PostSchema.update(
     { numLike, numDislike },

@@ -95,7 +95,7 @@ const MutationDeletePost = {
 const QueryGetAllPost = {
   type: new GraphQLList(PostGraphQl),
   resolve() {
-    return Post.findAll()
+    return Post.findAll({ where: {}, order: [['createdAt', 'DESC']] })
       .then((posts) => {
         return posts;
       })

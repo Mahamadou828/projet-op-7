@@ -12,7 +12,7 @@ export default function FieldInput(props) {
       return (
         <div className={props.class}>
           <TextField
-            className="form-corps-input"
+            className="form-corps-input dark-input"
             {...props.input}
             label={props.label}
             type={props.type}
@@ -29,7 +29,7 @@ export default function FieldInput(props) {
     }
     case 2: {
       return (
-        <div className={props.class}>
+        <div className={`${props.class} dark-input`}>
           <Checkbox {...props.input} color={props.color} />
           <label className="label">{props.label}</label>
         </div>
@@ -44,7 +44,7 @@ export default function FieldInput(props) {
             col="10"
             multiline
             label={props.label}
-            className="form-corps-input"
+            className="form-corps-input dark-input"
           />
         </div>
       );

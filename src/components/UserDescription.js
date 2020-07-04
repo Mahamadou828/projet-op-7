@@ -4,7 +4,7 @@ import { Avatar } from '@material-ui/core';
 
 export default function UserDescription() {
   return (
-    <section className="info">
+    <section className="info ephemeral-tablette">
       <article>
         <Skeleton variant="text" />
         <Skeleton variant="circle" width={40} height={40} />

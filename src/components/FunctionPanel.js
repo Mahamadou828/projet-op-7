@@ -23,38 +23,39 @@ export default function FunctionPanel() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} bottomNavigation`}>
       <List component="nav" aria-label="main mailbox folders">
-        <CreatePost />
         <ListItem button>
           <ListItemIcon>
             <MessageIcon />
           </ListItemIcon>
-          <ListItemText primary="Message" />
+          <ListItemText className="bottomNavigation-text" primary="Message" />
         </ListItem>
-      </List>
-      <Divider />
-      <List component="nav" aria-label="secondary mailbox folders">
         <ListItem button>
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="Parameter" />
+          <ListItemText className="bottomNavigation-text" primary="Parameter" />
         </ListItem>
+      </List>
+      <Divider className="ephemeral-mobile" />
+      <CreatePost />
+      <Divider className="ephemeral-mobile" />
+      <List component="nav" aria-label="secondary mailbox folders">
         <ListItem button>
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
-          <ListItemText primary="Log out and disconnect" />
+          <ListItemText
+            className="bottomNavigation-text"
+            primary="Log out and disconnect"
+          />
         </ListItem>
-      </List>
-      <Divider />
-      <List component="nav" aria-label="secondary mailbox folders">
         <ListItem button>
           <ListItemIcon>
             <MusicVideoIcon />
           </ListItemIcon>
-          <ListItemText primary="Music" />
+          <ListItemText className="bottomNavigation-text" primary="Music" />
         </ListItem>
       </List>
     </div>

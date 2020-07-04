@@ -17,7 +17,7 @@ const devState = {
   error: '',
   accessData: {
     userInfo: {
-      id: 1,
+      id: '1',
       name: 'Mahamadou ',
       surname: 'Samaké',
       photo: 'http://localhost:3030/file/ma_photo.png1593174714431.png',

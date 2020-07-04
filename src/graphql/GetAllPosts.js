@@ -11,6 +11,7 @@ export default gql`
       numLike
       numDislike
       users {
+        id
         name
         surname
         photo

@@ -7,49 +7,157 @@ import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import PostBadgeGroup from '../components/PostBadgeGroup';
-import PropsType from 'prop-types';
 import { GetAppreciation } from '../graphql/PostAppreciationQuery';
 import { Query } from 'react-apollo';
 import ErrorAction from '../actions/ErrorAction';
+import SendAppreciation from '../function/SendAppreciation';
+import PropTypes from 'prop-types';
+import ReactPlayer from 'react-player';
+import Filter from '../components/Filter';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 class Post extends PureComponent {
-  setPostAppreciation() {}
+  setPostAppreciation = (like, dislike) => {
+    const request = {
+      UserId: this.props.UserId,
+      PostId: this.props.post.id,
+      like,
+      dislike,
+    };
+
+    SendAppreciation(request)
+      .then((respond) => {
+        if (!respond) {
+          this.props.ErrorAction(true, 'internal Server Error');
+        }
+      })
+      .catch(() => {
+        this.props.ErrorAction(true, 'internal Server Error');
+      });
+  };
+
+  /**
+   *
+   * @param {String} file
+   */
+  determinateFileType(file) {
+    const IMAGE_TYPE = ['jpg', 'jpeg', 'png'];
+    const VIDEO_TYPE = ['mov', 'mp4'];
+
+    for (let i = 0; i < IMAGE_TYPE.length; i++) {
+      if (file.includes(IMAGE_TYPE[i])) {
+        return 'image';
+      }
+    }
+
+    for (let i = 0; i < VIDEO_TYPE.length; i++) {
+      if (file.includes(VIDEO_TYPE[i])) {
+        return 'video';
+      }
+    }
+
+    return null;
+  }
+
+  generateFilterOption = () => {
+    const filters = [
+      { name: 'update', func: '' },
+      { name: 'delete', func: '' },
+    ];
+
+    return (
+      <Filter filters={filters}>
+        <MoreVertIcon />{' '}
+      </Filter>
+    );
+  };
+
+  generateMediaComponent = () => {
+    const { image } = this.props.post;
+    if (typeof image === 'string') {
+      if (image.length > 0) {
+        const fileType = this.determinateFileType(image);
+
+        switch (fileType) {
+          case 'image': {
+            return (
+              <CardMedia
+                className="card-media"
+                image={image}
+                title="Post image"
+              />
+            );
+            break;
+          }
+          case 'video': {
+            return (
+              <ReactPlayer className="card-video" url={image} controls={true} />
+            );
+            return null;
+            break;
+          }
+          default: {
+            return null;
+          }
+        }
+      } else return null;
+    } else return null;
+  };
+
+  generateTitle = () => {
+    const { title } = this.props.post;
+    if (typeof title === 'string') {
+      if (title.length > 0)
+        return (
+          <CardContent>
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              component="h2"
+              className="card-title"
+            >
+              {title}
+            </Typography>
+          </CardContent>
+        );
+      else return null;
+    } else return null;
+  };
 
   render() {
     const {
-      title,
       users,
       numLike,
       numDislike,
-      image,
       id,
       content,
       description,
     } = this.props.post;
     const UserId = this.props.UserId,
       PostId = parseInt(id);
-
+    console.log(UserId, users.id);
     return (
       <article>
         <Card className="card">
-          <CardHeader
-            avatar={
-              <Avatar aria-label="recipe" className="card-avatar">
-                <img src={users.photo} alt="..." />
-              </Avatar>
-            }
-            title={`${users.name} ${users.surname}`}
-          />
-          <CardMedia className="card-media" image="../image/banner-small.jpg" />
-          <CardContent>
-            <Typography variant="body2" color="textSecondary" component="h3">
-              {title}
-            </Typography>
-          </CardContent>
+          <div className="card-header">
+            <CardHeader
+              avatar={
+                <Avatar aria-label="recipe" className="card-avatar">
+                  <img src={users.photo} alt="..." />
+                </Avatar>
+              }
+              title={`${users.name} ${users.surname}`}
+            />
+
+            {users.id === UserId ? this.generateFilterOption() : null}
+          </div>
+
+          {this.generateMediaComponent()}
+          {this.generateTitle()}
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              {`${description.slice(0, 75)}${
-                description.length > 75 ? '...' : null
+              {`${description.slice(0, 200)}${
+                description.length > 200 ? '...' : null
               }`}
             </Typography>
           </CardContent>
@@ -79,7 +187,9 @@ class Post extends PureComponent {
 }
 
 Post.propTypes = {
-  post: PropsType.object,
+  post: PropTypes.object,
+  UserId: PropTypes.string,
+  ErrorAction: PropTypes.func,
 };
 const mapStateToProps = (state) => {
   return {
@@ -90,4 +200,4 @@ const mapStateToProps = (state) => {
 const mapDispacthToProps = {
   ErrorAction,
 };
-export default connect(mapStateToProps, null)(Post);
+export default connect(mapStateToProps, mapDispacthToProps)(Post);

@@ -88,11 +88,14 @@ function CreatePost(props) {
   };
   return (
     <div className="createpost">
-      <ListItem button onClick={handleClickOpen}>
+      <ListItem button onClick={handleClickOpen} className="createpost-button">
         <ListItemIcon>
           <BorderColorIcon />
         </ListItemIcon>
-        <ListItemText primary="Create a post" />
+        <ListItemText
+          className="bottomNavigation-text"
+          primary="Create a post"
+        />
       </ListItem>
       <Dialog
         fullScreen
@@ -110,7 +113,10 @@ function CreatePost(props) {
             >
               <CloseIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
+            <Typography
+              variant="h6"
+              className={`${classes.title} createpost-body`}
+            >
               <article className=" createpost-logo">
                 <h1>
                   Group
@@ -202,7 +208,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => {
   return {
-    userId: state.Access.accessData.userInfo.id,
+    userId: parseInt(state.Access.accessData.userInfo.id),
     errors: state.form.CreatePost,
   };
 };

@@ -27,7 +27,8 @@
     "test:watch": "jest --watchAll",
     "open:cover": "npm run test:cover && open-cli ./coverage/lcov-report/index.html",
     "analyze-bundle": "babel-node ./tools/analyzeBundle.js",
-    "server": "nodemon Back-end/server.js"
+    "server": "nodemon Back-end/server.js",
+    "static-server": "node Back-end/server.js"
   },
   "author": "Cory House",
   "license": "MIT",
@@ -62,6 +63,7 @@
     "react": "16.11.0",
     "react-apollo": "3.1.5",
     "react-dom": "16.11.0",
+    "react-player": "2.5.0",
     "react-redux": "7.2.0",
     "react-router-dom": "5.1.2",
     "redux": "4.0.5",

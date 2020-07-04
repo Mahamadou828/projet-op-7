@@ -1,4 +1,4 @@
-import { SET_ACCESS, ERROR } from '../constant';
+import { SET_ACCESS, ERROR, A_SUBMISSION_IS_IN_PROGRESS } from '../constant';
 import { client } from '../index';
 import CREATE_USER from '../graphql/CreateUser';
 import UploadFile from '../function/uploadFile';
@@ -26,7 +26,12 @@ export default function SignUpAction(userInfo) {
             mutation: CREATE_USER,
           })
           .then((data) => {
-            const { jwt, error, access, userInfo } = data.data.CreateUser;
+            const {
+              jwt,
+              error,
+              access,
+              userInfo,
+            } = data.data.MutationCreateUser;
             if (access) {
               dispatch({
                 type: SET_ACCESS,
@@ -52,11 +57,17 @@ export default function SignUpAction(userInfo) {
             }
           })
           .catch((error) => {
-            dispatch({ type: ERROR, payload: { error: true, text: error } });
+            dispatch({
+              type: ERROR,
+              payload: { error: true, text: 'internal server error' },
+            });
           });
       })
       .catch((error) => {
-        dispatch({ type: ERROR, payload: { error: true, text: error } });
+        dispatch({
+          type: ERROR,
+          payload: { error: true, text: 'internal server error' },
+        });
       });
   };
 }

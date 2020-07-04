@@ -6,15 +6,14 @@
   }
 
   &-corps {
-    background: $primary-color !important;
     text-align: center;
     color: $white;
     font-weight: 700;
     font-family: $secondary-font;
     line-height: 1;
 
-    @include mobile-only {
-      background: $mobile-background !important;
+    @include tablette {
+      background: $font-primary-color !important;
       color: $font-secondary-color !important;
     }
 
@@ -28,5 +27,11 @@
         color: $primary-color;
       }
     }
+  }
+}
+
+.MuiDialog-paperFullScreen {
+  @include tablette {
+    background-color: $mobile-background !important;
   }
 }

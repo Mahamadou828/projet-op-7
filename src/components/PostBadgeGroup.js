@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -12,7 +12,6 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { Button } from '@material-ui/core';
 import Badge from '@material-ui/core/Badge';
-import { withStyles } from '@material-ui/core/styles';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import PropTypes from 'prop-types';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
@@ -64,6 +63,17 @@ function PostBadgeGroup(props) {
 
   const [initComponent, setInitComponent] = useState(true);
 
+  const [renderCount, setRenderCount] = useState(0);
+
+  useEffect(() => {
+    if (!initComponent) {
+      if (renderCount <= 4) {
+        setRenderCount(renderCount + 1);
+        props.setPostAppreciation(like, dislike);
+      }
+    }
+  }, [numLike, numDislike]);
+
   useEffect(() => {
     if (!initComponent) {
       if (like) {
@@ -112,8 +122,6 @@ function PostBadgeGroup(props) {
     if (initComponent) {
       setInitComponent(false);
     }
-
-    console.log(like, dislike);
   };
 
   return (

@@ -1,6 +1,18 @@
 .card {
   max-width: 340px;
   margin: 10px 0px;
+  z-index: 0;
+  @include tablette {
+    background-color: $font-primary-color !important;
+    color: $white !important;
+    p,
+    &-title {
+      color: $white !important;
+    }
+  }
+  @include mobile-only {
+    max-width: 100%;
+  }
   &-avatar {
     background-color: red;
   }
@@ -8,5 +20,27 @@
   &-media {
     height: 0;
     padding-top: 56.25%;
+  }
+
+  &-title {
+    text-align: center;
+    font-size: 22px !important;
+  }
+
+  .MuiCardContent-root {
+    padding: 10px 16px;
+  }
+
+  &-video {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    justify-items: center;
   }
 }

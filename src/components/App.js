@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  withRouter,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LogIn from '../container/Login';
 import SignUp from '../container/SignUp';
 // import MainPage from './MainPage';
@@ -28,7 +23,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path={'/'} component={LogIn}></Route>
             <Route path={'/signup/'} component={SignUp}></Route>
-            <Route path={'/home'} component={Home}></Route>
+            <Route path={'/home'} component={RequireAuth(Home)}></Route>
             {/* <Route path={'/createapost'} component={CreatePost}></Route>
                 <Route path={'/readpost/:post'} component={ReadPost}></Route>
                 <Route path={'/message'} component={MessageComponent}></Route> */}
