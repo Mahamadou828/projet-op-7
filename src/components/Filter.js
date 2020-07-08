@@ -34,7 +34,13 @@ export default function Filter(props) {
         onClose={handleClose}
       >
         {props.filters.map((filter) => (
-          <MenuItem key={ramdomNumber()} onClick={handleClose}>
+          <MenuItem
+            key={ramdomNumber()}
+            onClick={() => {
+              handleClose();
+              filter.func(filter.funcParam);
+            }}
+          >
             {filter.name}
           </MenuItem>
         ))}

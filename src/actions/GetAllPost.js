@@ -1,12 +1,12 @@
 import { SET_ALL_POST, ERROR } from '../constant';
 import { client } from '../index';
-import getAllPost from '../graphql/GetAllPosts';
+import { GetAllPostQuery } from '../graphql/PostQuery';
 
 export default function GetAllPost() {
   return function (dispatch) {
     client
       .query({
-        query: getAllPost,
+        query: GetAllPostQuery,
       })
       .then((data) => {
         const posts = data.data.QueryGetAllPost;

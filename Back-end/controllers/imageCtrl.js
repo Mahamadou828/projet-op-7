@@ -29,9 +29,25 @@ exports.sendVideo = (req, res, next) => {
   });
 };
 
+exports.replaceFile = (req, res, next) => {
+  const oldFile = req.body.oldFile.split('/file/')[1];
+  fs.unlink(`./Back-end/file/${oldFile}`, (error, content) => {
+    if (error) {
+      res.writeHead(400, { 'Content-type': 'text/html' });
+      res.end('No such image');
+    } else {
+      const fileType = req.file.mimetype.split('/')[0];
+      res.status(201).json({
+        filename: `${req.protocol}://${req.get('host')}/file/${fileType}/${
+          req.file.filename
+        }`,
+      });
+    }
+  });
+};
+
 exports.registerFile = (req, res, next) => {
   const fileType = req.file.mimetype.split('/')[0];
-  console.log(fileType);
   res.status(201).json({
     filename: `${req.protocol}://${req.get('host')}/file/${fileType}/${
       req.file.filename

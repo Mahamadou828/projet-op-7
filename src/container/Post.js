@@ -15,6 +15,8 @@ import PropTypes from 'prop-types';
 import ReactPlayer from 'react-player';
 import Filter from '../components/Filter';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import SetUpdatingModeAction from '../actions/SetUpdatingModeAction';
+import DeletePostAction from '../actions/DeletePostAction';
 
 class Post extends PureComponent {
   setPostAppreciation = (like, dislike) => {
@@ -60,9 +62,19 @@ class Post extends PureComponent {
   }
 
   generateFilterOption = () => {
+    const post = this.props.post,
+      open = true;
     const filters = [
-      { name: 'update', func: '' },
-      { name: 'delete', func: '' },
+      {
+        name: 'update',
+        func: this.props.SetUpdatingModeAction,
+        funcParam: { post, open },
+      },
+      {
+        name: 'delete',
+        func: this.props.DeletePostAction,
+        funcParam: parseInt(post.id),
+      },
     ];
 
     return (
@@ -135,7 +147,6 @@ class Post extends PureComponent {
     } = this.props.post;
     const UserId = this.props.UserId,
       PostId = parseInt(id);
-    console.log(UserId, users.id);
     return (
       <article>
         <Card className="card">
@@ -199,5 +210,7 @@ const mapStateToProps = (state) => {
 
 const mapDispacthToProps = {
   ErrorAction,
+  SetUpdatingModeAction,
+  DeletePostAction,
 };
 export default connect(mapStateToProps, mapDispacthToProps)(Post);

@@ -9,6 +9,10 @@ import PropTypes from 'prop-types';
 export default function FieldInput(props) {
   switch (props.idfield) {
     case 1: {
+      let value = props.value;
+      if (value === null) {
+        value = '';
+      }
       return (
         <div className={props.class}>
           <TextField
@@ -36,6 +40,10 @@ export default function FieldInput(props) {
       );
     }
     case 3: {
+      let value = props.value;
+      if (value === null) {
+        value = '';
+      }
       return (
         <div className={props.class}>
           <TextField
@@ -94,4 +102,5 @@ FieldInput.propTypes = {
   label: PropTypes.string,
   type: PropTypes.string,
   error: PropTypes.string,
+  value: PropTypes.string,
 };

@@ -1,7 +1,11 @@
 import { client } from '../index';
-import { ERROR, A_SUBMISSION_IS_IN_PROGRESS } from '../constant';
-import CreatePostQuery from '../graphql/CreatePost';
+import {
+  ERROR,
+  A_SUBMISSION_IS_IN_PROGRESS,
+  ADD_POST_TO_LIST,
+} from '../constant';
 import UploadFile from '../function/uploadFile';
+import { CreatePostQuery } from '../graphql/PostQuery';
 
 /**
  * @param {Object} dataPost
@@ -22,6 +26,10 @@ export default function CreatePostAction(dataPost) {
       .then((response) => {
         const id = response.data.MutationCreatePost.id;
         if (typeof id === 'string') {
+          dispatch({
+            type: ADD_POST_TO_LIST,
+            payload: response.data.MutationCreatePost,
+          });
           dispatch({
             type: A_SUBMISSION_IS_IN_PROGRESS,
             payload: {

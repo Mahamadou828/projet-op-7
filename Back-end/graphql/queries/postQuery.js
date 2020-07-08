@@ -60,28 +60,39 @@ const MutationUpdatePost = {
       type: GraphQLString,
     },
   },
-  resolve(parentValue) {
-    return Post.update(
-      {
-        ...parentValue,
-      },
-      { where: { id: parentValue.id } }
-    )
-      .then((newPost) => {
-        return newPost;
-      })
-      .catch((error) => {
-        return error;
-      });
+  resolve(parentValue, queryParam) {
+    return new Promise((resolve, reject) => {
+      const { id } = queryParam;
+      delete queryParam.id;
+      Post.update(
+        {
+          ...queryParam,
+        },
+        { where: { id } }
+      )
+        .then(() => {
+          Post.findOne({ where: { id } })
+            .then((post) => {
+              resolve(post);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
   },
 };
 
 const MutationDeletePost = {
   type: GraphQLID,
   args: {
-    id: { type: GraphQLID },
+    id: { type: GraphQLNonNull(GraphQLID) },
   },
-  resolver(parentValue, { id }) {
+  resolve(parentValue, { id }) {
+    console.log(id);
     return Post.destroy({ where: { id } })
       .then(() => {
         return id;

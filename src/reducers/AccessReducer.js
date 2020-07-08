@@ -27,7 +27,7 @@ const devState = {
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxfG9wbWFkb3VAZ21haWwuY29tIiwiaWF0IjoxNTkzNDQwMzkwfQ.wDTw1jJRUA4_pvWHVULz00CNMHjIR-APvYPSJLfcLWU',
   },
 };
-export default function AccessReducer(state = devState, action) {
+export default function AccessReducer(state = initialState, action) {
   switch (action.type) {
     case SET_ACCESS:
       return {

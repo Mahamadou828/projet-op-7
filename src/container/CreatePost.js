@@ -24,6 +24,8 @@ import CreatePostAction from '../actions/CreatePostAction';
 import ErrorAction from '../actions/ErrorAction';
 import ToggleError from '../components/ToggleError';
 import ramdomNumber from '../function/ramdomNumber';
+import SetUpdatingModeAction from '../actions/SetUpdatingModeAction';
+import UpdatePostAction from '../actions/UpdatePostAction';
 
 const Fields = {
   title: 'title',
@@ -49,6 +51,21 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function CreatePost(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [update, setUpdate] = React.useState(true);
+
+  if (props.updatingMode.open && update) {
+    setOpen(true);
+    setUpdate(false);
+    const { description, title } = props.updatingMode.post;
+    props.initialize({ description, title });
+  }
+
+  React.useEffect(() => {
+    if (!props.updatingMode.open) {
+      props.initialize({});
+      setUpdate(true);
+    }
+  }, [props.updatingMode.open]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -56,14 +73,23 @@ function CreatePost(props) {
 
   const handleClose = () => {
     setOpen(false);
+    if (props.updatingMode.open) {
+      props.SetUpdatingModeAction({ open: false, post: {} });
+      setUpdate(true);
+    }
   };
 
   const handleSubmit = (dataPost) => {
     setOpen(false);
     props.LoaderAction(4, true);
     try {
-      dataPost.UserId = parseInt(props.userId);
-      props.CreatePostAction(dataPost);
+      if (props.updatingMode.open) {
+        dataPost.id = parseInt(props.updatingMode.post.id);
+        props.UpdatePostAction(dataPost, props.updatingMode.post);
+      } else {
+        dataPost.UserId = parseInt(props.userId);
+        props.CreatePostAction(dataPost);
+      }
     } catch {
       props.ErrorAction(
         true,
@@ -86,6 +112,7 @@ function CreatePost(props) {
       return null;
     }
   };
+
   return (
     <div className="createpost">
       <ListItem button onClick={handleClickOpen} className="createpost-button">
@@ -142,6 +169,7 @@ function CreatePost(props) {
                 type: 'text',
                 class: 'row text-center',
                 error: '',
+                value: props.updatingMode.post.title,
               }}
               type="text"
             />
@@ -152,6 +180,7 @@ function CreatePost(props) {
                 idfield: 3,
                 class: 'row text-center',
                 error: 'only this label is really required',
+                value: props.updatingMode.post.description,
               }}
               id={Fields.description}
               name={Fields.description}
@@ -170,19 +199,22 @@ function CreatePost(props) {
               defaultValue="null"
               component={FieldInput}
             />
-            <Field
-              component={FieldInput}
-              props={{
-                color: 'primary',
-                idfield: 2,
-                label: 'Open Post Creator',
-                class: 'row center',
-              }}
-              id={Fields.simplePost}
-              name={Fields.simplePost}
-            />
+            {!props.updatingMode.open ? (
+              <Field
+                component={FieldInput}
+                props={{
+                  color: 'primary',
+                  idfield: 2,
+                  label: 'Open Post Creator',
+                  class: 'row center',
+                }}
+                id={Fields.simplePost}
+                name={Fields.simplePost}
+              />
+            ) : null}
+
             <Button className="form-corps-button" type="submit">
-              Submit
+              {props.updatingMode.open ? 'Update' : 'Submit'}
             </Button>
           </form>
           {props.errors !== undefined ? generateFormError() : null}
@@ -198,18 +230,22 @@ CreatePost.propTypes = {
   ErrorAction: PropTypes.func,
   userId: PropTypes.number,
   errors: PropTypes.object,
+  updatingMode: PropTypes.object,
 };
 
 const mapDispatchToProps = {
   LoaderAction,
   CreatePostAction,
   ErrorAction,
+  SetUpdatingModeAction,
+  UpdatePostAction,
 };
 
 const mapStateToProps = (state) => {
   return {
     userId: parseInt(state.Access.accessData.userInfo.id),
     errors: state.form.CreatePost,
+    updatingMode: state.UpdatePost,
   };
 };
 
