@@ -8,6 +8,7 @@ const {
   MutationCreatePost,
   MutationDeletePost,
   MutationUpdatePost,
+  MutationAddComment,
 } = require('./queries/postQuery');
 
 const {
@@ -24,6 +25,7 @@ const MutationQuery = new GraphQLObjectType({
     MutationDeletePost,
     MutationUpdatePost,
     MutationUpdateAppreciation,
+    MutationAddComment,
   }),
 });
 

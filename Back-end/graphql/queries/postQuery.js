@@ -1,7 +1,8 @@
-const { Post } = require('../../databases/databaseInit');
+const { Post, Comment } = require('../../databases/databaseInit');
 const graphql = require('graphql');
 const PostGraphQl = require('../schema/postType');
 const { GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = graphql;
+const CommentGraphQl = require('../schema/CommentType');
 
 const MutationCreatePost = {
   type: PostGraphQl,
@@ -132,10 +133,45 @@ const QueryGetOnePost = {
   },
 };
 
+const MutationAddComment = {
+  type: CommentGraphQl,
+  args: {
+    PostId: {
+      type: GraphQLNonNull(GraphQLID),
+    },
+    UserId: {
+      type: GraphQLNonNull(GraphQLID),
+    },
+    content: {
+      type: GraphQLNonNull(GraphQLString),
+    },
+  },
+  resolve(parentValue, { PostId, UserId, content }) {
+    return new Promise((resolve, reject) => {
+      const newComment = new Comment({
+        content,
+        numLike: 0,
+        numDislike: 0,
+        UserId,
+        PostId,
+      });
+      newComment
+        .save()
+        .then((comment) => {
+          resolve(comment);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+};
+
 module.exports = {
   MutationCreatePost,
   QueryGetOnePost,
   QueryGetAllPost,
   MutationDeletePost,
   MutationUpdatePost,
+  MutationAddComment,
 };

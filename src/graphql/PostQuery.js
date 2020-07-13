@@ -68,3 +68,28 @@ export const DeletePostQuery = gql`
     MutationDeletePost(id: $id)
   }
 `;
+
+export const GetCommentOfAnPost = gql`
+  query getComment($id: ID!) {
+    QueryGetOnePost(id: $id) {
+      comments {
+        id
+        content
+        user {
+          name
+          surname
+          photo
+        }
+      }
+    }
+  }
+`;
+
+export const AddComment = gql`
+  mutation addComment($UserId: ID!, $PostId: ID!, $content: String!) {
+    MutationAddComment(PostId: $PostId, UserId: $UserId, content: $content) {
+      id
+      content
+    }
+  }
+`;

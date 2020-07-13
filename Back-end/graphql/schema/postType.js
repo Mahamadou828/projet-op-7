@@ -58,6 +58,7 @@ const PostGraphQl = new GraphQLObjectType({
         return new Promise((resolve, reject) => {
           Comment.findAll({
             where: { PostId },
+            order: [['createdAt', 'DESC']],
           })
             .then((comments) => {
               resolve(comments);

@@ -21,7 +21,6 @@ describe('<SignUp />', () => {
 
   it('should redirect to logIn', () => {
     const history = createMemoryHistory();
-    console.log(wrapper.find('a').debug());
     wrapper.find('a').simulate('click');
     expect(history.location.pathname).to.be.equal('/');
   });

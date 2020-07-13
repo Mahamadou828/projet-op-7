@@ -15,7 +15,7 @@ import Badge from '@material-ui/core/Badge';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import PropTypes from 'prop-types';
 import ThumbDownAltIcon from '@material-ui/icons/ThumbDownAlt';
-import ChatBubbleTwoToneIcon from '@material-ui/icons/ChatBubbleTwoTone';
+import Comment from './Comment';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -153,9 +153,7 @@ function PostBadgeGroup(props) {
           </StyledBadge>
         </IconButton>
 
-        <IconButton aria-label="add to favorites" onClick={() => {}}>
-          <ChatBubbleTwoToneIcon />
-        </IconButton>
+        <Comment PostId={props.PostId} />
 
         <IconButton aria-label="share" onClick={() => {}}>
           <StyledBadge badgeContent={0} color="secondary">
@@ -197,6 +195,7 @@ PostBadgeGroup.propTypes = {
   content: PropTypes.string,
   appreciate: PropTypes.object,
   setPostAppreciation: PropTypes.func,
+  PostId: PropTypes.number,
 };
 
 export default PostBadgeGroup;

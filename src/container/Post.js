@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
@@ -12,11 +11,11 @@ import { Query } from 'react-apollo';
 import ErrorAction from '../actions/ErrorAction';
 import SendAppreciation from '../function/SendAppreciation';
 import PropTypes from 'prop-types';
-import ReactPlayer from 'react-player';
 import Filter from '../components/Filter';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SetUpdatingModeAction from '../actions/SetUpdatingModeAction';
 import DeletePostAction from '../actions/DeletePostAction';
+import MediaComponent from '../components/MediaComponent';
 
 class Post extends PureComponent {
   setPostAppreciation = (like, dislike) => {
@@ -42,24 +41,6 @@ class Post extends PureComponent {
    *
    * @param {String} file
    */
-  determinateFileType(file) {
-    const IMAGE_TYPE = ['jpg', 'jpeg', 'png'];
-    const VIDEO_TYPE = ['mov', 'mp4'];
-
-    for (let i = 0; i < IMAGE_TYPE.length; i++) {
-      if (file.includes(IMAGE_TYPE[i])) {
-        return 'image';
-      }
-    }
-
-    for (let i = 0; i < VIDEO_TYPE.length; i++) {
-      if (file.includes(VIDEO_TYPE[i])) {
-        return 'video';
-      }
-    }
-
-    return null;
-  }
 
   generateFilterOption = () => {
     const post = this.props.post,
@@ -82,38 +63,6 @@ class Post extends PureComponent {
         <MoreVertIcon />{' '}
       </Filter>
     );
-  };
-
-  generateMediaComponent = () => {
-    const { image } = this.props.post;
-    if (typeof image === 'string') {
-      if (image.length > 0) {
-        const fileType = this.determinateFileType(image);
-
-        switch (fileType) {
-          case 'image': {
-            return (
-              <CardMedia
-                className="card-media"
-                image={image}
-                title="Post image"
-              />
-            );
-            break;
-          }
-          case 'video': {
-            return (
-              <ReactPlayer className="card-video" url={image} controls={true} />
-            );
-            return null;
-            break;
-          }
-          default: {
-            return null;
-          }
-        }
-      } else return null;
-    } else return null;
   };
 
   generateTitle = () => {
@@ -163,7 +112,7 @@ class Post extends PureComponent {
             {users.id === UserId ? this.generateFilterOption() : null}
           </div>
 
-          {this.generateMediaComponent()}
+          <MediaComponent post={this.props.post} />
           {this.generateTitle()}
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
@@ -182,6 +131,7 @@ class Post extends PureComponent {
                     content={content}
                     appreciate={data.QueryGetUserAppreciationOfAnPost}
                     setPostAppreciation={this.setPostAppreciation}
+                    PostId={PostId}
                   />
                 );
               } else if (error) {
