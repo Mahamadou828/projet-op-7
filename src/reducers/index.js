@@ -5,6 +5,7 @@ import ErrorReducer from './ErrorReducer';
 import AccessReducer from './AccessReducer';
 import PostReducer from './PostReducer';
 import UpdatePostReducer from './UpdatePostReducer';
+import ContactReducer from './ContactReducer';
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   Access: AccessReducer,
   Posts: PostReducer,
   UpdatePost: UpdatePostReducer,
+  Contact: ContactReducer,
 });
 
 export default rootReducer;

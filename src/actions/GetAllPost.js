@@ -15,10 +15,10 @@ export default function GetAllPost() {
           payload: posts,
         });
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch({
           type: ERROR,
-          payload: { error: true, text: 'Internal Server error((' },
+          payload: { error: true, text: error.message },
         });
       });
   };

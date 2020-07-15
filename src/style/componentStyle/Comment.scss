@@ -1,0 +1,86 @@
+.comment {
+  section {
+    display: flex;
+    flex-direction: row;
+    min-width: 100%;
+    margin: 20px 0px;
+    border-bottom: 1px solid $font-primary-color;
+
+    header {
+      margin-left: 25px;
+
+      h5 {
+        text-decoration: underline;
+        margin: 0px;
+      }
+    }
+  }
+
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    h2 {
+      display: flex;
+      flex-direction: row;
+
+      p {
+        margin: 5px 0px 0px 15px;
+      }
+    }
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 0px !important;
+
+    .MuiInput-formControl {
+      min-width: 75%;
+    }
+
+    input {
+      min-width: 100%;
+    }
+
+    button {
+      padding: 5px !important;
+      width: 75px;
+      margin: 20px 0px !important;
+    }
+
+    @include mobile-only {
+      flex-direction: column !important;
+
+      .MuiInput-formControl {
+        min-width: 100%;
+        height: 75px;
+      }
+
+      input {
+        min-width: 300px !important;
+      }
+
+      button {
+        margin: 10px auto !important;
+      }
+    }
+  }
+
+  .MuiDialog-paper {
+    @include tablette {
+      background-color: $mobile-background !important;
+      margin: 0px;
+      min-width: 100% !important;
+      p,
+      label,
+      h5,
+      h2,
+      svg {
+        color: $font-secondary-color;
+      }
+    }
+  }
+}

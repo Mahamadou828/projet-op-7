@@ -8,7 +8,7 @@ body {
 }
 
 .center {
-  margin: 0 auto;
+  margin: 0 auto !important;
 }
 
 .text {
@@ -26,10 +26,5 @@ body {
     @include mobile-only {
       display: none;
     }
-  }
-}
-
-.button-dark {
-  @include mobile-only {
   }
 }

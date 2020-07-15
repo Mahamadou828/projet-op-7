@@ -8,7 +8,7 @@ import PopUp from './PopUp';
 import TextField from '@material-ui/core/TextField';
 import Filter from '../components/Filter';
 import GetAllPost from '../actions/GetAllPost';
-import PropsTypes from 'prop-types';
+import PropTypes from 'prop-types';
 
 class Home extends React.Component {
   componentDidMount() {
@@ -40,7 +40,6 @@ class Home extends React.Component {
               />
               <Filter filters={filters}>Filter</Filter>
             </section>
-            <section className="container-flex"></section>
           </div>
           {this.props.posts.map((post) => (
             <Post post={post} key={post.id} />
@@ -65,7 +64,8 @@ const mapDispatchToProps = {
 };
 
 Home.propTypes = {
-  posts: PropsTypes.array,
-  GetAllPost: PropsTypes.func,
+  posts: PropTypes.array,
+  GetAllPost: PropTypes.func,
+  socket: PropTypes.object,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

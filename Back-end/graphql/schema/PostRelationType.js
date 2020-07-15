@@ -1,10 +1,5 @@
 const graphql = require('graphql');
-const {
-  Post,
-  User,
-  Comment,
-  PostAppreciation,
-} = require('../../databases/databaseInit');
+const { Post, User } = require('../../databases/databaseInit');
 const { GraphQLObjectType, GraphQLID, GraphQLBoolean } = graphql;
 
 const PostAppreciationGraphQl = new GraphQLObjectType({

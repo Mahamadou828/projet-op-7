@@ -135,7 +135,7 @@ class Post extends PureComponent {
                   />
                 );
               } else if (error) {
-                this.props.ErrorAction(true, 'internal Serve Error');
+                this.props.ErrorAction(true, error.message);
               } else {
                 return null;
               }

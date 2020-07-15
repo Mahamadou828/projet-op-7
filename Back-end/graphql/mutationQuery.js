@@ -11,6 +11,8 @@ const {
   MutationAddComment,
 } = require('./queries/postQuery');
 
+const { MutationCreateFriendRequest } = require('./queries/ChatQuery');
+
 const {
   MutationUpdateAppreciation,
 } = require('./queries/PostAppreciationQuery');
@@ -26,6 +28,7 @@ const MutationQuery = new GraphQLObjectType({
     MutationUpdatePost,
     MutationUpdateAppreciation,
     MutationAddComment,
+    MutationCreateFriendRequest,
   }),
 });
 

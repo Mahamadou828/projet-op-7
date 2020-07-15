@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
     const extension = file.mimetype.split('/')[1];
     const video = ['mov', 'mp4'];
     const image = ['jpg', 'jpeg', 'png'];
-    console.log(extension);
     if (video.includes(extension)) {
       callback(null, 'Back-end/file/video');
     } else if (image.includes(extension)) {

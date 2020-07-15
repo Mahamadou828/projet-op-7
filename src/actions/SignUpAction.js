@@ -56,17 +56,17 @@ export default function SignUpAction(userInfo) {
               });
             }
           })
-          .catch(() => {
+          .catch((error) => {
             dispatch({
               type: ERROR,
-              payload: { error: true, text: 'internal server error' },
+              payload: { error: true, text: error.message },
             });
           });
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch({
           type: ERROR,
-          payload: { error: true, text: 'internal server error' },
+          payload: { error: true, text: error.message },
         });
       });
   };

@@ -53,3 +53,7 @@ server.on('listening', () => {
 server.listen(port);
 
 module.exports = server;
+
+const Socket = require('./socket/index');
+
+Socket.connectSocket();

@@ -42,6 +42,17 @@
       margin: 0 auto;
     }
   }
+
+  &-lg {
+    min-width: 80%;
+    padding: 0px 10px;
+    word-break: break-all;
+    @include tablette {
+      min-width: 100%;
+      padding: 0px;
+      margin: 0px auto;
+    }
+  }
 }
 
 .bg-red {

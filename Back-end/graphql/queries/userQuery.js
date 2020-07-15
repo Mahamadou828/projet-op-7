@@ -1,10 +1,11 @@
 const { User, Post } = require('../../databases/databaseInit');
 const graphql = require('graphql');
-const { GraphQLNonNull, GraphQLString, GraphQLID } = graphql;
+const { GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = graphql;
 const connectType = require('../schema/connectType');
 const jwt = require('jsonwebtoken');
 const { jsonSecret } = require('../../auth/secretKey');
 const bcrypt = require('bcrypt');
+const UserType = require('../schema/userType');
 
 const MutationCreateUser = {
   type: connectType,
@@ -177,8 +178,24 @@ const MutationDeleteUser = {
   },
 };
 
+const QueryGetAllUser = {
+  type: new GraphQLList(UserType),
+  resolve(parentValue) {
+    return new Promise((resolve, reject) => {
+      User.findAll({})
+        .then((users) => {
+          resolve(users);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    });
+  },
+};
+
 module.exports = {
   MutationCreateUser,
   QueryConnectUser,
   MutationDeleteUser,
+  QueryGetAllUser,
 };

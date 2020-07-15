@@ -33,12 +33,12 @@ export default function LogInAction(userInfo) {
           dispatch({ type: ERROR, payload: { error: true, text: error } });
         }
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch({
           type: ERROR,
           payload: {
             error: true,
-            text: 'Internal Server Error, please try later(((',
+            text: error.message,
           },
         });
       });

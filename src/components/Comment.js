@@ -18,6 +18,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import FormControl from '@material-ui/core/FormControl';
+import CloseIcon from '@material-ui/icons/Close';
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -53,7 +54,6 @@ function Comment(props) {
     if (post !== null) {
       getComment(props.PostId)
         .then((comments) => {
-          console.log(comments);
           setComments(comments);
         })
         .catch((error) => {
@@ -91,7 +91,6 @@ function Comment(props) {
       <IconButton
         aria-label="add to favorites"
         onClick={() => {
-          console.log(open);
           handleClickOpen();
         }}
       >
@@ -107,14 +106,25 @@ function Comment(props) {
       >
         {post !== null ? (
           <div>
-            <DialogTitle id="scroll-dialog-title" className="comment-header">
-              <Avatar aria-label="recipe" className="card-avatar">
-                <img src={post.users.photo} alt="..." />
-              </Avatar>
-              <p>
-                {post.users.name} {post.users.surname}
-              </p>
-            </DialogTitle>
+            <div className="comment-header">
+              <DialogTitle id="scroll-dialog-title">
+                <Avatar aria-label="recipe" className="card-avatar">
+                  <img src={post.users.photo} alt="..." />
+                </Avatar>
+                <p>
+                  {post.users.name} {post.users.surname}
+                </p>
+              </DialogTitle>
+              <DialogActions className="action">
+                <Button
+                  onClick={() => {
+                    handleClose();
+                  }}
+                >
+                  <CloseIcon />
+                </Button>
+              </DialogActions>
+            </div>
             <DialogContent dividers={scroll === 'paper'}>
               <MediaComponent post={post} />
               <Typography variant="body2" color="textSecondary" component="p">
@@ -123,7 +133,9 @@ function Comment(props) {
                 }`}
               </Typography>
               <Divider light />
-              <FormControl className={`${classes.margin} ${classes.form}`}>
+              <FormControl
+                className={`${classes.margin} ${classes.form} comment-form`}
+              >
                 <InputLabel htmlFor="input-with-icon-adornment">
                   {props.userName} {props.userSurname}
                 </InputLabel>

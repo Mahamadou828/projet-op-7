@@ -93,7 +93,6 @@ const MutationDeletePost = {
     id: { type: GraphQLNonNull(GraphQLID) },
   },
   resolve(parentValue, { id }) {
-    console.log(id);
     return Post.destroy({ where: { id } })
       .then(() => {
         return id;

@@ -1,0 +1,14 @@
+.message {
+  @include tablette {
+    background-color: $snackbar-background !important;
+  }
+
+  &-elt {
+    @include tablette {
+      background-color: $snackbar-background !important;
+    }
+    .MuiBox-root-211 {
+      padding: 24px 5px;
+    }
+  }
+}

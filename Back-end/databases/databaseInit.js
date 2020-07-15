@@ -2,6 +2,8 @@ const User = require('./UserSchema');
 const Post = require('./PostSchema');
 const Comment = require('./CommentSchema');
 const PostAppreciation = require('./PostAppreciation');
+const Contact = require('./ContactSchema');
+const Message = require('./MessageSchema');
 // const Connection = require('../databaseConnection');
 
 //User-Post Relation
@@ -24,6 +26,13 @@ User.hasMany(PostAppreciation);
 PostAppreciation.belongsTo(Post);
 Post.hasMany(PostAppreciation);
 
+//User-Contact Relation
+User.hasMany(Contact);
+Contact.belongsTo(User);
+
+//User-Message Relation
+User.hasMany(Message);
+Message.belongsTo(User);
 // Connection.sync({ force: true });
 // Connection.sync({ alter: true });
 
@@ -32,4 +41,6 @@ module.exports = {
   User,
   Comment,
   PostAppreciation,
+  Contact,
+  Message,
 };

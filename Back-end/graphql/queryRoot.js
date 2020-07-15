@@ -1,10 +1,11 @@
 const graphql = require('graphql');
 const { GraphQLObjectType } = graphql;
-const { QueryConnectUser } = require('./queries/userQuery');
+const { QueryConnectUser, QueryGetAllUser } = require('./queries/userQuery');
 const { QueryGetOnePost, QueryGetAllPost } = require('./queries/postQuery');
 const {
   QueryGetUserAppreciationOfAnPost,
 } = require('./queries/PostAppreciationQuery');
+const { QueryGetAllContact } = require('./queries/ChatQuery');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -14,6 +15,8 @@ const RootQuery = new GraphQLObjectType({
     QueryGetOnePost,
     QueryGetAllPost,
     QueryGetUserAppreciationOfAnPost: QueryGetUserAppreciationOfAnPost,
+    QueryGetAllContact,
+    QueryGetAllUser,
   }),
 });
 

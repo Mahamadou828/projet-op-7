@@ -10,6 +10,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MusicVideoIcon from '@material-ui/icons/MusicVideo';
 import CreatePost from '../container/CreatePost';
+import { withRouter } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,13 +20,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function FunctionPanel() {
+function FunctionPanel(props) {
   const classes = useStyles();
+
+  const Redirect = (route) => {
+    props.history.push(`/${route}`);
+  };
 
   return (
     <div className={`${classes.root} bottomNavigation`}>
       <List component="nav" aria-label="main mailbox folders">
-        <ListItem button>
+        <ListItem
+          button
+          onClick={() => {
+            Redirect('message');
+          }}
+        >
           <ListItemIcon>
             <MessageIcon />
           </ListItemIcon>
@@ -61,3 +71,5 @@ export default function FunctionPanel() {
     </div>
   );
 }
+
+export default withRouter(FunctionPanel);

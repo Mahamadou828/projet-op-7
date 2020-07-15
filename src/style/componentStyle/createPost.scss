@@ -11,6 +11,7 @@
     font-weight: 700;
     font-family: $secondary-font;
     line-height: 1;
+    background-color: $primary-color !important;
 
     @include tablette {
       background: $font-primary-color !important;

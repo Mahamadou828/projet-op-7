@@ -45,12 +45,12 @@ export default function UpdatePostAction(newPost, oldPost) {
           },
         });
       })
-      .catch(() => {
+      .catch((error) => {
         dispatch({
           type: ERROR,
           payload: {
             error: true,
-            text: 'Internal Server Error, please try later(((',
+            text: error.message,
           },
         });
       });

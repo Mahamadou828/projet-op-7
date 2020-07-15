@@ -52,7 +52,6 @@ Post.beforeBulkDestroy(async (post, option) => {
       if (image.length > 0) {
         const file = image.split('/file/')[1];
         fs.unlink(`./Back-end/file/${file}`, (error, content) => {
-          console.log(error);
           if (error) {
             reject(error);
           }
