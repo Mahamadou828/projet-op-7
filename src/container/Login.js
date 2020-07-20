@@ -152,6 +152,9 @@ const LogInForm = reduxForm({
 LogIn.propTypes = {
   formInfo: PropTypes.object,
   handleSubmit: PropTypes.func,
+  LoaderAction: PropTypes.func,
+  LogInAction: PropTypes.func,
+  access: PropTypes.bool,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogInForm);

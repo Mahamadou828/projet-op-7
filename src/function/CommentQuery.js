@@ -1,6 +1,5 @@
 import { client } from '..';
 import { GetCommentOfAnPost, AddComment } from '../graphql/PostQuery';
-import { reject } from 'lodash';
 
 export function getComment(id) {
   return new Promise((resolve, reject) => {

@@ -2,7 +2,7 @@ const express = require('express');
 const GraphHTTP = require('express-graphql');
 const schema = require('./graphql/schema');
 const cors = require('cors');
-const JWTAuth = require('./auth/JWT-auth');
+const { JWTAuth } = require('./auth/JWT-auth');
 const RouterImage = require('./Router/index');
 
 const app = express();

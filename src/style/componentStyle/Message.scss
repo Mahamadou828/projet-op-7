@@ -7,8 +7,112 @@
     @include tablette {
       background-color: $snackbar-background !important;
     }
-    .MuiBox-root-211 {
-      padding: 24px 5px;
+  }
+
+  &-nav {
+    @include deskop {
+      height: 96.7vh;
+      background-color: $secondary-color !important;
+      padding-top: 20px;
+      text-align: center;
+      z-index: 10;
+
+      .MuiListItem-gutters {
+        padding: 8px 0px;
+      }
+
+      .children {
+        color: $white;
+        margin-bottom: 75px;
+      }
+
+      i {
+        font-size: 25px;
+      }
+
+      svg {
+        margin: 0 auto;
+        color: $white;
+      }
+
+      nav:not(.homeItem) {
+        height: 115px;
+        display: flex;
+        justify-content: space-between;
+        flex-direction: column;
+      }
     }
+    .bottomNavigation-text {
+      display: none;
+    }
+  }
+}
+
+.paddingNone {
+  .MuiBox-root {
+    padding: 0px;
+  }
+}
+
+.block {
+  &-1 {
+    max-height: 92vh;
+    width: 35%;
+    background-color: $chat-bg;
+    border-right: 1px solid $border-color;
+    position: relative;
+    padding-top: 50px;
+    overflow-y: scroll;
+
+    @include scrollStyle;
+    header {
+      width: 35%;
+      background-color: $white;
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      z-index: 5;
+      padding-left: 50px;
+      h1 {
+        font-family: $third-font;
+        font-size: 1.09375rem;
+        line-height: 1.2;
+        margin-top: 14px;
+        margin-left: 15px;
+      }
+
+      svg {
+        font-size: 22px;
+      }
+    }
+
+    .container-row {
+      justify-content: space-between;
+
+      div {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  &-2 {
+    position: relative;
+    width: 65%;
+    height: 100%;
+    background-color: $white;
+  }
+}
+
+.list-item {
+  font-family: $third-font !important;
+  border: 1px solid $border-color !important;
+  border-radius: 5px !important;
+  padding: 8px 16px;
+  max-width: 95%;
+  margin: 0.75rem auto !important;
+  transition: all ease-in 0.2s !important;
+
+  &:hover {
+    border-color: $secondary-color !important;
   }
 }

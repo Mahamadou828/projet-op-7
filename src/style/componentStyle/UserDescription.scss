@@ -1,0 +1,46 @@
+.load {
+  position: relative;
+  text-align: center;
+  background-color: $white;
+  box-shadow: $second-box-shadown;
+  padding-bottom: 15px;
+  .bg {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 0;
+  }
+  .picture {
+    width: 100px;
+    height: 100px;
+    z-index: 5;
+    position: relative;
+    border-radius: 50%;
+    margin: 25% 0px 5px 0px;
+    border: 2px solid $white;
+  }
+
+  p,
+  h4 {
+    margin: 0px;
+    margin-bottom: 15px;
+    padding: 0px 15px;
+  }
+
+  p {
+    font-size: 13px;
+    color: $font-secondary-color;
+  }
+
+  h4 {
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: capitalize;
+    transition: all ease 0.3s;
+    &:hover {
+      color: $primary-color;
+      text-decoration: underline;
+    }
+  }
+}

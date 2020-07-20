@@ -50,9 +50,7 @@ export function VerifyFile(fileToVerify, verificationCriteria) {
 
 export function VerifyParagraph(paragraphToVerify) {
   if (
-    /(\s|\.)?(a-zA-Z)+((\s|,)(a-zA-Z)+)?(\!\@\#\$\%\^\&*())+/.test(
-      paragraphToVerify
-    )
+    /(\s|\.)?(a-zA-Z)+((\s|,)(a-zA-Z)+)?(!@#$%^&*())+/.test(paragraphToVerify)
   ) {
     return '';
   } else {

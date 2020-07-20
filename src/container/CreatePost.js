@@ -231,6 +231,10 @@ CreatePost.propTypes = {
   userId: PropTypes.number,
   errors: PropTypes.object,
   updatingMode: PropTypes.object,
+  initialize: PropTypes.func,
+  SetUpdatingModeAction: PropTypes.func,
+  UpdatePostAction: PropTypes.func,
+  handleSubmit: PropTypes.func,
 };
 
 const mapDispatchToProps = {

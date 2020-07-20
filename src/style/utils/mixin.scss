@@ -43,7 +43,7 @@
 }
 
 @mixin deskop {
-  @media screen and (max-width: 1024px) {
+  @media screen and (min-width: 769px) {
     @content;
   }
 }
@@ -56,17 +56,14 @@
 
 @mixin scrollStyle {
   &::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0);
-    background-color: $mobile-background;
+    display: none;
   }
 
   &::-webkit-scrollbar {
-    width: 10px;
-    background-color: $mobile-background;
+    display: none;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: $mobile-background;
-    border: 2px solid $mobile-background;
+    display: none;
   }
 }

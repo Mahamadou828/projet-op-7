@@ -11,16 +11,17 @@ import { CreatePostQuery } from '../graphql/PostQuery';
  * @param {Object} dataPost
  */
 export default function CreatePostAction(dataPost) {
+  const copy = { ...dataPost };
   return async function (dispatch) {
     if (dataPost.file !== undefined) {
       const file = dataPost.file;
       const respond = await UploadFile(file);
-      dataPost.image = respond.filename;
+      copy.image = respond.filename;
     }
 
     client
       .mutate({
-        variables: { ...dataPost },
+        variables: { ...copy },
         mutation: CreatePostQuery,
       })
       .then((response) => {

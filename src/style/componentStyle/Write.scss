@@ -1,0 +1,130 @@
+.write {
+  &-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid $border-color;
+    position: fixed;
+    top: 0;
+    z-index: 5;
+    width: 65%;
+    background-color: $white;
+
+    header {
+      display: flex;
+      flex-direction: row;
+      padding: 10px;
+
+      h6 {
+        font-family: $third-font;
+        font-size: 0.875rem;
+        line-height: 1.2;
+        margin-top: 14px;
+        margin-left: 15px;
+        margin-bottom: 0px;
+      }
+    }
+  }
+
+  &-message {
+    padding-top: 75px;
+    height: 80vh;
+    overflow-y: scroll;
+    @include scrollStyle;
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: row;
+    border-radius: 0px !important;
+    border-top: 1px solid $border-color;
+    position: fixed;
+    width: 100%;
+    bottom: 0px;
+    padding: 12px 26px;
+    z-index: 5;
+
+    svg {
+      color: $primary-color;
+      font-size: 22px;
+    }
+    @include tablette {
+      background-color: $snackbar-background !important;
+      color: $mobile-background;
+
+      input {
+        color: $black;
+      }
+    }
+
+    .MuiInputBase-root {
+      min-width: 40%;
+    }
+    input {
+      padding: 6px;
+    }
+  }
+}
+
+.item {
+  &-message {
+    border: none !important;
+    font-family: $third-font;
+    max-width: 150px;
+    border-radius: 0px;
+    margin: 30px 0px;
+    padding-left: 25px;
+    padding-right: 75px;
+    @include tablette {
+      background-color: $font-secondary-color !important;
+      color: $white;
+    }
+
+    h6 {
+      margin: 0px 15px 20px 15px !important;
+      text-align: center;
+      color: $snackbar-background !important;
+    }
+  }
+
+  &-content {
+    padding: 1rem 1.25rem !important;
+    border-radius: 1.25rem !important;
+    text-align: left !important;
+    display: inline-block !important;
+    max-width: 25rem !important;
+    position: relative;
+
+    .avatar {
+      position: absolute;
+      border: 5px solid $white;
+      z-index: 3;
+      bottom: -8px;
+    }
+  }
+}
+
+.right {
+  margin-left: auto;
+  .item-content {
+    background-color: #665dfe !important;
+    color: $white;
+  }
+
+  .avatar {
+    right: -15px;
+  }
+}
+
+.left {
+  margin-right: auto;
+
+  .item-content {
+    background-color: #f5f6fa !important;
+    color: #8094ae !important;
+
+    .avatar {
+      left: -15px;
+    }
+  }
+}

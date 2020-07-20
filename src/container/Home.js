@@ -17,8 +17,8 @@ class Home extends React.Component {
 
   render() {
     const filters = [
-      { name: 'Post you like', func: '' },
-      { name: 'Refresh Screen', func: '' },
+      { name: 'Post you like', func: this.props.GetAllPost },
+      { name: 'Refresh Screen', func: this.props.GetAllPost },
       { name: 'Most Popular', func: '' },
     ];
     return (

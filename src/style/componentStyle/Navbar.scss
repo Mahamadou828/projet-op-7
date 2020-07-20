@@ -1,5 +1,6 @@
 .bottomNavigation {
   z-index: 3;
+  box-shadow: $second-box-shadown;
   @include tablette {
     position: fixed;
     bottom: 0px;
@@ -9,7 +10,7 @@
     flex-direction: row;
     min-width: 100%;
     justify-content: space-between;
-    height: 50px;
+    height: 50px !important;
     box-shadow: $box-shadown-dimension;
 
     div {

@@ -51,4 +51,5 @@ export default function Filter(props) {
 
 Filter.propTypes = {
   filters: PropTypes.array,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
 };

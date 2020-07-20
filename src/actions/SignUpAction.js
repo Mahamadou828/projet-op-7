@@ -7,15 +7,8 @@ import UploadFile from '../function/uploadFile';
  * @param {Object} userInfo
  */
 export default function SignUpAction(userInfo) {
-  const {
-    name,
-    surname,
-    password,
-    email,
-    avatar,
-    description,
-    remenber,
-  } = userInfo;
+  const { name, surname, password, email, avatar, description } = userInfo;
+  // const {remenber} = userInfo ;
   return function (dispatch) {
     UploadFile(avatar)
       .then((respond) => {

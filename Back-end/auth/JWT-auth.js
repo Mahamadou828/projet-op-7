@@ -2,7 +2,7 @@ const { jsonSecret, auth } = require('./secretKey');
 const jwt = require('jsonwebtoken');
 const { User } = require('../databases/databaseInit');
 
-module.exports = (req, res, next) => {
+const JWTAuth = (req, res, next) => {
   try {
     const tokenIndex = req.rawHeaders.indexOf('authorization');
     const access = JSON.parse(
@@ -11,18 +11,10 @@ module.exports = (req, res, next) => {
     if (tokenIndex > -1) {
       const tokenUser = req.rawHeaders[tokenIndex + 1];
       if (access) {
-        const decodedToken = jwt.verify(tokenUser, jsonSecret);
-        const sub = decodedToken.sub.split('|');
-        User.findOne({ where: { id: sub[0] } })
-          .then((user) => {
-            if (!user) {
-              res.status(401).json({ error: 'Unhanthorize' });
-            } else {
-              if (sub[1] === user.email) {
-                next();
-              } else {
-                res.status(401).json({ error: 'Unhanthorize' });
-              }
+        IsValidToken(tokenUser)
+          .then((success) => {
+            if (success) {
+              next();
             }
           })
           .catch(() => {
@@ -49,4 +41,31 @@ module.exports = (req, res, next) => {
   } catch {
     res.status(401).json({ error: 'Unhanthorize' });
   }
+};
+
+function IsValidToken(tokenUser) {
+  return new Promise((resolve, reject) => {
+    const decodedToken = jwt.verify(tokenUser, jsonSecret);
+    const sub = decodedToken.sub.split('|');
+    User.findOne({ where: { id: sub[0] } })
+      .then((user) => {
+        if (!user) {
+          reject(false);
+        } else {
+          if (sub[1] === user.email) {
+            resolve(true);
+          } else {
+            reject(false);
+          }
+        }
+      })
+      .catch(() => {
+        reject(false);
+      });
+  });
+}
+
+module.exports = {
+  JWTAuth,
+  IsValidToken,
 };

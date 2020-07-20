@@ -7,7 +7,7 @@ import '../style/index.scss';
 import RequireAuth from '../helpers/RequireAuth';
 import Header from './Header';
 import Home from '../container/Home';
-import Message from '../container/Message';
+import Message from './Message';
 
 class App extends React.Component {
   render() {

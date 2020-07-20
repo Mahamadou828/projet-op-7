@@ -16,22 +16,22 @@ export default function PostReducer(state = initialState, action) {
       return {
         posts: action.payload,
       };
-      break;
-    case ADD_POST_TO_LIST:
+
+    case ADD_POST_TO_LIST: {
       state.posts.push(action.payload);
       const newArray = state.posts.reverse();
       return {
         posts: newArray,
       };
-      break;
+    }
     case REMOVE_POST_OF_LIST:
       return {
         posts: lodash.filter(state.posts, (o) => {
           return o.id !== action.payload;
         }),
       };
-      break;
-    case CHANGE_A_POST_FROM_LIST:
+
+    case CHANGE_A_POST_FROM_LIST: {
       const newState = lodash.filter(state.posts, (o) => {
         return o.id !== action.payload.id;
       });
@@ -39,7 +39,7 @@ export default function PostReducer(state = initialState, action) {
       return {
         posts: newState.reverse(),
       };
-      break;
+    }
     default:
       return state;
   }

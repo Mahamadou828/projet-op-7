@@ -1,13 +1,13 @@
 import { SET_ACCESS } from '../constant';
 
-const initialState = {
-  access: false,
-  error: '',
-  accessData: {
-    userInfo: {},
-    jwt: '',
-  },
-};
+// const initialState = {
+//   access: false,
+//   error: '',
+//   accessData: {
+//     userInfo: {},
+//     jwt: '',
+//   },
+// };
 
 //POUR LE TEMPS DE DEVELOPEMENT NOUS SERONT AUTOMATIQUEMENT CONNECTER SUR MON COMPTE
 //CETTE FONCTION DOIT ETRE IMPERATIVEMENT RETIRER AVANT MISE EN PRODUCTION
@@ -33,7 +33,6 @@ export default function AccessReducer(state = devState, action) {
       return {
         ...action.payload,
       };
-      break;
     default:
       return state;
   }

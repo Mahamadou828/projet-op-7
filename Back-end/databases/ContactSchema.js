@@ -6,20 +6,33 @@ class Contact extends Model {}
 
 Contact.init(
   {
-    askFor: {
-      type: Sequelize.STRING,
-      allowNull: false,
+    contactList: {
+      type: Sequelize.TEXT,
+      allowNull: true,
     },
-    accept: {
-      type: Sequelize.STRING,
-      allowNull: false,
+    FriendRequestList: {
+      type: Sequelize.TEXT,
+      allowNull: true,
     },
-    numberMessage: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
+    BlockedUserList: {
+      type: Sequelize.TEXT,
+      allowNull: true,
     },
   },
   { sequelize: Connection, modelName: 'Contact' }
 );
+
+Contact.beforeSave((contact) => {
+  return new Promise((resolve, reject) => {
+    try {
+      contact.contactList = JSON.stringify([]);
+      contact.FriendRequestList = JSON.stringify([]);
+      contact.BlockedUserList = JSON.stringify([]);
+      resolve(true);
+    } catch (error) {
+      reject(error);
+    }
+  });
+});
 
 module.exports = Contact;

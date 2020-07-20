@@ -7,7 +7,8 @@ import { ERROR, SET_ACCESS, A_SUBMISSION_IS_IN_PROGRESS } from '../constant';
  */
 export default function LogInAction(userInfo) {
   return function (dispatch) {
-    const { password, email, remenber } = userInfo;
+    const { password, email } = userInfo;
+    // const {remenber} = userInfo ;
     client
       .query({
         variables: { password, email },

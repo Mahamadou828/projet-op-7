@@ -6,31 +6,43 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import PropTypes from 'prop-types';
+import { Divider } from '@material-ui/core';
 
 export default function UserList(props) {
   return (
     <List>
       {props.usersList.map((user) => (
-        <ListItem key={user.id}>
-          <ListItemAvatar>
-            <Avatar>
-              <img src={user.photo} alt="user avatar" />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText
-            primary={`${user.name} ${user.surname}`}
-            secondary={user.description}
-          />
-          <ListItemSecondaryAction
+        <div key={user.id}>
+          <ListItem
+            button={props.button}
             onClick={() => {
-              if (props.ToolTipFunction) {
-                props.ToolTipFunction(user.id);
+              if (props.ListItemFunction) {
+                props.ListItemFunction(user.id);
               }
             }}
+            className="list-item"
           >
-            {props.children}
-          </ListItemSecondaryAction>
-        </ListItem>
+            <ListItemAvatar>
+              <Avatar>
+                <img src={user.photo} alt="user avatar" />
+              </Avatar>
+            </ListItemAvatar>
+            <ListItemText
+              primary={`${user.name} ${user.surname}`}
+              secondary={user.description}
+            />
+            <ListItemSecondaryAction
+              onClick={() => {
+                if (props.ToolTipFunction) {
+                  props.ToolTipFunction(user.id);
+                }
+              }}
+            >
+              {props.children}
+            </ListItemSecondaryAction>
+          </ListItem>
+          {props.divider ? <Divider /> : null}
+        </div>
       ))}
     </List>
   );
@@ -39,4 +51,8 @@ export default function UserList(props) {
 UserList.propTypes = {
   usersList: PropTypes.array,
   ToolTipFunction: PropTypes.func,
+  button: PropTypes.bool.isRequired,
+  divider: PropTypes.bool.isRequired,
+  ListItemFunction: PropTypes.func,
+  children: PropTypes.object,
 };

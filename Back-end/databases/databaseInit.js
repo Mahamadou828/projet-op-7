@@ -4,6 +4,7 @@ const Comment = require('./CommentSchema');
 const PostAppreciation = require('./PostAppreciation');
 const Contact = require('./ContactSchema');
 const Message = require('./MessageSchema');
+// const { Op } = require('sequelize');
 // const Connection = require('../databaseConnection');
 
 //User-Post Relation
@@ -35,7 +36,6 @@ User.hasMany(Message);
 Message.belongsTo(User);
 // Connection.sync({ force: true });
 // Connection.sync({ alter: true });
-
 module.exports = {
   Post,
   User,

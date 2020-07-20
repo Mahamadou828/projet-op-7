@@ -103,4 +103,8 @@ FieldInput.propTypes = {
   type: PropTypes.string,
   error: PropTypes.string,
   value: PropTypes.string,
+  acceptList: PropTypes.array,
+  idInput: PropTypes.string,
+  required: PropTypes.bool,
+  color: PropTypes.string,
 };

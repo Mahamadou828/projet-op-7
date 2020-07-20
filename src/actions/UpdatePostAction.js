@@ -10,21 +10,22 @@ import { UpdatePostQuery } from '../graphql/PostQuery';
 import UploadFile from '../function/uploadFile';
 
 export default function UpdatePostAction(newPost, oldPost) {
+  const copy = { ...newPost };
   return async function (dispatch) {
     if (newPost.file !== undefined && oldPost.image.length > 0) {
       const file = newPost.file;
       const respond = await ReplaceFile(oldPost.image, file);
-      newPost.image = respond.filename;
+      copy.image = respond.filename;
     } else if (newPost.file !== undefined && oldPost.image.length <= 0) {
       const file = newPost.file;
       const respond = await UploadFile(file);
-      newPost.image = respond.filename;
+      copy.image = respond.filename;
     }
-    delete newPost.file;
+    delete copy.file;
     client
       .mutate({
         mutation: UpdatePostQuery,
-        variables: { ...newPost },
+        variables: { ...copy },
       })
       .then((post) => {
         dispatch({

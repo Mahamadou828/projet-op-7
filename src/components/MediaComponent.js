@@ -36,14 +36,11 @@ function MediaComponent(props) {
               title="Post image"
             />
           );
-          break;
         }
         case 'video': {
           return (
             <ReactPlayer className="card-video" url={image} controls={true} />
           );
-          return null;
-          break;
         }
         default: {
           return null;

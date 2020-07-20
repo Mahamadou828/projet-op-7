@@ -1,6 +1,12 @@
 const graphql = require('graphql');
 const { User } = require('../../databases/databaseInit');
-const { GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt } = graphql;
+const {
+  GraphQLObjectType,
+  GraphQLID,
+  GraphQLString,
+  GraphQLInt,
+  GraphQLList,
+} = graphql;
 const UserType = require('./userType');
 
 const ContactType = new GraphQLObjectType({
@@ -10,16 +16,15 @@ const ContactType = new GraphQLObjectType({
     id: {
       type: GraphQLID,
     },
-    user: {
-      type: UserType,
+    contactList: {
+      type: new GraphQLList(UserType),
       resolve(parentValue) {
-        const id = parentValue.dataValues.UserId;
+        let contactList = parentValue.dataValues.contactList;
         return new Promise((resolve, reject) => {
-          User.findOne({
-            where: { id },
-          })
-            .then((user) => {
-              resolve(user);
+          contactList = JSON.parse(contactList);
+          getAllUsersOfAnList(contactList)
+            .then((users) => {
+              resolve(users);
             })
             .catch((error) => {
               reject(error);
@@ -27,16 +32,15 @@ const ContactType = new GraphQLObjectType({
         });
       },
     },
-    askFor: {
-      type: UserType,
+    FriendRequestList: {
+      type: new GraphQLList(UserType),
       resolve(parentValue) {
-        const id = parentValue.dataValues.askFor;
+        let contactList = parentValue.dataValues.FriendRequestList;
         return new Promise((resolve, reject) => {
-          User.findOne({
-            where: { id },
-          })
-            .then((user) => {
-              resolve(user);
+          contactList = JSON.parse(contactList);
+          getAllUsersOfAnList(contactList)
+            .then((users) => {
+              resolve(users);
             })
             .catch((error) => {
               reject(error);
@@ -44,13 +48,39 @@ const ContactType = new GraphQLObjectType({
         });
       },
     },
-    accept: {
-      type: GraphQLString,
-    },
-    numberMessage: {
-      type: GraphQLInt,
+    BlockedUserList: {
+      type: new GraphQLList(UserType),
+      resolve(parentValue) {
+        let contactList = parentValue.dataValues.BlockedUserList;
+        return new Promise((resolve, reject) => {
+          contactList = JSON.parse(contactList);
+          getAllUsersOfAnList(contactList)
+            .then((users) => {
+              resolve(users);
+            })
+            .catch((error) => {
+              reject(error);
+            });
+        });
+      },
     },
   }),
 });
+
+function getAllUsersOfAnList(userList) {
+  return new Promise((resolve, reject) => {
+    User.findAll({
+      where: {
+        id: userList,
+      },
+    })
+      .then((users) => {
+        resolve(users);
+      })
+      .catch((error) => {
+        resolve(error);
+      });
+  });
+}
 
 module.exports = ContactType;

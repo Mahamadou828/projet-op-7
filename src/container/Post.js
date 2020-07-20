@@ -151,6 +151,8 @@ Post.propTypes = {
   post: PropTypes.object,
   UserId: PropTypes.string,
   ErrorAction: PropTypes.func,
+  SetUpdatingModeAction: PropTypes.func,
+  DeletePostAction: PropTypes.func,
 };
 const mapStateToProps = (state) => {
   return {

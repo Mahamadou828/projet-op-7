@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 
 function Header({ history }) {
   const localRoute = history.location.pathname;
-  if (localRoute !== '/signup' && localRoute !== '/') {
+  const pageWithEnableHeader = ['/signup', '/', '/message'];
+  if (!pageWithEnableHeader.includes(localRoute)) {
     return (
       <section className="simplenav">
         <h1>

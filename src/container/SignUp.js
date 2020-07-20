@@ -221,6 +221,7 @@ SignUp.propTypes = {
   handleSubmit: PropTypes.func,
   SignUpAction: PropTypes.func,
   access: PropTypes.bool,
+  LoaderAction: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

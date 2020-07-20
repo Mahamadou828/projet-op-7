@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect';
 import lodash from 'lodash';
 
 /**

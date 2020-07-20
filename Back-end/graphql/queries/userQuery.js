@@ -1,4 +1,4 @@
-const { User, Post } = require('../../databases/databaseInit');
+const { User, Post, Contact } = require('../../databases/databaseInit');
 const graphql = require('graphql');
 const { GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = graphql;
 const connectType = require('../schema/connectType');
@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const { jsonSecret } = require('../../auth/secretKey');
 const bcrypt = require('bcrypt');
 const UserType = require('../schema/userType');
+const { Op } = require('sequelize');
 
 const MutationCreateUser = {
   type: connectType,
@@ -180,11 +181,39 @@ const MutationDeleteUser = {
 
 const QueryGetAllUser = {
   type: new GraphQLList(UserType),
-  resolve(parentValue) {
+  args: {
+    UserId: {
+      type: GraphQLID,
+    },
+  },
+  resolve(parentValue, { UserId }) {
     return new Promise((resolve, reject) => {
-      User.findAll({})
-        .then((users) => {
-          resolve(users);
+      Contact.findOne({
+        where: {
+          UserId,
+        },
+      })
+        .then((contact) => {
+          const { contactList, FriendRequestList, BlockedUserList } = contact;
+          const notIn = [
+            ...JSON.parse(contactList),
+            ...JSON.parse(FriendRequestList),
+            ...JSON.parse(BlockedUserList),
+            UserId,
+          ];
+          User.findAll({
+            where: {
+              id: {
+                [Op.notIn]: notIn,
+              },
+            },
+          })
+            .then((users) => {
+              resolve(users);
+            })
+            .catch((error) => {
+              reject(error);
+            });
         })
         .catch((error) => {
           reject(error);

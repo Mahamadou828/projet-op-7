@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const GetAllUser = gql`
-  query getAllUser {
-    QueryGetAllUser {
+  query getAllUser($UserId: ID!) {
+    QueryGetAllUser(UserId: $UserId) {
       id
       name
       surname

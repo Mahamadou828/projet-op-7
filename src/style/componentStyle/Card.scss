@@ -1,9 +1,10 @@
 .card {
-  max-width: 340px;
+  max-width: 570px;
   margin: 10px 0px;
   z-index: 0;
   @include tablette {
     background-color: $font-primary-color !important;
+    max-width: 340px;
     color: $white !important;
     p,
     &-title {

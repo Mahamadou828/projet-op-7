@@ -7,6 +7,7 @@ export default function GetAllPost() {
     client
       .query({
         query: GetAllPostQuery,
+        fetchPolicy: 'network-only',
       })
       .then((data) => {
         const posts = data.data.QueryGetAllPost;

@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
 const Connection = require('../databaseConnection');
 const bcrypt = require('bcrypt');
+const Contact = require('./ContactSchema');
 
 class User extends Model {}
 User.init(
@@ -60,6 +61,22 @@ User.beforeSave((user, options) => {
       user.password = hash;
       resolve(true);
     });
+  });
+});
+
+User.afterCreate((user) => {
+  return new Promise((resolve, reject) => {
+    const newContact = new Contact({
+      UserId: user.id,
+    });
+    newContact
+      .save()
+      .then(() => {
+        resolve(true);
+      })
+      .catch((error) => {
+        reject(error);
+      });
   });
 });
 

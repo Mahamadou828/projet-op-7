@@ -15,7 +15,6 @@ function Loader(props) {
             <div className="spinner spinner-four"></div>
           </div>
         );
-        break;
       case 3:
         return (
           <div className="wrap">
@@ -25,7 +24,6 @@ function Loader(props) {
             </div>
           </div>
         );
-        break;
       case 4:
         return (
           <div className="preloaders">

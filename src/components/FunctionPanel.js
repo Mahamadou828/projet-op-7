@@ -11,6 +11,10 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import MusicVideoIcon from '@material-ui/icons/MusicVideo';
 import CreatePost from '../container/CreatePost';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import AccessAction from '../actions/AccessAction';
+import HomeIcon from '@material-ui/icons/Home';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,8 +31,38 @@ function FunctionPanel(props) {
     props.history.push(`/${route}`);
   };
 
+  const disconnect = () => {
+    props.AccessAction({ access: false, jwt: '', error: '', userInfo: {} });
+  };
+
+  const generateItem = () => {
+    const localRoute = props.history.location.pathname;
+    if (localRoute !== '/home') {
+      return (
+        <List
+          component="nav"
+          className="homeItem"
+          aria-label="main mailbox folders"
+        >
+          <ListItem
+            button
+            onClick={() => {
+              props.history.push(`/home`);
+            }}
+          >
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText className="bottomNavigation-text" primary="Home" />
+          </ListItem>
+        </List>
+      );
+    }
+    return <CreatePost />;
+  };
   return (
-    <div className={`${classes.root} bottomNavigation`}>
+    <div className={`${classes.root} bottomNavigation ${props.className}`}>
+      {props.children}
       <List component="nav" aria-label="main mailbox folders">
         <ListItem
           button
@@ -49,10 +83,15 @@ function FunctionPanel(props) {
         </ListItem>
       </List>
       <Divider className="ephemeral-mobile" />
-      <CreatePost />
+      {generateItem()}
       <Divider className="ephemeral-mobile" />
       <List component="nav" aria-label="secondary mailbox folders">
-        <ListItem button>
+        <ListItem
+          button
+          onClick={() => {
+            disconnect();
+          }}
+        >
           <ListItemIcon>
             <ExitToAppIcon />
           </ListItemIcon>
@@ -72,4 +111,14 @@ function FunctionPanel(props) {
   );
 }
 
-export default withRouter(FunctionPanel);
+FunctionPanel.propTypes = {
+  history: PropTypes.object,
+  className: PropTypes.string,
+  AccessAction: PropTypes.func,
+  children: PropTypes.object,
+};
+const mapDispatchToProps = {
+  AccessAction,
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(FunctionPanel));
