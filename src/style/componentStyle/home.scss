@@ -21,3 +21,26 @@
     color: $primary-color;
   }
 }
+
+.home {
+  &-search {
+    max-width: 320px !important;
+
+    @include tablette {
+      background-color: $snackbar-background !important;
+      color: $white !important;
+
+      button {
+        color: $font-secondary-color !important;
+      }
+
+      input {
+        color: $white !important;
+      }
+
+      @include mobile-only {
+        max-width: 230px !important;
+      }
+    }
+  }
+}

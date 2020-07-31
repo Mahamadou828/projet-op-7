@@ -1,6 +1,12 @@
 const { User, Post, Contact } = require('../../databases/databaseInit');
 const graphql = require('graphql');
-const { GraphQLNonNull, GraphQLString, GraphQLID, GraphQLList } = graphql;
+const {
+  GraphQLNonNull,
+  GraphQLString,
+  GraphQLID,
+  GraphQLList,
+  GraphQLBoolean,
+} = graphql;
 const connectType = require('../schema/connectType');
 const jwt = require('jsonwebtoken');
 const { jsonSecret } = require('../../auth/secretKey');
@@ -29,8 +35,15 @@ const MutationCreateUser = {
     description: {
       type: GraphQLString,
     },
+    openSession: {
+      type: GraphQLBoolean,
+    },
   },
-  resolve(parentValue, { email, password, name, surname, photo, description }) {
+  resolve(
+    _,
+    { email, password, name, surname, photo, description, openSession },
+    { req }
+  ) {
     const user = new User({
       email,
       password,
@@ -43,12 +56,17 @@ const MutationCreateUser = {
     return user
       .save()
       .then((newUser) => {
-        return {
+        const resolver = {
           jwt: jwt.sign({ sub: `${user.id}|${user.email}` }, jsonSecret),
           userInfo: newUser,
           access: true,
           error: '',
         };
+        if (openSession) {
+          req.session.token = resolver.jwt;
+          req.session.cookie.token = resolver.jwt;
+        }
+        return resolver;
       })
       .catch(() => {
         return {
@@ -70,8 +88,11 @@ const QueryConnectUser = {
     password: {
       type: GraphQLNonNull(GraphQLString),
     },
+    openSession: {
+      type: GraphQLBoolean,
+    },
   },
-  resolve(parentValue, { email, password }) {
+  resolve(_, { email, password, openSession }, { req }) {
     const defaultUser = {
       email,
       password,
@@ -87,7 +108,7 @@ const QueryConnectUser = {
             .compare(password, user.password)
             .then((result) => {
               if (result) {
-                resolve({
+                const resolver = {
                   jwt: jwt.sign(
                     { sub: `${user.id}|${user.email}` },
                     jsonSecret
@@ -95,7 +116,13 @@ const QueryConnectUser = {
                   userInfo: user,
                   access: true,
                   error: '',
-                });
+                };
+                if (openSession) {
+                  console.log('ouvre la session');
+                  req.session.token = resolver.jwt;
+                  req.session.cookie.token = resolver.jwt;
+                }
+                resolve(resolver);
               } else {
                 resolve({
                   jwt: '',
@@ -139,7 +166,7 @@ const MutationDeleteUser = {
     id: { type: GraphQLNonNull(GraphQLID) },
     password: { type: GraphQLNonNull(GraphQLString) },
   },
-  resolve(parentValue, { id, password }) {
+  resolve(_, { id, password }) {
     return new Promise((resolve, reject) => {
       User.findOne({ where: { id } })
         .then((user) => {
@@ -186,7 +213,7 @@ const QueryGetAllUser = {
       type: GraphQLID,
     },
   },
-  resolve(parentValue, { UserId }) {
+  resolve(_, { UserId }) {
     return new Promise((resolve, reject) => {
       Contact.findOne({
         where: {

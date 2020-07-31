@@ -14,6 +14,7 @@ import {
 } from '../function/verifyInput';
 import FieldInput from '../components/FieldInput';
 import Loader from '../components/Loader';
+import GetSessionAction from '../actions/GetSessionAction';
 
 const FieldsType = {
   email: 'email',
@@ -42,6 +43,10 @@ class SignUp extends React.Component {
     }
     this.props.SignUpAction(information);
   };
+
+  componentDidMount() {
+    this.props.GetSessionAction();
+  }
 
   render() {
     if (typeof this.props.formInfo === 'object') {
@@ -177,6 +182,7 @@ class SignUp extends React.Component {
 
 const mapDispatchToProps = {
   SignUpAction,
+  GetSessionAction,
   LoaderAction,
 };
 

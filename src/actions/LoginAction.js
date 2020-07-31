@@ -7,12 +7,13 @@ import { ERROR, SET_ACCESS, A_SUBMISSION_IS_IN_PROGRESS } from '../constant';
  */
 export default function LogInAction(userInfo) {
   return function (dispatch) {
-    const { password, email } = userInfo;
-    // const {remenber} = userInfo ;
+    const { password, email, remenber } = userInfo;
+    console.log(remenber);
     client
       .query({
-        variables: { password, email },
+        variables: { password, email, openSession: remenber },
         query: ConnectUser,
+        fetchPolicy: 'network-only',
       })
       .then((data) => {
         const { access, error, jwt, userInfo } = data.data.ConnectUser;

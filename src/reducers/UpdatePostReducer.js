@@ -9,6 +9,7 @@ export default function UpdatePostReducer(state = initialState, action) {
   switch (action.type) {
     case UPDATE_POST:
       const { title, description, image, id } = action.payload.post;
+
       return {
         open: action.payload.open,
         post: {

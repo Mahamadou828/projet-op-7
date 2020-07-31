@@ -36,6 +36,15 @@ User.hasMany(Message);
 Message.belongsTo(User);
 // Connection.sync({ force: true });
 // Connection.sync({ alter: true });
+
+// Post.update({ numLike: 0, numDislike: 0 }, { where: { id: '20' } }).then(
+//   (update) => {
+//     console.log(update);
+//   }
+// );
+
+require('./Hooks/PostAppreciationHook');
+
 module.exports = {
   Post,
   User,

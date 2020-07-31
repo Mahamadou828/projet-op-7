@@ -7,15 +7,31 @@ import UploadFile from '../function/uploadFile';
  * @param {Object} userInfo
  */
 export default function SignUpAction(userInfo) {
-  const { name, surname, password, email, avatar, description } = userInfo;
-  // const {remenber} = userInfo ;
+  const {
+    name,
+    surname,
+    password,
+    email,
+    avatar,
+    description,
+    remenber,
+  } = userInfo;
+  const {} = userInfo;
   return function (dispatch) {
     UploadFile(avatar)
       .then((respond) => {
         const photo = respond.filename;
         client
           .mutate({
-            variables: { email, password, name, surname, photo, description },
+            variables: {
+              email,
+              password,
+              name,
+              surname,
+              photo,
+              description,
+              openSession: remenber,
+            },
             mutation: CREATE_USER,
           })
           .then((data) => {

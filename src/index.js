@@ -21,6 +21,7 @@ const store = createStoreWithMiddleware(
 
 export const client = new ApolloClient({
   uri: `${BASE_ROUTE}/graphql`,
+  credentials: 'include',
   request: (operation) => {
     const date = new Date();
     const {

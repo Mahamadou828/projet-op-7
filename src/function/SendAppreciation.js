@@ -22,6 +22,7 @@ export default function SendAppreciation(param) {
         }
       )
       .catch((error) => {
+        console.log(error);
         reject(error);
       });
   });

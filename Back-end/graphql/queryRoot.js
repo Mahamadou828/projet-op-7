@@ -6,6 +6,7 @@ const {
   QueryGetUserAppreciationOfAnPost,
 } = require('./queries/PostAppreciationQuery');
 const { QueryGetAllMessage, QueryContactInfo } = require('./queries/ChatQuery');
+const { QueryGetSessionToken } = require('./queries/SessionQuery');
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
@@ -18,6 +19,7 @@ const RootQuery = new GraphQLObjectType({
     QueryGetAllUser,
     QueryGetAllMessage,
     QueryContactInfo,
+    QueryGetSessionToken,
   }),
 });
 

@@ -34,6 +34,12 @@ body {
   &-none {
     margin: 0px;
   }
+
+  &-top {
+    &__medium {
+      margin: 10px 0px !important;
+    }
+  }
 }
 
 img {

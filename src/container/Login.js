@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import FieldInput from '../components/FieldInput';
 import Loader from '../components/Loader';
 import LoaderAction from '../actions/LoaderAction';
+import GetSessionAction from '../actions/GetSessionAction';
 
 const FieldsType = {
   email: 'email',
@@ -26,6 +27,10 @@ class LogIn extends React.Component {
     super(props);
     this.email = '';
     this.password = '';
+  }
+
+  componentDidMount() {
+    this.props.GetSessionAction();
   }
 
   render() {
@@ -122,6 +127,7 @@ class LogIn extends React.Component {
 const mapDispatchToProps = {
   LogInAction,
   LoaderAction,
+  GetSessionAction,
 };
 
 function mapStateToProps(state) {

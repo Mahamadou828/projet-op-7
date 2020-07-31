@@ -8,6 +8,7 @@ export default gql`
     $surname: String!
     $photo: String!
     $description: String
+    $openSession: Boolean
   ) {
     MutationCreateUser(
       email: $email
@@ -16,6 +17,7 @@ export default gql`
       surname: $surname
       photo: $photo
       description: $description
+      openSession: $openSession
     ) {
       jwt
       access

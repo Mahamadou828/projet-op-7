@@ -1,9 +1,7 @@
 const Sequelize = require('sequelize');
 const Model = Sequelize.Model;
 const Connection = require('../databaseConnection');
-const PostSchema = require('./PostSchema');
-const { Post } = require('./databaseInit');
-const { TRUE } = require('node-sass');
+const Post = require('./PostSchema');
 
 class PostAppreciation extends Model {}
 
@@ -20,56 +18,5 @@ PostAppreciation.init(
   },
   { sequelize: Connection, modelName: 'PostRealation' }
 );
-
-PostAppreciation.afterSave((post, option) => {
-  return new Promise((resolve, reject) => {
-    if (updateLikeAndDislikeNumber(post)) {
-      resolve(true);
-    } else {
-      reject('Internal Error');
-    }
-  });
-});
-
-PostAppreciation.afterBulkUpdate((post, option) => {
-  return new Promise((resolve, reject) => {
-    if (updateLikeAndDislikeNumber(post)) {
-      resolve(true);
-    } else {
-      reject('Internal Error');
-    }
-  });
-});
-
-async function updateLikeAndDislikeNumber(post) {
-  const {
-    attributes: { like, dislike },
-    where: { PostId },
-  } = post;
-  let numLike = 0,
-    numDislike = 0;
-
-  numLike = await PostAppreciation.count({
-    where: { PostId, like: true },
-  });
-
-  numDislike = await PostAppreciation.count({
-    where: { PostId, dislike: true },
-  });
-
-  const result = await PostSchema.update(
-    { numLike, numDislike },
-    {
-      where: { id: PostId },
-    }
-  )
-    .then(() => {
-      return true;
-    })
-    .catch(() => {
-      return false;
-    });
-  return result;
-}
 
 module.exports = PostAppreciation;

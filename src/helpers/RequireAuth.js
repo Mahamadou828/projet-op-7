@@ -7,24 +7,33 @@ import socketIoClient from 'socket.io-client';
 import { BASE_ROUTE } from '..';
 import ErrorAction from '../actions/ErrorAction';
 import Grow from '@material-ui/core/Grow';
+import GetSessionAction from '../actions/GetSessionAction';
 
 export default function (Component) {
   class RequireAuth extends React.Component {
     state = {
       socket: null,
+      redirect: false,
     };
 
     componentDidMount() {
       if (!this.props.access) {
-        this.props.history.push('/');
+        this.props
+          .GetSessionAction()
+          .then((access) => {
+            if (!access) {
+              this.setState({
+                redirect: true,
+              });
+            } else {
+              this.onConnectSocket();
+            }
+          })
+          .catch(() => {
+            this.props.history.push('/');
+          });
       } else {
-        const socket = socketIoClient(
-          `${BASE_ROUTE}?token=${this.props.token}`
-        );
-
-        this.setState({
-          socket: socket,
-        });
+        this.onConnectSocket();
       }
     }
 
@@ -36,10 +45,16 @@ export default function (Component) {
         }
       });
     };
+    onConnectSocket = () => {
+      const socket = socketIoClient(`${BASE_ROUTE}?token=${this.props.token}`);
 
+      this.setState({
+        socket: socket,
+      });
+    };
     render() {
       if (!this.props.access) {
-        return <Redirect to="/" />;
+        return <div>{this.state.redirect ? <Redirect to="/" /> : null}</div>;
       } else if (this.state.socket !== null) {
         this.onConnectErrorEvent(this.props.UserId);
         return (
@@ -61,6 +76,7 @@ export default function (Component) {
   const mapDispatchToProps = {
     AccessAction,
     ErrorAction,
+    GetSessionAction,
   };
 
   RequireAuth.propTypes = {

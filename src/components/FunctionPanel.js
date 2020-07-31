@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import AccessAction from '../actions/AccessAction';
 import HomeIcon from '@material-ui/icons/Home';
 import PropTypes from 'prop-types';
+import { client } from '..';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +33,9 @@ function FunctionPanel(props) {
   };
 
   const disconnect = () => {
+    client.resetStore();
     props.AccessAction({ access: false, jwt: '', error: '', userInfo: {} });
+    props.history.push('/');
   };
 
   const generateItem = () => {
